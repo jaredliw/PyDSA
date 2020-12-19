@@ -10,9 +10,9 @@ This project is currently underdeveloped. This project may be published to PyPI 
 
 ### Structure Tree
 - Algorithms
-    -[ ] [Functions](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/functions.py)
+    - [Functions](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/functions.py)
         - Ackermann-Peter Function
-    -[x] [Searching](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/searching.py)
+    - [Searching](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/searching.py)
         - Binary Search
         - Exponential Search
         - Fibbonacci Search
@@ -20,9 +20,9 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Jump Search
         - Linear Search
         - Ternary Search
-    -[ ] [Sequences](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sequences.py)
+    - [Sequences](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sequences.py)
         - Fibonacci Sequence
-    -[ ] [Sorting](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sorting.py)
+    - [Sorting](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sorting.py)
         - *is_sorted*
         - Bogobogosort
         - Bogosort
@@ -64,6 +64,6 @@ Released under the terms of [MIT License](https://github.com/jaredliw/PyDSA/blob
 ### Support
 Support me on Patreon:
 
-<a href="https://www.patreon.com/bePatron?u=40491373" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+[<img src="https://cloakandmeeple.files.wordpress.com/2017/06/become_a_patron_button3x.png?w=610" height="57.19" width="244">](https://patreon.com/jaredliw)
 
 Thanks to all contributors and supporters!
