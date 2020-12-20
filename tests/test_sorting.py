@@ -1,11 +1,7 @@
 import math
 import random
-import sys
 from copy import deepcopy
 from inspect import getmembers, isfunction
-
-sys.path.append(".")
-sys.path.append("..")
 from pydsa.algorithms import sorting
 
 functs = [member[1] for member in getmembers(sorting) if isfunction(member[1])]
