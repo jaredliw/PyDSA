@@ -15,10 +15,17 @@ class Empty:
 def validate_args(f):
     """Validate function's argument(s) type."""
 
-    def wrapper(*args):
+    def wrapper(*args, **kwargs):
         # Check args
         params = signature(f).parameters.values()
-        for inp, accept in zip_longest(args, params, fillvalue=Empty):
+        for inp, accept in zip_longest(args, params, fillvalue=Empty()):
+            if isinstance(inp, Empty):
+                kwarg = kwargs.get(accept.name)
+                if kwarg is not None:
+                    inp = kwarg
+                # Chekc if there is an default argument
+                elif type(accept.default) != type(type):
+                    continue
             if isinstance(inp, Empty) or isinstance(accept, Empty):
                 raise TypeError("{} expected {} arguments, got {}".format(f.__name__, len(params), len(args)))
 
@@ -45,14 +52,14 @@ def validate_args(f):
                 if type(accept_types) == list:
                     message = " or ".join(("'{}'".format(t.__name__) for t in accept_types))
                 raise TypeError(
-                    "{} accepts {} as n, not '{}'".format(f.__name__, message, inp_type.__name__))
+                    "{} accepts {} as {}, not '{}'".format(f.__name__, message, accept.name, inp_type.__name__))
 
             to_test = check_functs.get(matching_type)
             if (to_test is not None) and (not to_test(inp)):
                 raise ValueError("{} is not a(n) '{}'".format(inp, matching_type.__name__))
 
         # Call fuction
-        ret = f(*args)
+        ret = f(*args, **kwargs)
         return ret
 
     return wrapper
