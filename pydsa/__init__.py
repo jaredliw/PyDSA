@@ -8,24 +8,23 @@ class _Any:
         return True
 
 
+class _Function:
+    def __eq__(self, other):
+        return callable(other)
+
+
 class Empty:
     """Used for zip_longest.fillvalue to prevent collision with value None."""
     pass
 
 
 class _Sequence:
-    def __len__(self):
-        raise NotImplementedError
-
-    def __getitem__(self, item):
-        raise NotImplementedError
-
     def __eq__(self, other):
         return hasattr(other, "__iter__")
 
 
 Any = NewType("Any", _Any())
-Function = NewType("Function", type(lambda x: None))
+Function = NewType("Function", _Function())
 Sequence = NewType("Sequence", _Sequence())
 IntFloatSequence = NewType("IntFloatSequence", _Sequence())
 NonNegativeInt = NewType('NonNegativeInt', int)
