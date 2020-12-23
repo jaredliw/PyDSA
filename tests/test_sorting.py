@@ -5,6 +5,9 @@ from inspect import getmembers, isfunction
 from pydsa.algorithms import sorting
 
 functs = [member[1] for member in getmembers(sorting) if isfunction(member[1])]
+functs.remove(sorting.Function)
+functs.remove(sorting.NonNegativeInt)
+functs.remove(sorting.validate_args)
 functs.remove(sorting.is_sorted)
 functs.remove(sorting.sleep_sort)
 
@@ -12,7 +15,7 @@ functs.remove(sorting.sleep_sort)
 def _test(inp, key=lambda x: x):
     sl = sorted(deepcopy(inp), key=key)
     for f in functs:
-        if f in [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort, sorting.worstsort]:
+        if f in [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort]:
             tc = deepcopy(inp)
             assert f(tc[:5], key=key) == sorted(tc[:5], key=key), f.__name__
             tc = deepcopy(inp)
@@ -64,3 +67,5 @@ def test_chars():
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
     _test(tc)
+
+print(sorting.worstsort([]))

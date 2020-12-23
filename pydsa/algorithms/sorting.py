@@ -4,11 +4,13 @@ from operator import le, lt, ge, gt
 from random import randint, shuffle
 from threading import Thread
 from time import sleep
-from typing import Any, Callable
 from warnings import warn
 
+from pydsa import Function, NonNegativeInt, validate_args
 
-def is_sorted(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> bool:
+
+@validate_args
+def is_sorted(arr: list, key: Function = lambda x: x, reverse: bool = False) -> bool:
     """Check whether the list is sorted."""
 
     if reverse:
@@ -22,7 +24,8 @@ def is_sorted(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> 
     return True
 
 
-def bubble_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """An algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order."""
     # Time complexity:
     #   Worst (reverse sorted): O(n^2)
@@ -52,7 +55,8 @@ def bubble_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -
     return arr
 
 
-def cocktail_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A variation of Bubble Sort. It traverses through a given array in both directions alternatively."""
     # Time complexity:
     #   Worst: O(n^2)
@@ -87,7 +91,8 @@ def cocktail_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False)
     return arr
 
 
-def brick_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def brick_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two 
     phases occurs -- Odd and Even Phases."""
     # Time complexity:
@@ -124,7 +129,8 @@ def brick_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) ->
     return arr
 
 
-def comb_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def comb_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """Improve on Bubble Sort by using gap of size more than 1."""
     # Time complexity:
     #   Worst: O(n^2)
@@ -153,7 +159,8 @@ def comb_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> 
     return bubble_sort(arr, key, reverse)
 
 
-def gnome_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def gnome_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """a sorting algorithm which is similar to insertion sort in that it works with one item at a time but gets the item
     to the proper place by a series of swaps, similar to a bubble sort."""
     # Time complexity:
@@ -192,8 +199,8 @@ def gnome_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) ->
     return arr
 
 
-def quicksort(arr: list, key: Callable = lambda x: x, reverse: bool = False,
-              pivot_funct: Callable[[list], Any] = None) -> list:
+@validate_args
+def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, pivot_funct: Function = None) -> list:
     """A divide-and-conquer algorithm that picks an element as pivot and partitions the given array around the picked
     pivot."""
     # Time complexity:
@@ -207,7 +214,7 @@ def quicksort(arr: list, key: Callable = lambda x: x, reverse: bool = False,
     else:
         cmp_funct = lt
 
-    def _median_of_three(part: list) -> Any:
+    def _median_of_three(part):
         if len(part) <= 2:
             return part[0]
         else:
@@ -240,14 +247,14 @@ def quicksort(arr: list, key: Callable = lambda x: x, reverse: bool = False,
                 else:
                     return c
 
-    def _choose_pivot(part: list) -> Any:
+    def _choose_pivot(part):
         # Use the default funciton if the function si not given
         if pivot_funct is None:
             return _median_of_three(part)
         else:
             return pivot_funct(part)
 
-    def _quicksort(part: list) -> Any:
+    def _quicksort(part):
         if len(part) <= 1:
             return part
         pivot = _choose_pivot(part)
@@ -273,7 +280,8 @@ def quicksort(arr: list, key: Callable = lambda x: x, reverse: bool = False,
     return _quicksort(arr)
 
 
-def slowsort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """SlowSort is an example of MultiplyAndSurrender - a worst possible sort algorithm. The algorithm decompose the
     problem of sorting n numbers in ascending order into:
         (1) finding the maximum of those numbers, and
@@ -310,7 +318,8 @@ def slowsort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> l
     return arr
 
 
-def stooge_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def stooge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """This algorithm divides the array into two overlapping parts (2/3 each). Then it performs sorting in first 2/3
     part and then it performs sorting in last 2/3 part. After that, sorting is done on first 2/3 part to ensure the
     array is sorted."""
@@ -346,24 +355,22 @@ def stooge_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -
     return arr
 
 
-def worstsort(arr: list, key: Callable = lambda x: x, reverse: bool = False, recursive_depth: int = 1,
-              sorting_algo: Callable = bubble_sort) -> list:
+@validate_args
+def worstsort(arr: list, key: Function = lambda x: x, reverse: bool = False, recursive_depth: NonNegativeInt = 1,
+              sorting_algo: Function = bubble_sort) -> list:
     """For k=0, basort use bubble sort to sort the array. For any k>0, the algorithm first generates a list of all
     permutations of the array. Then, it use bubble sort to sort the list of permutations and returns the first element
     to badsort(arr, k-1)."""
 
-    if type(recursive_depth) != int or recursive_depth < 0:
-        raise ValueError("recursive_depth should be a non-negetive integer, not '{}'".format(recursive_depth))
-    elif recursive_depth == 0:
+    if recursive_depth == 0:
         return bubble_sort(arr, key, reverse)
     else:
-        return list(
-            worstsort(sorting_algo(list(permutations(arr)), lambda x: [key(item) for item in x], reverse)[0], key,
-                      reverse, recursive_depth - 1,
-                      sorting_algo))
+        return worstsort(list(sorting_algo(list(permutations(arr)), lambda x: [key(item) for item in x], reverse)[0]),
+                         key, reverse, recursive_depth - 1, sorting_algo)
 
 
-def bogosort(arr: list, key: Callable = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+@validate_args
+def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
     """An ineffective algorithm based on generate and test paradigm."""
     # Time complexity:
     #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
@@ -379,15 +386,17 @@ def bogosort(arr: list, key: Callable = lambda x: x, reverse: bool = False, rand
             shuffle(arr)
     else:
         for perm in permutations(arr):
+            perm = list(perm)
             if is_sorted(perm, key, reverse):
-                arr = list(perm)
+                arr = perm
                 break
         else:
             raise TimeoutError
     return arr
 
 
-def bogobogosort(arr: list, key: Callable = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+@validate_args
+def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
     """An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
     by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
     sorted."""
@@ -400,14 +409,15 @@ def bogobogosort(arr: list, key: Callable = lambda x: x, reverse: bool = False, 
 
     def _bogobogosort(deck):
         if len(deck) > 1:
-            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized=randomized)
+            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized)
         else:
-            return bogosort(deck, key, reverse, randomized=randomized)
+            return bogosort(deck, key, reverse, randomized)
 
     return _bogobogosort(arr)
 
 
-def bozosort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
     list is sorted."""
     # Time complexity:
@@ -424,7 +434,8 @@ def bozosort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> l
     return arr
 
 
-def selection_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """sorts an array by repeatedly finding the minimum/maximum element from unsorted part and putting it at the
     beginning/end."""
     # Time complexity:
@@ -445,7 +456,8 @@ def selection_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False
     return arr
 
 
-def insertion_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """An algorithm that works by splitting the array into a sorted and an unsorted part and values from the unsorted
     part are picked and placed at the correct position in the sorted part."""
     # Time complexity:
@@ -475,7 +487,8 @@ def insertion_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False
     return arr
 
 
-def merge_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) -> list:
+@validate_args
+def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A divide-and-conquer algorithm that divides the input array into two halves, calls itself for the two halves,
     and then merges the two sorted halves."""
     # Time complexity:
@@ -522,7 +535,8 @@ def merge_sort(arr: list, key: Callable = lambda x: x, reverse: bool = False) ->
     return _merge_sort(arr)
 
 
-def sleep_sort(arr: list, reverse: bool = False, amplify: float = 1.0) -> list:
+@validate_args
+def sleep_sort(arr: list, reverse: bool = False, amplify: [int, float] = 1.0) -> list:
     """Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
      to the item's sort key, then emits the item."""
     # Time complexity:
