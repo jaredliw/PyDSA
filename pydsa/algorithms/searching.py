@@ -1,12 +1,12 @@
-"""
-Algorithms that are designed to check for an element or retrieve an element from any data structure where it is stored.
-"""
+"""Algorithms that are designed to check for an element or retrieve an element from any data structure where it is
+stored."""
 from math import sqrt
-from typing import Any, Sequence
 
-from .sorting import is_sorted
+from pydsa import Any, Sequence, IntFloatSequence, validate_args
+from pydsa.algorithms.sorting import is_sorted
 
 
+@validate_args
 def linear_search(arr: Sequence, target: Any) -> int:
     """search an array sequentially from left to right."""
     # Time complexity: O(n)
@@ -17,6 +17,7 @@ def linear_search(arr: Sequence, target: Any) -> int:
     return -1
 
 
+@validate_args
 def jump_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
     """Search a sorted array by jumping ahead by fixed steps."""
     # Time Complexity: O(sqrt n)
@@ -49,7 +50,8 @@ def jump_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
         return -1
 
 
-def interpolation_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
+@validate_args
+def interpolation_search(arr: IntFloatSequence, target: Any, pre_check: bool = True) -> int:
     """An improvement over Binary Search for instances, where the values in a sorted array are uniformly distributed."""
     # Time complexity: O(log log n)
 
@@ -83,6 +85,7 @@ def interpolation_search(arr: Sequence, target: Any, pre_check: bool = True) -> 
     return -1
 
 
+@validate_args
 def ternary_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
     """Search a sorted array by repeatedly dividing the search interval into three parts."""
     # Time complexity: O(log3 n)
