@@ -15,7 +15,7 @@ functs.remove(sorting.sleep_sort)
 def _test(inp, key=lambda x: x):
     sl = sorted(deepcopy(inp), key=key)
     for f in functs:
-        if f in [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort]:
+        if f in [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort, sorting.worstsort]:
             tc = deepcopy(inp)
             assert f(tc[:5], key=key) == sorted(tc[:5], key=key), f.__name__
             tc = deepcopy(inp)
@@ -67,5 +67,3 @@ def test_chars():
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
     _test(tc)
-
-print(sorting.worstsort([]))
