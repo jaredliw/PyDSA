@@ -12,6 +12,11 @@ This project is currently underdeveloped. This project may be published to PyPI 
 - Algorithms
     - [Functions](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/functions.py)
         - Ackermann-Peter Function
+    - [Number Theory](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/number_theory.py)
+        - Greatest Common Factor (GCD)
+        - Lowest Common Multiple (LCM)
+        - Primarity Test 
+        - Wilson's theorem
     - [Searching](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/searching.py)
         - Binary Search
         - Exponential Search
