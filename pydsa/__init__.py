@@ -1,4 +1,4 @@
-from inspect import isclass, signature
+from inspect import isclass, Parameter, signature
 from itertools import zip_longest
 from typing import NewType
 
@@ -20,12 +20,16 @@ def validate_args(f):
         # Check args
         params = signature(f).parameters.values()
         for inp, accept in zip_longest(args, params, fillvalue=Empty()):
+            arg_kind = accept.kind
+            # Handle empty input
             if isinstance(inp, Empty):
                 kwarg = kwargs.get(accept.name)
                 if kwarg is not None:
                     inp = kwarg
                 # Chekc if there is an default argument
-                elif type(accept.default) != type(type):
+                elif type(accept.default) != type(type) and arg_kind == Parameter.POSITIONAL_OR_KEYWORD:
+                    continue
+                elif arg_kind in [Parameter.VAR_POSITIONAL, Parameter.VAR_KEYWORD]:
                     continue
             if isinstance(inp, Empty) or isinstance(accept, Empty):
                 raise TypeError("{} expected {} arguments, got {}".format(f.__name__, len(params), len(args)))
