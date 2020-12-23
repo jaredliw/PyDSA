@@ -1,3 +1,4 @@
+from functools import reduce
 from math import factorial, sqrt
 
 from pydsa import validate_args, NonNegativeInt
@@ -43,3 +44,42 @@ def wilsons_theorem(n: NonNegativeInt) -> bool:
         raise ArithmeticError("1 is neither a prime nor a composite")
     else:
         return (factorial(n - 1) + 1) % n == 0
+
+
+@validate_args
+def gcd(a: int, b: int, *num: int) -> int:
+    """The greatest common divisor (GCD) of two or more integers, which are not all zero, is the largest positive
+    integer that divides each of the integers. -- Wikipedia"""
+
+    # Time Complexity: O(log(a+b)), for two integers, a and b
+    # GCD(a, b) = (|a * b|) / LCM(a, b)
+
+    def _gcd(x, y):
+        if x == 0:
+            if y == 0:
+                raise ArithmeticError("GCD of 0 and 0 is undefined")
+            return abs(y)
+        else:
+            return _gcd(y % x, x)
+
+    b = _gcd(a, b)
+    while len(num) != 0:
+        b = _gcd(b, num[0])
+        num = num[1:]
+    return b
+
+
+@validate_args
+def lcm(a: int, b: int, *num: int) -> int:
+    """The lowest common multiple (LCM) is the smallest positive integer that is evenly divisible by both a and b.
+    -- Wikipedia"""
+
+    # Time Complexity: O(log(a+b)), for two integers, a and b
+    # LCM(a, b) = (|a * b|) / GCD(a, b)
+
+    def _lcm(x, y):
+        if x == 0 or y == 0:
+            raise ArithmeticError("LCM of {} and {} is undefined".format(x, y))
+        return abs(x * y) // gcd(x, y)
+
+    return reduce(_lcm, [a, b, *num])
