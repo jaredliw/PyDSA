@@ -2,6 +2,7 @@ from inspect import isclass, signature
 from itertools import zip_longest
 from typing import NewType
 
+Function = NewType("Function", type(lambda x: None))
 NonNegativeInt = NewType('NonNegativeInt', int)
 PositiveInt = NewType('NaturalInt', int)
 check_functs = {NonNegativeInt: lambda x: x >= 0,
@@ -64,5 +65,10 @@ def validate_args(f):
 
     return wrapper
 
-# Use "[int, str]" to replace "int or str" for annotations, meaning either int or str.
-# inspect.signature.parameters cannot catch the second value if you use "or".
+# Notes for PyDSA-styled annotations:
+# - If there is built-in type avaliable, don't hesistate to use it
+# - For logic OR, write it like this: "[int, str]" rather than "int or str"
+# - Do not use typing module (The items from there has insufficient infomation for argument validation)
+#       - Use collection.Sequence to replace typing.Sequence (annotate for iterable)
+# - Define a new type if there is no avalaible type to use
+#       - Use Function defined above rather than typing.Callable
