@@ -2,15 +2,37 @@ from inspect import isclass, Parameter, signature
 from itertools import zip_longest
 from typing import NewType
 
-Function = NewType("Function", type(lambda x: None))
-NonNegativeInt = NewType('NonNegativeInt', int)
-PositiveInt = NewType('NaturalInt', int)
-check_functs = {NonNegativeInt: lambda x: x >= 0,
-                PositiveInt: lambda x: x >= 1}
+
+class _Any:
+    def __eq__(self, other):
+        return True
+
 
 class Empty:
     """Used for zip_longest.fillvalue to prevent collision with value None."""
     pass
+
+
+class _Sequence:
+    def __len__(self):
+        raise NotImplementedError
+
+    def __getitem__(self, item):
+        raise NotImplementedError
+
+    def __eq__(self, other):
+        return hasattr(other, "__iter__")
+
+
+Any = NewType("Any", _Any())
+Function = NewType("Function", type(lambda x: None))
+Sequence = NewType("Sequence", _Sequence())
+IntFloatSequence = NewType("IntFloatSequence", _Sequence())
+NonNegativeInt = NewType('NonNegativeInt', int)
+PositiveInt = NewType('NaturalInt', int)
+check_functs = {IntFloatSequence: lambda x: all(type(item) in [int, float] for item in x),
+                NonNegativeInt: lambda x: x >= 0,
+                PositiveInt: lambda x: x >= 1}
 
 
 def validate_args(f):
@@ -50,7 +72,7 @@ def validate_args(f):
                 if not isclass(at):
                     at = at.__supertype__
 
-                if inp_type == at:
+                if at == inp_type:
                     matching_type = _at
                     break
             else:
@@ -73,6 +95,6 @@ def validate_args(f):
 # - If there is built-in type avaliable, don't hesistate to use it
 # - For logic OR, write it like this: "[int, str]" rather than "int or str"
 # - Do not use typing module (The items from there has insufficient infomation for argument validation)
-#       - Use collection.Sequence to replace typing.Sequence (annotate for iterable)
 # - Define a new type if there is no avalaible type to use
 #       - Use Function defined above rather than typing.Callable
+# - Do annotate for everything
