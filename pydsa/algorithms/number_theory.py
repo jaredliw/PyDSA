@@ -5,7 +5,7 @@ from pydsa import validate_args, NonNegativeInt, PositiveInt
 
 
 @validate_args
-def primarity_test(n: PositiveInt) -> bool:
+def primality_test(n: PositiveInt) -> bool:
     """Determine whether a number is a prime."""
 
     # Optimization 1: Test from 2 to sqrt(n) only, since a factor will appear twice when we test from 2 to n.

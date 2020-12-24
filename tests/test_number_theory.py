@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pydsa.algorithms.number_theory import gcd, lcm, primarity_test, wilsons_theorem
+from pydsa.algorithms.number_theory import gcd, lcm, primality_test, wilsons_theorem
 
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103,
           107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223,
@@ -25,8 +25,8 @@ def _primarity_test(f):
     is_error(TypeError, f, "some string", 1.1)
 
 
-def test_primarity_test():
-    _primarity_test(primarity_test)
+def test_primality_test():
+    _primarity_test(primality_test)
 
 
 def test_wilsons_theorem():
