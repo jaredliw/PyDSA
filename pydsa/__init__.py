@@ -13,18 +13,24 @@ class _Function:
         return callable(other)
 
 
+class _Iterable:
+    def __eq__(self, other):
+        return hasattr(other, "__iter__")
+
+
+class _Sequence:
+    def __eq__(self, other):
+        return hasattr(other, "__getitem__") and hasattr(other, "__len__")
+
+
 class Empty:
     """Used for zip_longest.fillvalue to prevent collision with value None."""
     pass
 
 
-class _Sequence:
-    def __eq__(self, other):
-        return hasattr(other, "__iter__")
-
-
 Any = NewType("Any", _Any())
 Function = NewType("Function", _Function())
+Iterable = NewType("Iterable", _Iterable())
 Sequence = NewType("Sequence", _Sequence())
 IntFloatSequence = NewType("IntFloatSequence", _Sequence())
 NonNegativeInt = NewType('NonNegativeInt', int)
@@ -37,28 +43,27 @@ check_functs = {IntFloatSequence: lambda x: all(type(item) in [int, float] for i
 def validate_args(f):
     """Validate function's argument(s) type."""
 
-    def wrapper(*args, **kwargs):
+    def _wrapper(*args, **kwargs):
         # Check args
         params = signature(f).parameters.values()
-        for inp, accept in zip_longest(args, params, fillvalue=Empty()):
-            arg_kind = accept.kind
+        for idx, [inp, accept] in enumerate(zip_longest(args, params, fillvalue=Empty())):
+            message = ""
+            if idx == 0 and "." in f.__qualname__:
+                continue
             # Handle empty input
             if isinstance(inp, Empty):
                 kwarg = kwargs.get(accept.name)
                 if kwarg is not None:
                     inp = kwarg
-                # Chekc if there is an default argument
-                elif type(accept.default) != type(type) and arg_kind == Parameter.POSITIONAL_OR_KEYWORD:
+                else:
                     continue
-                elif arg_kind in [Parameter.VAR_POSITIONAL, Parameter.VAR_KEYWORD]:
-                    continue
-            if isinstance(inp, Empty) or isinstance(accept, Empty):
-                raise TypeError("{} expected {} arguments, got {}".format(f.__name__, len(params), len(args)))
 
             inp_type = type(inp)
             accept_types = accept.annotation
 
-            if not isinstance(accept_types, list):
+            if accept_types == Parameter.empty:
+                continue
+            elif not isinstance(accept_types, list):
                 accept_types = [accept_types]
 
             for at in accept_types:
@@ -76,7 +81,7 @@ def validate_args(f):
                     break
             else:
                 if type(accept_types) == list:
-                    message = " or ".join(("'{}'".format(t.__name__) for t in accept_types))
+                    message = " or ".join(("'{}'".format(t if t is None else t.__name__) for t in accept_types))
                 raise TypeError(
                     "{} accepts {} as {}, not '{}'".format(f.__name__, message, accept.name, inp_type.__name__))
 
@@ -88,7 +93,7 @@ def validate_args(f):
         ret = f(*args, **kwargs)
         return ret
 
-    return wrapper
+    return _wrapper
 
 # Notes for PyDSA-styled annotations:
 # - If there is built-in type avaliable, don't hesistate to use it
@@ -96,4 +101,4 @@ def validate_args(f):
 # - Do not use typing module (The items from there has insufficient infomation for argument validation)
 # - Define a new type if there is no avalaible type to use
 #       - Use Function defined above rather than typing.Callable
-# - Do annotate for everything
+# - Do not use "from __future__ import annotations"
