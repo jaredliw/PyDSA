@@ -2,6 +2,7 @@ import math
 import random
 from copy import deepcopy
 from inspect import getmembers, isfunction
+
 from pydsa.algorithms import sorting
 
 functs = [member[1] for member in getmembers(sorting) if isfunction(member[1])]
@@ -28,13 +29,11 @@ def _test(inp, key=lambda x: x):
 
 
 def test_empty():
-    for f in functs:
-        _test([])
+    _test([])
 
 
 def test_single_item():
-    for f in functs:
-        _test([1])
+    _test([1])
 
 
 def test_key_funct():
@@ -45,7 +44,6 @@ def test_key_funct():
 def test_random_integers():
     for _ in range(50):
         tc = [random.randint(-1000, 1000) for _ in range(200)]
-        sl = sorted(tc)
         _test(tc)
 
 

@@ -1,10 +1,8 @@
 from inspect import getmembers, isfunction
 from random import choice, randint, uniform
-from unittest import TestCase
 
 from pydsa.algorithms import searching
-
-is_error = TestCase().assertRaises
+from tests import is_error
 
 functs = [member[1] for member in getmembers(searching) if isfunction(member[1])]
 functs.remove(searching.Any)
