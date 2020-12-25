@@ -18,6 +18,32 @@ def linear_search(arr: Sequence, target: Any) -> int:
 
 
 @validate_args
+def binary_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
+    """Search a sorted array by repeatedly dividing the search interval in half."""
+    # Time complexity: O(log n)
+
+    if pre_check:
+        if not is_sorted(arr):
+            raise ValueError("arr is not sorted forehead, this algorithm works for sorted sequence only")
+
+    start = 0
+    end = len(arr) - 1
+    if end == -1:
+        return -1
+
+    mid = start + (end - start) // 2
+    while arr[mid] != target:
+        if arr[mid] < target:
+            start = mid + 1
+        else:
+            end = mid - 1
+        if start > end:
+            return -1
+        mid = start + (end - start) // 2
+    return mid
+
+
+@validate_args
 def jump_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
     """Search a sorted array by jumping ahead by fixed steps."""
     # Time Complexity: O(sqrt n)
@@ -83,6 +109,35 @@ def interpolation_search(arr: IntFloatSequence, target: Any, pre_check: bool = T
         else:
             end = pos - 1
     return -1
+
+
+@validate_args
+def exponential_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
+    """An algorithm that search exponentially to find the range where element may be present and do binary search in
+    the range. """
+    # Time complexity: O(log n)
+
+    if pre_check:
+        if not is_sorted(arr):
+            raise ValueError("arr is not sorted forehead, this algorithm works for sorted sequence only")
+
+    if len(arr) == 0:
+        return -1
+    elif arr[0] == target:
+        return 0
+
+    end = 1
+    while end < len(arr) and arr[end] <= target:
+        if arr[end] == target:
+            return end
+        end *= 2
+    start = end // 2
+
+    idx = binary_search(arr[start:end], target)
+    if idx != -1:
+        return start + idx
+    else:
+        return -1
 
 
 @validate_args
