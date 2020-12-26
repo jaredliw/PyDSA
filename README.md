@@ -45,7 +45,10 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Slowsort
         - Stooge Sort
         - Worstsort
-        
+- Data Structures
+    - [Array](https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/array.py)
+        - Dynamic Array
+        - Static Array
 
 ### Requirements and dependencies
 Minimum required version for Python is **Python 3.7**. **Python 2 is NOT supported**. 
