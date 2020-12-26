@@ -23,11 +23,6 @@ class _Sequence:
         return hasattr(other, "__getitem__") and hasattr(other, "__len__")
 
 
-class Empty:
-    """Used for zip_longest.fillvalue to prevent collision with value None."""
-    pass
-
-
 Any = NewType("Any", _Any())
 Function = NewType("Function", _Function())
 Iterable = NewType("Iterable", _Iterable())
@@ -46,12 +41,12 @@ def validate_args(f):
     def _wrapper(*args, **kwargs):
         # Check args
         params = signature(f).parameters.values()
-        for idx, [inp, accept] in enumerate(zip_longest(args, params, fillvalue=Empty())):
+        for idx, [inp, accept] in enumerate(zip_longest(args, params, fillvalue=Parameter.empty)):
             message = ""
             if idx == 0 and "." in f.__qualname__:
                 continue
             # Handle empty input
-            if isinstance(inp, Empty):
+            if inp == Parameter.empty:
                 kwarg = kwargs.get(accept.name)
                 if kwarg is not None:
                     inp = kwarg
@@ -59,6 +54,8 @@ def validate_args(f):
                     continue
 
             inp_type = type(inp)
+            if accept == Parameter.empty:
+                continue
             accept_types = accept.annotation
 
             if accept_types == Parameter.empty:
