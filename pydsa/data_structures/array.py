@@ -156,3 +156,16 @@ class DynamicArray(StaticArray):
         super(DynamicArray, self).remove(elem)
         if self.__len__() <= old_length // 2:
             self.__shrink_array(old_length)
+
+
+class List(list):
+    """Extended functionalities for python list."""
+
+    @validate_args
+    def rotate(self, k: int) -> None:
+        """Rotate the elements to the left by k. (Negative k means right rotation)"""
+        # Faster than collections.deque.rotate
+        if len(self) != 0:
+            k %= len(self)
+            self.__init__(self[k:] + self[:k])
+
