@@ -27,13 +27,13 @@ class StaticArray(list):
 
         self.max_length = max_length
         if self.max_length < len(self):
-            raise ExceedMaxLengthError("Exceed static array maximum length: {}".format(self.max_length))
+            raise ExceedMaxLengthError("exceed static array maximum length: {}".format(self.max_length))
 
     def __add__(self, other):
         return self.__class__(super(StaticArray, self).__add__(other))
         
     def __delattr__(self, item):
-        raise AttributeError("Attribute '{}' could not be deleted".format(item))
+        raise AttributeError("attribute '{}' could not be deleted".format(item))
 
     def __eq__(self, other):
         return isinstance(other, self.__class__) and super(StaticArray, self).__eq__(other)
@@ -43,7 +43,7 @@ class StaticArray(list):
     
     def __getattribute__(self, item):
         if item in ["append", "insert"] and super(StaticArray, self).__len__() + 1 > self.max_length:
-            raise ExceedMaxLengthError("Exceed static array maximum length: {}".format(self.max_length))
+            raise ExceedMaxLengthError("exceed static array maximum length: {}".format(self.max_length))
         return super(StaticArray, self).__getattribute__(item)
 
     def __gt__(self, other):
@@ -91,7 +91,7 @@ class StaticArray(list):
     def extend(self, iterable: Iterable) -> None:
         """Override list extend() function to ensure the length of the list is always below self.max_length."""
         if len(self) + len(list(iterable)) > self.max_length:
-            raise ExceedMaxLengthError('Exceed StaticArray maximum length: {}'.format(self.max_length))
+            raise ExceedMaxLengthError('exceed StaticArray maximum length: {}'.format(self.max_length))
         super(StaticArray, self).extend(iterable)
 
 
