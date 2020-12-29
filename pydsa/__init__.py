@@ -35,6 +35,35 @@ check_functs = {IntFloatSequence: lambda x: all(type(item) in [int, float] for i
                 PositiveInt: lambda x: x >= 1}
 
 
+def check_arg(arg_name, inp, accept_types):
+    inp_type = type(inp)
+    if not isinstance(accept_types, list):
+        accept_types = [accept_types]
+
+    for at in accept_types:
+        # Relpace None with NoneType
+        if at is None:
+            at = type(None)
+
+        _at = at
+        # Check if annotation is 'NewType'
+        if not isclass(at):
+            at = at.__supertype__
+
+        if at == inp_type:
+            matching_type = _at
+            break
+    else:
+        if type(accept_types) == list:
+            message = " or ".join(("'{}'".format(t if t is None else t.__name__) for t in accept_types))
+        raise TypeError(
+            "{} accepts {}, not '{}'".format(arg_name, message, inp_type.__name__))
+
+    to_test = check_functs.get(matching_type)
+    if (to_test is not None) and (not to_test(inp)):
+        raise ValueError("{} is not a(n) '{}'".format(inp, matching_type.__name__))
+
+
 def validate_args(f):
     """Validate function's argument(s) type."""
 
@@ -53,38 +82,13 @@ def validate_args(f):
                 else:
                     continue
 
-            inp_type = type(inp)
             if accept == Parameter.empty:
                 continue
             accept_types = accept.annotation
 
             if accept_types == Parameter.empty:
                 continue
-            elif not isinstance(accept_types, list):
-                accept_types = [accept_types]
-
-            for at in accept_types:
-                # Relpace None with NoneType
-                if at is None:
-                    at = type(None)
-
-                _at = at
-                # Check if annotation is 'NewType'
-                if not isclass(at):
-                    at = at.__supertype__
-
-                if at == inp_type:
-                    matching_type = _at
-                    break
-            else:
-                if type(accept_types) == list:
-                    message = " or ".join(("'{}'".format(t if t is None else t.__name__) for t in accept_types))
-                raise TypeError(
-                    "{} accepts {} as {}, not '{}'".format(f.__name__, message, accept.name, inp_type.__name__))
-
-            to_test = check_functs.get(matching_type)
-            if (to_test is not None) and (not to_test(inp)):
-                raise ValueError("{} is not a(n) '{}'".format(inp, matching_type.__name__))
+            check_arg(accept.name, inp, accept_types)
 
         # Call fuction
         ret = f(*args, **kwargs)
