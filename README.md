@@ -46,9 +46,14 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Stooge Sort
         - Worstsort
 - Data Structures
+    - *Node*
     - [Array](https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/array.py)
+        - *List*
         - Dynamic Array
         - Static Array
+    - [Linked List](https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/linked_list.py)
+        - Singly Linked List
+        - Double Linked List
 
 ### Requirements and dependencies
 Minimum required version for Python is **Python 3.7**. **Python 2 is NOT supported**. 
