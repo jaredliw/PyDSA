@@ -1,3 +1,4 @@
+from functools import wraps
 from inspect import isclass, Parameter, signature
 from itertools import zip_longest
 from typing import NewType
@@ -68,7 +69,7 @@ def check_arg(arg_name, inp, accept_types):
 
 def validate_args(f):
     """Validate function's argument(s) type."""
-
+    @wraps(f)
     def _wrapper(*args, **kwargs):
         # Check args
         params = signature(f).parameters.values()
