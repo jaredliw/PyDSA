@@ -1,4 +1,5 @@
 """An algorithm that is used to rearrange a given arrayaccording to a comparison operator on the elements."""
+from collections import Counter
 from itertools import permutations
 from operator import le, lt, ge, gt
 from random import randint, shuffle
@@ -6,7 +7,7 @@ from threading import Thread
 from time import sleep
 from warnings import warn
 
-from pydsa import Function, NonNegativeInt, validate_args
+from pydsa import Function, IntList, NonNegativeInt, validate_args
 
 
 @validate_args
@@ -22,6 +23,9 @@ def is_sorted(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
         if not cmp_funct(key(arr[idx]), key(arr[idx + 1])):
             return False
     return True
+
+
+"""Comparison Sorting Algorithms"""
 
 
 @validate_args
@@ -574,3 +578,34 @@ def sleep_sort(arr: list, reverse: bool = False, amplify: [int, float] = 1.0) ->
         return final[::-1]
     else:
         return final
+
+
+"""Non-comparison Sorting Algorithms"""
+
+
+@validate_args
+def int_counting_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) -> list:
+    _min = min(arr, key=key)
+    _max = max(arr, key=key)
+
+    count_arr = list(0 for _ in range(_min, _max + 1))
+    for item in arr:
+        count_arr[key(item) - _min] += 1
+
+    if reverse:
+        step = -1
+    else:
+        step = 1
+    new = []
+    for idx, occur in enumerate(count_arr[::step]):
+        new.extend([(_min + idx)] * occur)
+    return new
+
+
+@validate_args
+def counting_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
+                  sorting_algo: Function = quicksort) -> list:
+    new = []
+    for item, occur in sorting_algo(Counter(arr).most_common(), key=lambda item: (key(item[0]), item[1]), reverse=reverse):
+        new.extend([item] * occur)
+    return new

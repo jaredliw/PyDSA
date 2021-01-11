@@ -6,12 +6,13 @@ from inspect import getmembers, isfunction
 from pydsa.algorithms import sorting
 
 functs = [member[1] for member in getmembers(sorting) if isfunction(member[1])]
+functs.remove(sorting.IntList)
 functs.remove(sorting.Function)
 functs.remove(sorting.NonNegativeInt)
 functs.remove(sorting.validate_args)
 functs.remove(sorting.is_sorted)
 functs.remove(sorting.sleep_sort)
-
+functs.remove(sorting.int_counting_sort)
 
 def _test(inp, key=lambda x: x):
     sl = sorted(deepcopy(inp), key=key)
@@ -44,7 +45,11 @@ def test_key_funct():
 def test_random_integers():
     for _ in range(50):
         tc = [random.randint(-1000, 1000) for _ in range(200)]
-        _test(tc)
+        functs.append(sorting.int_counting_sort)
+        try:
+            _test(tc)
+        finally:
+            functs.remove(sorting.int_counting_sort)
 
 
 def test_random_floats():
