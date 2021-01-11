@@ -619,7 +619,10 @@ def int_counting_sort(arr: IntList, key: Function = lambda x: x, reverse: bool =
         step = 1
     new = []
     for idx, occur in enumerate(count_arr[::step]):
-        new.extend([(_min + idx)] * occur)
+        if reverse:
+            new.extend([(_max - idx)] * occur)
+        else:
+            new.extend([(_min + idx)] * occur)
     return new
 
 
