@@ -36,6 +36,7 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Bubble Sort
         - Cocktail Sort
         - Comb Sort
+        - Counting Sort
         - Gnome Sort
         - Insertion Sort
         - Merge Sort
