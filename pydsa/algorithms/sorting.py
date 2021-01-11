@@ -1,5 +1,6 @@
 """An algorithm that is used to rearrange a given arrayaccording to a comparison operator on the elements."""
 from collections import Counter
+from copy import deepcopy
 from itertools import permutations
 from operator import le, lt, ge, gt
 from random import randint, shuffle
@@ -42,6 +43,7 @@ def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
     else:
         cmp_funct = lt
 
+    arr = deepcopy(arr)
     n = len(arr)
     for i in range(n - 1):
         swapped = False
@@ -73,6 +75,7 @@ def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
     else:
         cmp_funct = lt
 
+    arr = deepcopy(arr)
     n = len(arr)
     for i in range(n - 1):
         swapped = False
@@ -113,6 +116,7 @@ def brick_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     else:
         cmp_funct = lt
 
+    arr = deepcopy(arr)
     n = len(arr)
     swapped = True
     while swapped:
@@ -146,6 +150,8 @@ def comb_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
         cmp_funct = gt
     else:
         cmp_funct = lt
+
+    arr = deepcopy(arr)
 
     # The shrink factor has a great effect on the efficiency of comb sort. k = 1.3 has been suggested as an ideal shrink
     # factor by the authors of the original article after empirical testing on over 200,000 random lists.
@@ -182,6 +188,7 @@ def gnome_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     else:
         cmp_funct = lt
 
+    arr = deepcopy(arr)
     idx = 1
     # Optimization: Introduce a variable to store the position before traversing back toward the beginning of the list.
     # With this optimization, the gnome sort would become a variant of the insertion sort.
@@ -217,6 +224,8 @@ def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, piv
         cmp_funct = gt
     else:
         cmp_funct = lt
+
+    arr = deepcopy(arr)
 
     def _median_of_three(part):
         if len(part) <= 2:
@@ -294,12 +303,13 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
         (1.1) find the maximum of the first n/2 elements,
         (1.2) find the maximum of the remaining n/2 eleements, and
         (1.3) find the largest of those two maxima."""
-    #
 
     if reverse:
         cmp_funct = gt
     else:
         cmp_funct = lt
+
+    arr = deepcopy(arr)
 
     def _slowsort(start: int = 0, end: int = len(arr) - 1) -> list:
         if end <= start:
@@ -337,6 +347,8 @@ def stooge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
         cmp_funct = gt
     else:
         cmp_funct = lt
+
+    arr = deepcopy(arr)
 
     def _stooge_sort(start, end):
         if end <= start:
@@ -394,8 +406,6 @@ def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, rand
             if is_sorted(perm, key, reverse):
                 arr = perm
                 break
-        else:
-            raise TimeoutError
     return arr
 
 
@@ -430,6 +440,7 @@ def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
     #   Best: Omega(n)
     # Not stable, In place
 
+    arr = deepcopy(arr)
     end = len(arr) - 1
     while not is_sorted(arr, key, reverse):
         pick1 = randint(0, end)
@@ -448,6 +459,7 @@ def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
     #   Best (sorted): Omega(n^2)
     # Stable, In place
 
+    arr = deepcopy(arr)
     for ptr in range(len(arr) - 1):
         # Pick the smallest/largest item.
         if reverse:
@@ -475,6 +487,7 @@ def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
     else:
         cmp_funct = lt
 
+    arr = deepcopy(arr)
     # Items after idx are unsorted, items before idx are sorted.
     for idx, item in enumerate(arr[1:], 1):
         # Find the correct place to insert the new item.
@@ -585,6 +598,14 @@ def sleep_sort(arr: list, reverse: bool = False, amplify: [int, float] = 1.0) ->
 
 @validate_args
 def int_counting_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) -> list:
+    """Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
+    objects having distinct key values."""
+    # Time complexity:
+    #   Worst: O(n + k), where k is the range.
+    #   Average: Theta(n + k), where k is the range.
+    #   Best: Omega(n + k), where k is the range.
+    # Not stable, Not in place
+
     _min = min(arr, key=key)
     _max = max(arr, key=key)
 
@@ -605,7 +626,17 @@ def int_counting_sort(arr: IntList, key: Function = lambda x: x, reverse: bool =
 @validate_args
 def counting_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
                   sorting_algo: Function = quicksort) -> list:
+    """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
+     works for any type of elements."""
+    # Time complexity:
+    #   Worst: O(n + k), where k is the range.
+    #   Average: Theta(n + k), where k is the range.
+    #   Best: Omega(n + k), where k is the range.
+    # Not stable, Not in place
+    # Extra time is needed, depends on the performance of sorting_algo.
+
     new = []
-    for item, occur in sorting_algo(Counter(arr).most_common(), key=lambda item: (key(item[0]), item[1]), reverse=reverse):
+    for item, occur in sorting_algo(Counter(arr).most_common(), key=lambda item: (key(item[0]), item[1]),
+                                    reverse=reverse):
         new.extend([item] * occur)
     return new

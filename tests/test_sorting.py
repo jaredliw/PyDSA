@@ -1,11 +1,11 @@
 import math
 import random
-from copy import deepcopy
 from inspect import getmembers, isfunction
 
 from pydsa.algorithms import sorting
 
 functs = [member[1] for member in getmembers(sorting) if isfunction(member[1])]
+functs.remove(sorting.deepcopy)
 functs.remove(sorting.IntList)
 functs.remove(sorting.Function)
 functs.remove(sorting.NonNegativeInt)
@@ -14,19 +14,23 @@ functs.remove(sorting.is_sorted)
 functs.remove(sorting.sleep_sort)
 functs.remove(sorting.int_counting_sort)
 
-def _test(inp, key=lambda x: x):
-    sl = sorted(deepcopy(inp), key=key)
+
+def _test(tc, key=lambda x: x):
+    sl = sorted(tc, key=key)
     for f in functs:
         if f in [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort, sorting.worstsort]:
-            tc = deepcopy(inp)
             assert f(tc[:5], key=key) == sorted(tc[:5], key=key), f.__name__
-            tc = deepcopy(inp)
             assert f(tc[:5], key=key, reverse=True) == sorted(tc[:5], reverse=True, key=key), f.__name__
         else:
-            tc = deepcopy(inp)
             assert f(tc, key=key) == sl, f.__name__
-            tc = deepcopy(inp)
             assert f(tc, key=key, reverse=True) == sl[::-1], f.__name__
+
+
+def test_do_modify_original():
+    for f in functs + [sorting.sleep_sort, sorting.int_counting_sort]:
+        tc = [4, 3, 2, 1]
+        f(tc)
+        assert tc == [4, 3, 2, 1], f.__name__
 
 
 def test_empty():
