@@ -39,6 +39,8 @@ check_functs = {IntFloatSequence: lambda x: all(type(item) in [int, float] for i
 
 
 def check_arg(arg_name, inp, accept_types):
+    """Check inp is one of the accept_types."""
+    message = ""  # to pass pycharm check
     inp_type = type(inp)
     if not isinstance(accept_types, list):
         accept_types = [accept_types]
@@ -69,12 +71,12 @@ def check_arg(arg_name, inp, accept_types):
 
 def validate_args(f):
     """Validate function's argument(s) type."""
+
     @wraps(f)
     def _wrapper(*args, **kwargs):
         # Check args
         params = signature(f).parameters.values()
         for idx, [inp, accept] in enumerate(zip_longest(args, params, fillvalue=Parameter.empty)):
-            message = ""
             if idx == 0 and "." in f.__qualname__:
                 continue
             # Handle empty input

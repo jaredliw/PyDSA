@@ -540,7 +540,8 @@ def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = qui
     return new
 
 
-def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False, sorting_algo: Function = bubble_sort) -> list:
+def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False,
+               sorting_algo: Function = bubble_sort) -> list:
     """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
     place value. Then, sort the elements according to their increasing/decreasing order."""
     # Time complexity:
@@ -553,8 +554,8 @@ def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False,
     new = deepcopy(arr)
     negatives = list(filter(lambda x: x < 0, new))
     non_negatives = list(filter(lambda x: x >= 0, new))
-    for p in range(1, _range+1):
-        non_negatives = sorting_algo(non_negatives, key=lambda x: key(x) // (10 ** (p-1)) % 10, reverse=reverse)
+    for p in range(1, _range + 1):
+        non_negatives = sorting_algo(non_negatives, key=lambda x: key(x) // (10 ** (p - 1)) % 10, reverse=reverse)
     for p in range(1, _range + 1):
         negatives = sorting_algo(negatives, key=lambda x: key(x) // (10 ** (p - 1)) % 10, reverse=reverse)
     if reverse:

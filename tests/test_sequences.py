@@ -1,5 +1,6 @@
 from pydsa.algorithms.sequences import fibonacci
 
+
 def test_fibonacci():
     assert fibonacci(12) == 144
     assert fibonacci(13, value2=0) == 0

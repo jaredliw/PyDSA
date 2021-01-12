@@ -326,4 +326,3 @@ def test_rotate():
     assert c == [1, 2, 3]
 
     is_error(TypeError, c.rotate)
-

@@ -31,7 +31,7 @@ class StaticArray(list):
 
     def __add__(self, other):
         return self.__class__(super(StaticArray, self).__add__(other))
-        
+
     def __delattr__(self, item):
         raise AttributeError("attribute '{}' could not be deleted".format(item))
 
@@ -40,7 +40,7 @@ class StaticArray(list):
 
     def __ge__(self, other):
         return self.__gt__(other) or self.__eq__(other)
-    
+
     def __getattribute__(self, item):
         if item in ["append", "insert"] and super(StaticArray, self).__len__() + 1 > self.max_length:
             raise ExceedMaxLengthError("exceed static array maximum length: {}".format(self.max_length))
@@ -168,4 +168,3 @@ class List(list):
         if len(self) != 0:
             k %= len(self)
             self.__init__(self[k:] + self[:k])
-
