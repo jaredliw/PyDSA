@@ -13,8 +13,7 @@ functs.remove(sorting.validate_args)
 functs.remove(sorting.is_sorted)
 functs.remove(sorting.sleep_sort)
 functs.remove(sorting.int_counting_sort)
-functs.remove(sorting.radix_sort)
-
+functs.remove(sorting.msd_radix_sort)
 
 def _test(tc, key=lambda x: x):
     sl = sorted(tc, key=key)
@@ -24,7 +23,7 @@ def _test(tc, key=lambda x: x):
             assert f(tc[:5], key=key, reverse=True) == sorted(tc[:5], reverse=True, key=key), f.__name__
         elif f in [sorting.int_counting_sort, sorting.counting_sort]:
             assert f(tc) == sl, f.__name__
-            assert f(tc) == sl, f.__name__
+            assert f(tc, reverse=True) == sl[::-1], f.__name__
         else:
             assert f(tc, key=key) == sl, f.__name__
             assert f(tc, key=key, reverse=True) == sl[::-1], f.__name__
@@ -47,24 +46,23 @@ def test_single_item():
 
 def test_key_funct():
     tc = "This is a test string AA".split()
-    functs.append(sorting.counting_sort)
+    functs.remove(sorting.counting_sort)
     try:
         _test(tc, key=str.lower)
     finally:
-        functs.remove(sorting.counting_sort)
+        functs.append(sorting.counting_sort)
 
 
 def test_random_integers():
     for _ in range(50):
-        tc = [random.randint(-1000, 1000) for _ in range(200)]
+        tc = [random.randint(-10000, 10000) for _ in range(200)]
         functs.append(sorting.int_counting_sort)
-        functs.append(sorting.radix_sort)
+        functs.append(sorting.msd_radix_sort)
         try:
             _test(tc)
         finally:
             functs.remove(sorting.int_counting_sort)
-            functs.remove(sorting.radix_sort)
-
+            functs.remove(sorting.msd_radix_sort)
 
 def test_random_floats():
     for _ in range(50):

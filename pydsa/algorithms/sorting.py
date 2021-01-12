@@ -523,7 +523,7 @@ def int_counting_sort(arr: IntList, reverse: bool = False) -> list:
 
 
 @validate_args
-def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = quicksort) -> list:
+def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = bubble_sort) -> list:
     """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
      works for any type of elements."""
     # Time complexity:
@@ -540,28 +540,58 @@ def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = qui
     return new
 
 
-def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False,
-               sorting_algo: Function = bubble_sort) -> list:
+@validate_args
+def msd_radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
     """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
     place value. Then, sort the elements according to their increasing/decreasing order."""
+
     # Time complexity:
-    #   Worst: O(d(n + k)), where d is the number cycle and k is the range.
-    #   Average: Theta(d(n + k)), where d is the number cycle and k is the range.
-    #   Best: Omega(d(n + k)), where d is the number cycle and k is the range.
+    #   Worst: O(n * k), where k is the range.
+    #   Average: Theta(n * k), where k is the range.
+    #   Best: Omega(n * k), where k is the range.
     # Not stable, Not in place
 
-    _range = len(str(max(arr)))
-    new = deepcopy(arr)
-    negatives = list(filter(lambda x: x < 0, new))
-    non_negatives = list(filter(lambda x: x >= 0, new))
-    for p in range(1, _range + 1):
-        non_negatives = sorting_algo(non_negatives, key=lambda x: key(x) // (10 ** (p - 1)) % 10, reverse=reverse)
-    for p in range(1, _range + 1):
-        negatives = sorting_algo(negatives, key=lambda x: key(x) // (10 ** (p - 1)) % 10, reverse=reverse)
+    def _radix_sort(part, ndigit=None):
+        if not part:
+            return []
+
+        new = []
+        if ndigit is None:
+            ndigit = len(str(max(part, key=lambda x: abs(key(x)))).lstrip("-"))
+        if order == "LSD":
+            bound = ndigit
+            ndigit = 0
+        elif order == "MSD":
+            bound = 1
+        else:
+            raise ValueError(
+                "Invalid option '{}', order should be one of the following: {}".format(order, ["LSD", "MSD"]))
+
+        bucs = [[] for _ in range(10)]
+        for item in part:
+            idx = int(abs(key(item)) // (10 ** (ndigit - 1)) % 10)
+            if reverse:
+                idx = 9 - idx
+            bucs[idx].append(item)
+
+        for buc in bucs:
+            if buc:
+                if len(buc) == 1 or ndigit == bound:
+                    new.extend(buc)
+                else:
+                    new.extend(_radix_sort(buc, ndigit - 1))
+        return new
+
+    non_negs = _radix_sort(list(filter(lambda x: key(x) >= 0, arr)))
+
+    reverse = not reverse
+    negs = _radix_sort(list(filter(lambda x: key(x) < 0, arr)))
+    reverse = not reverse
+
     if reverse:
-        return non_negatives + negatives
+        return non_negs + negs
     else:
-        return negatives + non_negatives
+        return negs + non_negs
 
 
 """Others"""
