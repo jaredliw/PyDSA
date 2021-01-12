@@ -41,6 +41,7 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Insertion Sort
         - Merge Sort
         - Quicksort
+        - Radix Sort
         - Selection Sort
         - Sleep Sort
         - Slowsort
