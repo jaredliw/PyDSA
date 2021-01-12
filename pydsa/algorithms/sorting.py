@@ -386,70 +386,6 @@ def worstsort(arr: list, key: Function = lambda x: x, reverse: bool = False, rec
 
 
 @validate_args
-def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
-    """An ineffective algorithm based on generate and test paradigm."""
-    # Time complexity:
-    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
-    #   Average: Theta(n * n!)
-    #   Best: Omega(n)
-    # Not stable, Not in place (In place for randomized version)
-
-    if randomized:
-        while True:
-            # Check the order is correct
-            if is_sorted(arr, key, reverse):
-                break
-            shuffle(arr)
-    else:
-        for perm in permutations(arr):
-            perm = list(perm)
-            if is_sorted(perm, key, reverse):
-                arr = perm
-                break
-    return arr
-
-
-@validate_args
-def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
-    """An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
-    by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
-    sorted."""
-
-    # Time complexity:
-    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
-    #   Average: Theta((n +1)!)
-    #   Best: Omega(n)
-    # Not stable, Not in place (In place for randomized version)
-
-    def _bogobogosort(deck):
-        if len(deck) > 1:
-            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized)
-        else:
-            return bogosort(deck, key, reverse, randomized)
-
-    return _bogobogosort(arr)
-
-
-@validate_args
-def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
-    """random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
-    list is sorted."""
-    # Time complexity:
-    #   Worst: O(infinity)
-    #   Average: Theta(n!)
-    #   Best: Omega(n)
-    # Not stable, In place
-
-    arr = deepcopy(arr)
-    end = len(arr) - 1
-    while not is_sorted(arr, key, reverse):
-        pick1 = randint(0, end)
-        pick2 = randint(0, end)
-        arr[pick1], arr[pick2] = arr[pick2], arr[pick1]
-    return arr
-
-
-@validate_args
 def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """sorts an array by repeatedly finding the minimum/maximum element from unsorted part and putting it at the
     beginning/end."""
@@ -552,8 +488,150 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     return _merge_sort(arr)
 
 
+"""Non-comparison Sorting Algorithms"""
+
+
 @validate_args
-def sleep_sort(arr: list, reverse: bool = False, amplify: [int, float] = 1.0) -> list:
+def int_counting_sort(arr: IntList, reverse: bool = False) -> list:
+    """Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
+    objects having distinct key values."""
+    # Time complexity:
+    #   Worst: O(n + k), where k is the range.
+    #   Average: Theta(n + k), where k is the range.
+    #   Best: Omega(n + k), where k is the range.
+    # Not stable, Not in place
+
+    # Do not support key function
+    _min = min(arr)
+    _max = max(arr)
+
+    count_arr = list(0 for _ in range(_min, _max + 1))
+    for item in arr:
+        count_arr[item - _min] += 1
+
+    if reverse:
+        step = -1
+    else:
+        step = 1
+    new = []
+    for idx, occur in enumerate(count_arr[::step]):
+        if reverse:
+            new.extend([(_max - idx)] * occur)
+        else:
+            new.extend([(_min + idx)] * occur)
+    return new
+
+
+@validate_args
+def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = quicksort) -> list:
+    """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
+     works for any type of elements."""
+    # Time complexity:
+    #   Worst: O(n + k), where k is the range.
+    #   Average: Theta(n + k), where k is the range.
+    #   Best: Omega(n + k), where k is the range.
+    # Not stable, Not in place
+    # Extra time is needed, depends on the performance of sorting_algo.
+
+    # Do not support key function
+    new = []
+    for item, occur in sorting_algo(Counter(arr).most_common(), reverse=reverse):
+        new.extend([item] * occur)
+    return new
+
+
+def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False, sorting_algo: Function = bubble_sort) -> list:
+    """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
+    place value. Then, sort the elements according to their increasing/decreasing order."""
+    # Time complexity:
+    #   Worst: O(d(n + k)), where d is the number cycle and k is the range.
+    #   Average: Theta(d(n + k)), where d is the number cycle and k is the range.
+    #   Best: Omega(d(n + k)), where d is the number cycle and k is the range.
+    # Not stable, Not in place
+
+    _range = len(str(max(arr)))
+    new = deepcopy(arr)
+    negatives = list(filter(lambda x: x < 0, new))
+    non_negatives = list(filter(lambda x: x >= 0, new))
+    for p in range(1, _range+1):
+        non_negatives = sorting_algo(non_negatives, key=lambda x: key(x) // (10 ** (p-1)) % 10, reverse=reverse)
+    for p in range(1, _range + 1):
+        negatives = sorting_algo(negatives, key=lambda x: key(x) // (10 ** (p - 1)) % 10, reverse=reverse)
+    if reverse:
+        return non_negatives + negatives
+    else:
+        return negatives + non_negatives
+
+
+"""Others"""
+
+
+@validate_args
+def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+    """An ineffective algorithm based on generate and test paradigm."""
+    # Time complexity:
+    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
+    #   Average: Theta(n * n!)
+    #   Best: Omega(n)
+    # Not stable, Not in place (In place for randomized version)
+
+    if randomized:
+        while True:
+            # Check the order is correct
+            if is_sorted(arr, key, reverse):
+                break
+            shuffle(arr)
+    else:
+        for perm in permutations(arr):
+            perm = list(perm)
+            if is_sorted(perm, key, reverse):
+                arr = perm
+                break
+    return arr
+
+
+@validate_args
+def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+    """An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
+    by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
+    sorted."""
+
+    # Time complexity:
+    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
+    #   Average: Theta((n +1)!)
+    #   Best: Omega(n)
+    # Not stable, Not in place (In place for randomized version)
+
+    def _bogobogosort(deck):
+        if len(deck) > 1:
+            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized)
+        else:
+            return bogosort(deck, key, reverse, randomized)
+
+    return _bogobogosort(arr)
+
+
+@validate_args
+def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+    """random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
+    list is sorted."""
+    # Time complexity:
+    #   Worst: O(infinity)
+    #   Average: Theta(n!)
+    #   Best: Omega(n)
+    # Not stable, In place
+
+    arr = deepcopy(arr)
+    end = len(arr) - 1
+    while not is_sorted(arr, key, reverse):
+        pick1 = randint(0, end)
+        pick2 = randint(0, end)
+        arr[pick1], arr[pick2] = arr[pick2], arr[pick1]
+    return arr
+
+
+@validate_args
+def sleep_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, amplify: [int, float] = 1.0) -> list:
     """Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
      to the item's sort key, then emits the item."""
     # Time complexity:
@@ -578,7 +656,7 @@ def sleep_sort(arr: list, reverse: bool = False, amplify: [int, float] = 1.0) ->
     # Create threass
     pool = []
     for item in arr:
-        t = Thread(target=lambda: _sleep(item))
+        t = Thread(target=lambda: _sleep(key(item)))
         pool.append(t)
         t.start()
     start = True
@@ -591,55 +669,3 @@ def sleep_sort(arr: list, reverse: bool = False, amplify: [int, float] = 1.0) ->
         return final[::-1]
     else:
         return final
-
-
-"""Non-comparison Sorting Algorithms"""
-
-
-@validate_args
-def int_counting_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) -> list:
-    """Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
-    objects having distinct key values."""
-    # Time complexity:
-    #   Worst: O(n + k), where k is the range.
-    #   Average: Theta(n + k), where k is the range.
-    #   Best: Omega(n + k), where k is the range.
-    # Not stable, Not in place
-
-    _min = min(arr, key=key)
-    _max = max(arr, key=key)
-
-    count_arr = list(0 for _ in range(_min, _max + 1))
-    for item in arr:
-        count_arr[key(item) - _min] += 1
-
-    if reverse:
-        step = -1
-    else:
-        step = 1
-    new = []
-    for idx, occur in enumerate(count_arr[::step]):
-        if reverse:
-            new.extend([(_max - idx)] * occur)
-        else:
-            new.extend([(_min + idx)] * occur)
-    return new
-
-
-@validate_args
-def counting_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
-                  sorting_algo: Function = quicksort) -> list:
-    """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
-     works for any type of elements."""
-    # Time complexity:
-    #   Worst: O(n + k), where k is the range.
-    #   Average: Theta(n + k), where k is the range.
-    #   Best: Omega(n + k), where k is the range.
-    # Not stable, Not in place
-    # Extra time is needed, depends on the performance of sorting_algo.
-
-    new = []
-    for item, occur in sorting_algo(Counter(arr).most_common(), key=lambda item: (key(item[0]), item[1]),
-                                    reverse=reverse):
-        new.extend([item] * occur)
-    return new
