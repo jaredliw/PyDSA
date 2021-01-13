@@ -2,6 +2,8 @@ from typing import NewType
 
 from pydsa import Any, check_arg, validate_args
 
+__all__ = ["NodeType", "Node"]
+
 
 class _NodeType:
     def __eq__(self, other):

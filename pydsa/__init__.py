@@ -3,6 +3,9 @@ from inspect import isclass, Parameter, signature
 from itertools import zip_longest
 from typing import NewType
 
+__all__ = ["Any", "Function", "IntList", "Iterable", "NumberList", "Sequence", "NumberSequence", "NonNegativeInt",
+           "PositiveInt", "check_arg", "validate_args"]
+
 
 class _Any:
     def __eq__(self, other):
@@ -30,10 +33,10 @@ IntList = NewType("IntList", list)
 Iterable = NewType("Iterable", _Iterable())
 NumberList = NewType("NumberList", list)
 Sequence = NewType("Sequence", _Sequence())
-IntFloatSequence = NewType("IntFloatSequence", _Sequence())
+NumberSequence = NewType("NumberSequence", _Sequence())
 NonNegativeInt = NewType('NonNegativeInt', int)
 PositiveInt = NewType('NaturalInt', int)
-check_functs = {IntFloatSequence: lambda x: all(type(item) in [int, float] for item in x),
+check_functs = {NumberSequence: lambda x: all(type(item) in [int, float] for item in x),
                 IntList: lambda x: all(type(item) == int for item in x),
                 NonNegativeInt: lambda x: x >= 0,
                 NumberList: lambda x: all(type(item) in [int, float] for item in x),

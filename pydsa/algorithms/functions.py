@@ -2,6 +2,8 @@
 single element y of another set Y (possibly the same set), the codomain of the function."""
 from pydsa import PositiveInt, NonNegativeInt, validate_args
 
+__all__ = ["ackermann_peter"]
+
 
 @validate_args
 def ackermann_peter(m: NonNegativeInt, n: NonNegativeInt) -> PositiveInt:

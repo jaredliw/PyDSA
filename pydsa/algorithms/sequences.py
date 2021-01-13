@@ -1,6 +1,7 @@
 """A sequence is an enumerated collection of objects in which repetitions are allowed and order matters."""
 from pydsa import NonNegativeInt, validate_args
 
+__all__ = ["fibonacci"]
 
 # todo: use formula to get nth finonacci --> ((1+sqrt(5))**n - (1-sqrt(5))**n) / (2**n * sqrt(5))
 @validate_args

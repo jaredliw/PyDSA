@@ -2,8 +2,11 @@
 stored."""
 from math import sqrt
 
-from pydsa import Any, Sequence, IntFloatSequence, validate_args
+from pydsa import Any, Sequence, NumberSequence, validate_args
 from pydsa.algorithms.sorting import is_sorted
+
+__all__ = ["linear_search", "binary_search", "jump_search", "interpolation_search", "exponential_search",
+           "ternary_search"]
 
 
 @validate_args
@@ -77,7 +80,7 @@ def jump_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
 
 
 @validate_args
-def interpolation_search(arr: IntFloatSequence, target: Any, pre_check: bool = True) -> int:
+def interpolation_search(arr: NumberSequence, target: Any, pre_check: bool = True) -> int:
     """An improvement over Binary Search for instances, where the values in a sorted array are uniformly distributed."""
     # Time complexity: O(log log n)
 

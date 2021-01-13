@@ -5,6 +5,8 @@ from math import factorial, sqrt
 
 from pydsa import validate_args, NonNegativeInt, PositiveInt
 
+__all__ = ["primality_test", "wilsons_theorem", "gcd", "lcm"]
+
 
 @validate_args
 def primality_test(n: PositiveInt) -> bool:

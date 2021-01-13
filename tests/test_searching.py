@@ -1,15 +1,9 @@
-from inspect import getmembers, isfunction
 from random import choice, randint, uniform
 
 from pydsa.algorithms import searching
 from tests import is_error
 
-functs = [member[1] for member in getmembers(searching) if isfunction(member[1])]
-functs.remove(searching.Any)
-functs.remove(searching.IntFloatSequence)
-functs.remove(searching.is_sorted)
-functs.remove(searching.Sequence)
-functs.remove(searching.validate_args)
+functs = [searching.__dict__[f_name] for f_name in searching.__all__]
 
 
 def _test(arr, t, int_float_only=True):
