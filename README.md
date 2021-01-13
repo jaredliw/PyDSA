@@ -33,6 +33,7 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Bogosort
         - Bozosort
         - Brick Sort
+        - Bucket Sort
         - Bubble Sort
         - Cocktail Sort
         - Comb Sort
