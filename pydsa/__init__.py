@@ -28,6 +28,7 @@ Any = NewType("Any", _Any())
 Function = NewType("Function", _Function())
 IntList = NewType("IntList", list)
 Iterable = NewType("Iterable", _Iterable())
+NumberList = NewType("NumberList", list)
 Sequence = NewType("Sequence", _Sequence())
 IntFloatSequence = NewType("IntFloatSequence", _Sequence())
 NonNegativeInt = NewType('NonNegativeInt', int)
@@ -35,6 +36,7 @@ PositiveInt = NewType('NaturalInt', int)
 check_functs = {IntFloatSequence: lambda x: all(type(item) in [int, float] for item in x),
                 IntList: lambda x: all(type(item) == int for item in x),
                 NonNegativeInt: lambda x: x >= 0,
+                NumberList: lambda x: all(type(item) in [int, float] for item in x),
                 PositiveInt: lambda x: x >= 1}
 
 
