@@ -2,13 +2,19 @@
 from collections import Counter
 from copy import deepcopy
 from itertools import permutations
+from math import ceil, sqrt
 from operator import le, lt, ge, gt
 from random import randint, shuffle
 from threading import Thread
 from time import sleep
 from warnings import warn
 
-from pydsa import Function, IntList, NonNegativeInt, validate_args
+from pydsa import Function, IntList, NonNegativeInt, NumberList, validate_args
+
+__all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "brick_sort", "comb_sort", "gnome_sort", "quicksort",
+           "slowsort", "stooge_sort", "worstsort", "selection_sort", "insertion_sort", "merge_sort",
+           "int_counting_sort", "counting_sort", "radix_sort", "bucket_sort", "bogosort", "bogobogosort", "bozosort",
+           "sleep_sort"]
 
 
 @validate_args
@@ -502,6 +508,9 @@ def int_counting_sort(arr: IntList, reverse: bool = False) -> list:
     # Not stable, Not in place
 
     # Do not support key function
+    if not arr:
+        return []
+
     _min = min(arr)
     _max = max(arr)
 
@@ -541,7 +550,7 @@ def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = bub
 
 
 @validate_args
-def msd_radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
+def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
     """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
     place value. Then, sort the elements according to their increasing/decreasing order."""
 
@@ -587,6 +596,57 @@ def msd_radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = Fa
     reverse = not reverse
     negs = _radix_sort(list(filter(lambda x: key(x) < 0, arr)))
     reverse = not reverse
+
+    if reverse:
+        return non_negs + negs
+    else:
+        return negs + non_negs
+
+
+@validate_args
+def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = False,
+                sorting_algo: Function = insertion_sort):
+    """Bucket sort is a sorting algorithm that works by distributing the elements of an array into a number of buckets.
+    Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the
+    bucket sorting algorithm."""
+
+    # Time complexity:
+    #   Worst: O(n * k), where k is the range.
+    #   Average: Theta(n * k), where k is the range.
+    #   Best: Omega(n^2)
+    # Stable (if sorting_algo is bucket_sort), Not in place
+
+    def _bucket_sort(part, neg_flag=False):
+        if not part:
+            return []
+
+        # Optimum number of buckets: ceil(sqrt(n))
+        n_of_buckets = ceil(sqrt(len(part)))
+        gap = (abs(min(part, key=key)) + abs(max(part, key=key))) / n_of_buckets
+
+        buckets = [[] for _ in range(n_of_buckets)]  # Wrong: [[]] * n_of_buckets
+        for item in part:
+            print(item, gap)
+            idx = int(abs(item) // gap)
+            if idx < 0:
+                idx = 0
+            elif idx > n_of_buckets - 1:
+                idx = n_of_buckets - 1
+            if reverse ^ neg_flag:
+                idx = n_of_buckets - idx - 1
+            buckets[idx].append(item)
+
+        new = []
+        for buc in buckets:
+            if buc:
+                if len(buc) == 1:
+                    new.extend(buc)
+                else:
+                    new.extend(sorting_algo(buc, key=key, reverse=reverse))
+        return new
+
+    non_negs = _bucket_sort(list(filter(lambda x: key(x) >= 0, arr)))
+    negs = _bucket_sort(list(filter(lambda x: key(x) < 0, arr)), neg_flag=True)
 
     if reverse:
         return non_negs + negs
@@ -662,7 +722,8 @@ def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
 
 
 @validate_args
-def sleep_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, amplify: [int, float] = 1.0) -> list:
+def sleep_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = False,
+               amplify: [int, float] = 1.0) -> list:
     """Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
      to the item's sort key, then emits the item."""
     # Time complexity:

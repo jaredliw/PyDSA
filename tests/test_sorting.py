@@ -1,27 +1,28 @@
 import math
 import random
-from inspect import getmembers, isfunction
 
 from pydsa.algorithms import sorting
 
-functs = [member[1] for member in getmembers(sorting) if isfunction(member[1])]
-functs.remove(sorting.deepcopy)
-functs.remove(sorting.IntList)
-functs.remove(sorting.Function)
-functs.remove(sorting.NonNegativeInt)
-functs.remove(sorting.validate_args)
+functs = [sorting.__dict__[f_name] for f_name in sorting.__all__]
 functs.remove(sorting.is_sorted)
-functs.remove(sorting.sleep_sort)
-functs.remove(sorting.int_counting_sort)
-functs.remove(sorting.msd_radix_sort)
 
-def _test(tc, key=lambda x: x):
+slow_group = [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort, sorting.worstsort,
+              sorting.sleep_sort]
+no_key_group = [sorting.int_counting_sort, sorting.counting_sort]
+
+
+def _test(tc, key=lambda x: x, exclude=None):
+    if exclude is None:
+        exclude = []
+
     sl = sorted(tc, key=key)
     for f in functs:
-        if f in [sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort, sorting.worstsort]:
+        if f in exclude:
+            continue
+        elif f in slow_group:
             assert f(tc[:5], key=key) == sorted(tc[:5], key=key), f.__name__
             assert f(tc[:5], key=key, reverse=True) == sorted(tc[:5], reverse=True, key=key), f.__name__
-        elif f in [sorting.int_counting_sort, sorting.counting_sort]:
+        elif f in no_key_group:
             assert f(tc) == sl, f.__name__
             assert f(tc, reverse=True) == sl[::-1], f.__name__
         else:
@@ -30,7 +31,7 @@ def _test(tc, key=lambda x: x):
 
 
 def test_do_modify_original():
-    for f in functs + [sorting.sleep_sort, sorting.int_counting_sort]:
+    for f in functs:
         tc = [4, 3, 2, 1]
         f(tc)
         assert tc == [4, 3, 2, 1], f.__name__
@@ -45,40 +46,41 @@ def test_single_item():
 
 
 def test_key_funct():
+    exclude = [sorting.counting_sort, sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+
     tc = "This is a test string AA".split()
-    functs.remove(sorting.counting_sort)
-    try:
-        _test(tc, key=str.lower)
-    finally:
-        functs.append(sorting.counting_sort)
+    _test(tc, key=str.lower, exclude=exclude)
 
 
 def test_random_integers():
+    exclude = [sorting.sleep_sort]
+
     for _ in range(50):
-        tc = [random.randint(-10000, 10000) for _ in range(200)]
-        functs.append(sorting.int_counting_sort)
-        functs.append(sorting.msd_radix_sort)
-        try:
-            _test(tc)
-        finally:
-            functs.remove(sorting.int_counting_sort)
-            functs.remove(sorting.msd_radix_sort)
+        tc = [random.randint(-10000, 10000) for _ in range(5)]
+        _test(tc, exclude=exclude)
+
 
 def test_random_floats():
+    exclude = [sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+
     for _ in range(50):
         tc = [random.random() for _ in range(200)]
         tc.extend([math.e, math.pi, math.tau, math.sqrt(2), math.sqrt(3)])
-        _test(tc)
+        _test(tc, exclude=exclude)
 
 
 def test_random_real_numbers():
+    exclude = [sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+
     for _ in range(50):
         tc = [random.choice([random.random(), random.randint(-1000, 1000)]) for _ in range(200)]
         tc.extend([math.e, math.pi, math.tau, math.sqrt(2), math.sqrt(3)])
-        _test(tc)
+        _test(tc, exclude=exclude)
 
 
 def test_chars():
+    exclude = [sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
-    _test(tc)
+    _test(tc, exclude=exclude)
