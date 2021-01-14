@@ -32,7 +32,7 @@ def is_sorted(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
     return True
 
 
-"""Comparison Sorting Algorithms"""
+"""Exchange Sorts"""
 
 
 @validate_args
@@ -105,7 +105,7 @@ def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
 
 
 @validate_args
-def brick_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def odd_even_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two 
     phases occurs -- Odd and Even Phases."""
     # Time complexity:
@@ -392,6 +392,73 @@ def worstsort(arr: list, key: Function = lambda x: x, reverse: bool = False, rec
 
 
 @validate_args
+def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+    """An ineffective algorithm based on generate and test paradigm."""
+    # Time complexity:
+    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
+    #   Average: Theta(n * n!)
+    #   Best: Omega(n)
+    # Not stable, Not in place (In place for randomized version)
+
+    if randomized:
+        while True:
+            # Check the order is correct
+            if is_sorted(arr, key, reverse):
+                break
+            shuffle(arr)
+    else:
+        for perm in permutations(arr):
+            perm = list(perm)
+            if is_sorted(perm, key, reverse):
+                arr = perm
+                break
+    return arr
+
+
+@validate_args
+def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+    """An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
+    by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
+    sorted."""
+
+    # Time complexity:
+    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
+    #   Average: Theta((n +1)!)
+    #   Best: Omega(n)
+    # Not stable, Not in place (In place for randomized version)
+
+    def _bogobogosort(deck):
+        if len(deck) > 1:
+            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized)
+        else:
+            return bogosort(deck, key, reverse, randomized)
+
+    return _bogobogosort(arr)
+
+
+@validate_args
+def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+    """random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
+    list is sorted."""
+    # Time complexity:
+    #   Worst: O(infinity)
+    #   Average: Theta(n!)
+    #   Best: Omega(n)
+    # Not stable, In place
+
+    arr = deepcopy(arr)
+    end = len(arr) - 1
+    while not is_sorted(arr, key, reverse):
+        pick1 = randint(0, end)
+        pick2 = randint(0, end)
+        arr[pick1], arr[pick2] = arr[pick2], arr[pick1]
+    return arr
+
+
+"""Selection Sorts"""
+
+
+@validate_args
 def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """sorts an array by repeatedly finding the minimum/maximum element from unsorted part and putting it at the
     beginning/end."""
@@ -412,6 +479,9 @@ def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
         # Move it to the front.
         arr[ptr], arr[idx] = arr[idx], arr[ptr]
     return arr
+
+
+"""Insertion Sorts"""
 
 
 @validate_args
@@ -444,6 +514,9 @@ def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
         else:
             arr[0] = item
     return arr
+
+
+"""Merge Sorts"""
 
 
 @validate_args
@@ -494,7 +567,7 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     return _merge_sort(arr)
 
 
-"""Non-comparison Sorting Algorithms"""
+"""Distribution Sorts"""
 
 
 @validate_args
@@ -626,7 +699,6 @@ def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = Fa
 
         buckets = [[] for _ in range(n_of_buckets)]  # Wrong: [[]] * n_of_buckets
         for item in part:
-            print(item, gap)
             idx = int(abs(item) // gap)
             if idx < 0:
                 idx = 0
@@ -654,71 +726,58 @@ def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = Fa
         return negs + non_negs
 
 
-"""Others"""
-
-
 @validate_args
-def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
-    """An ineffective algorithm based on generate and test paradigm."""
+def bead_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) -> list:
+    """Also known as Gravity sort, this algorithm was inspired from natural phenomenons and was designed keeping in mind
+     objects(or beads) falling under the influence of gravity."""
     # Time complexity:
-    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
-    #   Average: Theta(n * n!)
-    #   Best: Omega(n)
-    # Not stable, Not in place (In place for randomized version)
+    #   Worst: O(S), where S is the sum of the integers.
+    #   Average: Theta(S), where S is the sum of the integers.
+    #   Best: Omega(S), where S is the sum of the integers.
+    # Not stable, Not in place
 
-    if randomized:
-        while True:
-            # Check the order is correct
-            if is_sorted(arr, key, reverse):
+    def _bead_sort(part, neg_flag=False):
+        if not part:
+            return []
+
+        _max = abs(max(part, key=lambda x: abs(key(x))))
+        poles = [0] * _max
+        for num in part:
+            for i in range(abs(num)):
+                poles[i] += 1
+
+        new = []
+        while poles:
+            total = 0
+            for idx, p in enumerate(poles):
+                if p == 0:
+                    poles.pop(idx)
+                else:
+                    total += 1
+                    poles[idx] -= 1
+            if total == 0:
                 break
-            shuffle(arr)
-    else:
-        for perm in permutations(arr):
-            perm = list(perm)
-            if is_sorted(perm, key, reverse):
-                arr = perm
-                break
-    return arr
+            if neg_flag:
+                new.append(-1 * total)
+            else:
+                new.append(total)
 
-
-@validate_args
-def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
-    """An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
-    by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
-    sorted."""
-
-    # Time complexity:
-    #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
-    #   Average: Theta((n +1)!)
-    #   Best: Omega(n)
-    # Not stable, Not in place (In place for randomized version)
-
-    def _bogobogosort(deck):
-        if len(deck) > 1:
-            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized)
+        if (not reverse) ^ neg_flag:
+            return new[::-1]
         else:
-            return bogosort(deck, key, reverse, randomized)
+            return new
 
-    return _bogobogosort(arr)
+    poss = _bead_sort(list(filter(lambda x: key(x) > 0, arr)))
+    zeros = list(filter(lambda x: key(x) == 0, arr))
+    negs = _bead_sort(list(filter(lambda x: key(x) < 0, arr)), neg_flag=True)
+
+    if reverse:
+        return poss + zeros + negs
+    else:
+        return negs + zeros + poss
 
 
-@validate_args
-def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
-    """random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
-    list is sorted."""
-    # Time complexity:
-    #   Worst: O(infinity)
-    #   Average: Theta(n!)
-    #   Best: Omega(n)
-    # Not stable, In place
-
-    arr = deepcopy(arr)
-    end = len(arr) - 1
-    while not is_sorted(arr, key, reverse):
-        pick1 = randint(0, end)
-        pick2 = randint(0, end)
-        arr[pick1], arr[pick2] = arr[pick2], arr[pick1]
-    return arr
+"""Miscellaneous"""
 
 
 @validate_args

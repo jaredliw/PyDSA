@@ -29,10 +29,10 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Fibonacci Sequence
     - [Sorting](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sorting.py)
         - *is_sorted*
+        - Bead Sort
         - Bogobogosort
         - Bogosort
         - Bozosort
-        - Brick Sort
         - Bucket Sort
         - Bubble Sort
         - Cocktail Sort
@@ -41,6 +41,7 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Gnome Sort
         - Insertion Sort
         - Merge Sort
+        - Odd-even Sort
         - Quicksort
         - Radix Sort (LSD/MSD)
         - Selection Sort

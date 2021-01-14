@@ -46,7 +46,8 @@ def test_single_item():
 
 
 def test_key_funct():
-    exclude = [sorting.counting_sort, sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+    exclude = [sorting.counting_sort, sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort,
+               sorting.radix_sort, sorting.bead_sort]
 
     tc = "This is a test string AA".split()
     _test(tc, key=str.lower, exclude=exclude)
@@ -61,7 +62,7 @@ def test_random_integers():
 
 
 def test_random_floats():
-    exclude = [sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+    exclude = [sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort, sorting.bead_sort]
 
     for _ in range(50):
         tc = [random.random() for _ in range(200)]
@@ -70,7 +71,7 @@ def test_random_floats():
 
 
 def test_random_real_numbers():
-    exclude = [sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+    exclude = [sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort, sorting.bead_sort]
 
     for _ in range(50):
         tc = [random.choice([random.random(), random.randint(-1000, 1000)]) for _ in range(200)]
@@ -79,7 +80,8 @@ def test_random_real_numbers():
 
 
 def test_chars():
-    exclude = [sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort]
+    exclude = [sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort,
+               sorting.bead_sort]
 
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
