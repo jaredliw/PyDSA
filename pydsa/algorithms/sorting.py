@@ -11,10 +11,10 @@ from warnings import warn
 
 from pydsa import Function, IntList, NonNegativeInt, NumberList, validate_args
 
-__all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "brick_sort", "comb_sort", "gnome_sort", "quicksort",
-           "slowsort", "stooge_sort", "worstsort", "selection_sort", "insertion_sort", "merge_sort",
-           "int_counting_sort", "counting_sort", "radix_sort", "bucket_sort", "bogosort", "bogobogosort", "bozosort",
-           "sleep_sort"]
+__all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "odd_even_sort", "comb_sort", "gnome_sort", "quicksort",
+           "slowsort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort", "selection_sort",
+           "insertion_sort", "merge_sort", "int_counting_sort", "counting_sort", "radix_sort", "bucket_sort",
+           "bead_sort", "sleep_sort"]
 
 
 @validate_args
@@ -730,6 +730,7 @@ def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = Fa
 def bead_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) -> list:
     """Also known as Gravity sort, this algorithm was inspired from natural phenomenons and was designed keeping in mind
      objects(or beads) falling under the influence of gravity."""
+
     # Time complexity:
     #   Worst: O(S), where S is the sum of the integers.
     #   Average: Theta(S), where S is the sum of the integers.
