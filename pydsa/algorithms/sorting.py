@@ -1,5 +1,4 @@
 """An algorithm that is used to rearrange a given arrayaccording to a comparison operator on the elements."""
-from collections import Counter
 from copy import deepcopy
 from itertools import permutations
 from math import ceil, sqrt
@@ -13,7 +12,7 @@ from pydsa import check_arg, Function, IntList, NonNegativeInt, IntFloatList, va
 
 __all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "odd_even_sort", "comb_sort", "gnome_sort", "quicksort",
            "slowsort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort", "selection_sort",
-           "insertion_sort", "merge_sort", "int_counting_sort", "counting_sort", "radix_sort", "bucket_sort",
+           "insertion_sort", "merge_sort", "counting_sort", "pigeonhole_sort", "radix_sort", "bucket_sort",
            "bead_sort", "sleep_sort"]
 
 
@@ -577,8 +576,9 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
 """Distribution Sorts"""
 
 
+# Caution: counting_sort do not support 'key'!
 @validate_args
-def int_counting_sort(arr: IntList, reverse: bool = False) -> IntList:
+def counting_sort(arr: IntList, reverse: bool = False) -> IntList:
     """Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
     objects having distinct key values."""
     # Time complexity:
@@ -587,7 +587,6 @@ def int_counting_sort(arr: IntList, reverse: bool = False) -> IntList:
     #   Best: Omega(n + k), where k is the range.
     # Not stable, Not in place
 
-    # Do not support key function
     if not arr:
         return []
 
@@ -611,22 +610,38 @@ def int_counting_sort(arr: IntList, reverse: bool = False) -> IntList:
     return new
 
 
-@validate_args
-def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = bubble_sort) -> list:
+@validate_args  # todo
+def pigeonhole_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
+                    sorting_algo: Function = bubble_sort) -> list:
     """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
      works for any type of elements."""
-
     # Time complexity:
     #   Worst: O(n + k), where k is the range.
     #   Average: Theta(n + k), where k is the range.
     #   Best: Omega(n + k), where k is the range.
-    # Not stable, Not in place
-    # Extra time is needed, depends on the performance of sorting_algo.
+    # Stability depends on sorting_algo, Not in place
 
-    # Do not support key function
+    # Difference between Counting Sort and Pigeonhole Sort:
+    # Counting Sort counts the occurence of the items whereas Pigeonhole Sort moves the items into an auxiliary list.
+
+    if not arr:
+        return []
+
+    _check_key_arr(arr, key, IntList)
+    _min = key(min(arr, key=key))
+    _max = key(max(arr, key=key))
+
+    count_arr = list([] for _ in range(_min, _max + 1))
+    for item in arr:
+        count_arr[key(item) - _min].append(item)
+
+    if reverse:
+        step = -1
+    else:
+        step = 1
     new = []
-    for item, occur in sorting_algo(Counter(arr).most_common(), reverse=reverse):
-        new.extend([item] * occur)
+    for buc in count_arr[::step]:
+        new.extend(sorting_algo(buc, key=key, reverse=reverse))
     return new
 
 
@@ -634,7 +649,6 @@ def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = bub
 def radix_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
     """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
     place value. Then, sort the elements according to their increasing/decreasing order."""
-
     # Time complexity:
     #   Worst: O(n * k), where k is the range.
     #   Average: Theta(n * k), where k is the range.
@@ -692,7 +706,6 @@ def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
     """Bucket sort is a sorting algorithm that works by distributing the elements of an array into a number of buckets.
     Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the
     bucket sorting algorithm."""
-
     # Time complexity:
     #   Worst: O(n * k), where k is the range.
     #   Average: Theta(n * k), where k is the range.
@@ -743,7 +756,6 @@ def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
 def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> IntList:
     """Also known as Gravity sort, this algorithm was inspired from natural phenomenons and was designed keeping in mind
      objects(or beads) falling under the influence of gravity."""
-
     # Time complexity:
     #   Worst: O(S), where S is the sum of the integers.
     #   Average: Theta(S), where S is the sum of the integers.

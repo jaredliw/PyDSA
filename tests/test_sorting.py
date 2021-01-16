@@ -8,7 +8,7 @@ functs.remove(sorting.is_sorted)
 
 slow_group = {sorting.bogosort, sorting.bogobogosort, sorting.bozosort, sorting.slowsort, sorting.worstsort,
               sorting.sleep_sort}
-no_key_group = {sorting.int_counting_sort, sorting.counting_sort}
+no_key_group = {sorting.counting_sort}
 
 
 def _test(tc, key=lambda x: x, exclude=None):
@@ -46,7 +46,7 @@ def test_single_item():
 
 
 def test_str_with_key():
-    exclude = {sorting.counting_sort, sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort,
+    exclude = {sorting.counting_sort, sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort,
                sorting.radix_sort, sorting.bead_sort}
 
     tc = "This is a test string AA".split()
@@ -62,7 +62,7 @@ def test_random_integers():
 
 
 def test_random_floats():
-    exclude = {sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort, sorting.bead_sort}
+    exclude = {sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort, sorting.bead_sort}
 
     for _ in range(50):
         tc = [random.random() for _ in range(200)]
@@ -71,7 +71,7 @@ def test_random_floats():
 
 
 def test_random_real_numbers():
-    exclude = {sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort, sorting.bead_sort}
+    exclude = {sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort, sorting.bead_sort}
 
     for _ in range(50):
         tc = [random.choice([random.random(), random.randint(-1000, 1000)]) for _ in range(200)]
@@ -80,7 +80,7 @@ def test_random_real_numbers():
 
 
 def test_chars():
-    exclude = {sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort,
+    exclude = {sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort,
                sorting.bead_sort}
 
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
@@ -89,17 +89,17 @@ def test_chars():
 
 
 def test_key():
-    include = {sorting.bucket_sort, sorting.sleep_sort, sorting.int_counting_sort, sorting.radix_sort,
+    include = {sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort,
                sorting.bead_sort}
 
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
 
     exclude = functs - include
-    exclude.update({sorting.int_counting_sort, sorting.bead_sort, sorting.sleep_sort})
+    exclude.update({sorting.bead_sort, sorting.sleep_sort})
     _test(tc, key=ord, exclude=exclude)
 
     # test bead_sort
     ans = sorted(map(ord, tc))
-    ans == sorting.bead_sort(tc, key=ord)
-    ans[::-1] == sorting.bead_sort(tc, key=ord, reverse=True)
+    assert ans == sorting.bead_sort(tc, key=ord)
+    assert ans[::-1] == sorting.bead_sort(tc, key=ord, reverse=True)

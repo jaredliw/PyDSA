@@ -42,6 +42,7 @@ This project is currently underdeveloped. This project may be published to PyPI 
         - Insertion Sort
         - Merge Sort
         - Odd-even Sort
+        - Pigeonhole Sort
         - Quicksort
         - Radix Sort (LSD/MSD)
         - Selection Sort
