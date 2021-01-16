@@ -9,7 +9,7 @@ from threading import Thread
 from time import sleep
 from warnings import warn
 
-from pydsa import check_arg, Function, IntList, NonNegativeInt, NumberList, validate_args
+from pydsa import check_arg, Function, IntList, NonNegativeInt, IntFloatList, validate_args
 
 __all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "odd_even_sort", "comb_sort", "gnome_sort", "quicksort",
            "slowsort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort", "selection_sort",
@@ -699,7 +699,7 @@ def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
     #   Best: Omega(n^2)
     # Stable (if sorting_algo is bucket_sort), Not in place
 
-    _check_key_arr(arr, key, NumberList)
+    _check_key_arr(arr, key, IntFloatList)
 
     def _bucket_sort(part, neg_flag=False):
         if not part:
@@ -797,8 +797,8 @@ def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
 
 
 @validate_args
-def sleep_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = False,
-               amplify: [int, float] = 1.0) -> NumberList:
+def sleep_sort(arr: IntFloatList, key: Function = lambda x: x, reverse: bool = False,
+               amplify: [int, float] = 1.0) -> IntFloatList:
     """Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
      to the item's sort key, then emits the item."""
     # Time complexity:
