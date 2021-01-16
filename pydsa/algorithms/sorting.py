@@ -9,7 +9,7 @@ from threading import Thread
 from time import sleep
 from warnings import warn
 
-from pydsa import Function, IntList, NonNegativeInt, NumberList, validate_args
+from pydsa import check_arg, Function, IntList, NonNegativeInt, NumberList, validate_args
 
 __all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "odd_even_sort", "comb_sort", "gnome_sort", "quicksort",
            "slowsort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort", "selection_sort",
@@ -30,6 +30,13 @@ def is_sorted(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
         if not cmp_funct(key(arr[idx]), key(arr[idx + 1])):
             return False
     return True
+
+
+def _check_key_arr(arr, key, annot):
+    try:
+        check_arg("arr", list(map(lambda item: key(item), arr)), annot)
+    except ValueError:
+        raise ValueError("'arr' is not a(n) '{}' after applying function 'key'".format(annot.__name__))
 
 
 """Exchange Sorts"""
@@ -571,7 +578,7 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
 
 
 @validate_args
-def int_counting_sort(arr: IntList, reverse: bool = False) -> list:
+def int_counting_sort(arr: IntList, reverse: bool = False) -> IntList:
     """Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
     objects having distinct key values."""
     # Time complexity:
@@ -608,6 +615,7 @@ def int_counting_sort(arr: IntList, reverse: bool = False) -> list:
 def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = bubble_sort) -> list:
     """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
      works for any type of elements."""
+
     # Time complexity:
     #   Worst: O(n + k), where k is the range.
     #   Average: Theta(n + k), where k is the range.
@@ -623,7 +631,7 @@ def counting_sort(arr: list, reverse: bool = False, sorting_algo: Function = bub
 
 
 @validate_args
-def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
+def radix_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
     """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
     place value. Then, sort the elements according to their increasing/decreasing order."""
 
@@ -633,13 +641,15 @@ def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False,
     #   Best: Omega(n * k), where k is the range.
     # Not stable, Not in place
 
+    _check_key_arr(arr, key, IntList)
+
     def _radix_sort(part, ndigit=None):
         if not part:
             return []
 
         new = []
         if ndigit is None:
-            ndigit = len(str(max(part, key=lambda x: abs(key(x)))).lstrip("-"))
+            ndigit = len(str(key(max(part, key=lambda x: abs(key(x))))).lstrip("-"))
         if order == "LSD":
             bound = ndigit
             ndigit = 0
@@ -677,8 +687,8 @@ def radix_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False,
 
 
 @validate_args
-def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = False,
-                sorting_algo: Function = insertion_sort):
+def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
+                sorting_algo: Function = insertion_sort) -> list:
     """Bucket sort is a sorting algorithm that works by distributing the elements of an array into a number of buckets.
     Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the
     bucket sorting algorithm."""
@@ -689,17 +699,19 @@ def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = Fa
     #   Best: Omega(n^2)
     # Stable (if sorting_algo is bucket_sort), Not in place
 
+    _check_key_arr(arr, key, NumberList)
+
     def _bucket_sort(part, neg_flag=False):
         if not part:
             return []
 
         # Optimum number of buckets: ceil(sqrt(n))
         n_of_buckets = ceil(sqrt(len(part)))
-        gap = (abs(min(part, key=key)) + abs(max(part, key=key))) / n_of_buckets
+        gap = (abs(key(min(part, key=key))) + abs(key(max(part, key=key)))) / n_of_buckets
 
         buckets = [[] for _ in range(n_of_buckets)]  # Wrong: [[]] * n_of_buckets
         for item in part:
-            idx = int(abs(item) // gap)
+            idx = int(abs(key(item)) // gap)
             if idx < 0:
                 idx = 0
             elif idx > n_of_buckets - 1:
@@ -726,8 +738,9 @@ def bucket_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = Fa
         return negs + non_negs
 
 
+# Caution: bead_sort returns IntList NOT list!
 @validate_args
-def bead_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) -> list:
+def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> IntList:
     """Also known as Gravity sort, this algorithm was inspired from natural phenomenons and was designed keeping in mind
      objects(or beads) falling under the influence of gravity."""
 
@@ -737,14 +750,16 @@ def bead_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) 
     #   Best: Omega(S), where S is the sum of the integers.
     # Not stable, Not in place
 
+    _check_key_arr(arr, key, IntList)
+
     def _bead_sort(part, neg_flag=False):
         if not part:
             return []
 
-        _max = abs(max(part, key=lambda x: abs(key(x))))
+        _max = abs(key(max(part, key=lambda x: abs(key(x)))))
         poles = [0] * _max
         for num in part:
-            for i in range(abs(num)):
+            for i in range(abs(key(num))):
                 poles[i] += 1
 
         new = []
@@ -783,7 +798,7 @@ def bead_sort(arr: IntList, key: Function = lambda x: x, reverse: bool = False) 
 
 @validate_args
 def sleep_sort(arr: NumberList, key: Function = lambda x: x, reverse: bool = False,
-               amplify: [int, float] = 1.0) -> list:
+               amplify: [int, float] = 1.0) -> NumberList:
     """Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
      to the item's sort key, then emits the item."""
     # Time complexity:
