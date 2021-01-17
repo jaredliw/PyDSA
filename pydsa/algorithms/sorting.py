@@ -13,7 +13,7 @@ from pydsa import check_arg, Function, IntList, NonNegativeInt, IntFloatList, va
 __all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "odd_even_sort", "comb_sort", "gnome_sort", "quicksort",
            "slowsort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort", "selection_sort",
            "insertion_sort", "merge_sort", "counting_sort", "pigeonhole_sort", "radix_sort", "bucket_sort",
-           "bead_sort", "sleep_sort"]
+           "bead_sort", "proxmap_sort", "sleep_sort"]
 
 
 @validate_args
@@ -610,7 +610,7 @@ def counting_sort(arr: IntList, reverse: bool = False) -> IntList:
     return new
 
 
-@validate_args  # todo
+@validate_args
 def pigeonhole_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
                     sorting_algo: Function = bubble_sort) -> list:
     """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
@@ -804,6 +804,67 @@ def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
     else:
         return negs + zeros + poss
 
+
+@validate_args
+def proxmap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+    """Proxmap sort is a sorting algorithm that works by partitioning an array of data items, or keys, into a number of
+    "subarrays" (termed buckets, in similar sorts). The name is short for computing a "proximity map," which indicates
+    for each key K the beginning of a subarray where K will reside in the final sorted order. Keys are placed into each
+    subarray using insertion sort."""
+    # Time complexity:
+    #   Worst: O(n^2)
+    #   Average: Theta(n)
+    #   Best: Omega(n)
+    # Stable, Not in place
+
+    _check_key_arr(arr, key, IntFloatList)
+
+    if not arr:
+        return []
+
+    _min = key(min(arr, key=key))
+    _max = key(max(arr, key=key))
+
+    hit_counts = [0 for _ in range(int(_min), int(_max+1))]
+    for item in arr:
+        hit_counts[int(key(item)) - int(_min)] += 1
+
+    proxmaps = []
+    last_hit_count = 0
+    for hc in hit_counts:
+        if hc == 0:
+            proxmaps.append(None)
+        else:
+            proxmaps.append(last_hit_count)
+            last_hit_count += hc
+
+    locations = []
+    for item in arr:
+        locations.append(proxmaps[int(key(item)) - int(_min)])
+
+    final = [None for _ in range(len(locations))]
+    for idx, item in enumerate(arr):
+        loc = locations[idx]
+        if final[loc] is None:
+            final[loc] = item
+        else:
+            none_ptr = loc
+            while final[none_ptr] is not None:
+                none_ptr += 1
+            for ptr in range(none_ptr - 1, loc - 1, -1):
+                if final[ptr] > item:
+                    final[ptr], final[ptr + 1] = final[ptr + 1], final[ptr]
+                else:
+                    final[ptr + 1] = item
+                    break
+            else:
+                final[loc] = item
+
+    if reverse:
+        final = final[::-1]
+    return final
+
+print(proxmap_sort([6.7, 5.9, 8.4, 1.2, 7.3, 3.7, 11.5, 1.1, 4.8, 0.4, 10.5, 6.1, 1.8], reverse=True))
 
 """Miscellaneous"""
 

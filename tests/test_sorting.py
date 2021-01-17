@@ -47,7 +47,7 @@ def test_single_item():
 
 def test_str_with_key():
     exclude = {sorting.counting_sort, sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort,
-               sorting.radix_sort, sorting.bead_sort}
+               sorting.radix_sort, sorting.bead_sort, sorting.proxmap_sort}
 
     tc = "This is a test string AA".split()
     _test(tc, key=str.lower, exclude=exclude)
@@ -83,7 +83,7 @@ def test_random_real_numbers():
 
 def test_chars():
     exclude = {sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort,
-               sorting.bead_sort, sorting.counting_sort}
+               sorting.bead_sort, sorting.counting_sort, sorting.proxmap_sort}
 
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
