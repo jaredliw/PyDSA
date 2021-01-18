@@ -32,6 +32,30 @@ class Node:
     def __delattr__(self, item):
         raise TypeError("cannot delete attribute '{}'".format(item))
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            other = other.value
+
+        return self.value == other
+
+    def __ge__(self, other):
+        return not self.__lt__(other)
+
+    def __gt__(self, other):
+        return not self.__le__(other)
+
+    def __le__(self, other):
+        return self.__lt__(other) or self.__eq__(other)
+
+    def __lt__(self, other):
+        if isinstance(other, self.__class__):
+            other = other.value
+
+        return self.value < other
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __setattr__(self, key, value):
         if key == "value":
             self.__dict__[key] = value
