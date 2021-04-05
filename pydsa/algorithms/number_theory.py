@@ -5,7 +5,7 @@ from math import factorial, sqrt
 
 from pydsa import validate_args, NonNegativeInt, PositiveInt
 
-__all__ = ["primality_test", "wilsons_theorem", "gcd", "lcm"]
+__all__ = ["primality_test", "wilsons_theorem", "gcd", "lcm", "digital_root"]
 
 
 @validate_args
@@ -87,3 +87,19 @@ def lcm(a: int, b: int, *num: int) -> int:
         return abs(x * y) // gcd(x, y)
 
     return reduce(_lcm, [a, b, *num])
+
+
+@validate_args
+def digital_root(num: NonNegativeInt) -> int:
+    """The digital root (also repeated digital sum) of a natural number in a given number base is the (single digit)
+    value obtained by an iterative process of summing digits, on each iteration using the result from the previous
+    iteration to compute a digit sum. -- Wikipedia
+
+    For example: 154 -> 1 + 5 + 4 = 10 -> 1 + 0 = 1
+    """
+    # https://en.wikipedia.org/wiki/Digital_root
+    # Direct formula:
+    #            r 0                        , if n = 0
+    # dr_b(n) = <
+    #            L 1 + ((n - 1) mod (b - 1)), if n != 0
+    return 0 if num == 0 else (1 + (num - 1) % 9)
