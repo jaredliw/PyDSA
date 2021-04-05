@@ -120,7 +120,7 @@ def test_reversed():
 def test_set():
     for array in ds:
         a = array([1, 2, 0.3])
-        a.some_random_stuff = 1
+        a.some_random_stuff = 1  # noqa
 
     def _test():
         StaticArray([1, 2, 3]).max_length = 10

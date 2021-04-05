@@ -1,4 +1,4 @@
-from pydsa.algorithms.number_theory import gcd, lcm, primality_test, wilsons_theorem, digital_root
+from pydsa.algorithms.number_theory import *
 from tests import is_error
 
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103,
@@ -11,7 +11,7 @@ primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67
           887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997]
 
 
-def _primarity_test(f):
+def _primality_test(f):
     for num in range(2, 100):
         result = f(num)
         assert result == (num in primes)
@@ -24,11 +24,11 @@ def _primarity_test(f):
 
 
 def test_primality_test():
-    _primarity_test(primality_test)
+    _primality_test(primality_test)
 
 
 def test_wilsons_theorem():
-    _primarity_test(wilsons_theorem)
+    _primality_test(wilsons_theorem)
 
 
 def test_gcd_lcm():

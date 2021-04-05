@@ -28,7 +28,7 @@ def test_get():
     assert a.value == 10
 
     assert a.next_node is None
-    is_error(AttributeError, lambda: a.smth_else)
+    is_error(AttributeError, lambda: a.smth_else)  # noqa
 
 
 def test_repr_str():

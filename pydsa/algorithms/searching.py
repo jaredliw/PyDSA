@@ -64,15 +64,15 @@ def jump_search(arr: Sequence, target: Any, pre_check: bool = True) -> int:
     if len(arr) == 0:
         return -1
 
-    optimal_blck_size = int(sqrt(len(arr)))
+    optimal_block_size = int(sqrt(len(arr)))
     idx = 0
-    for idx in range(0, len(arr), optimal_blck_size):
+    for idx in range(0, len(arr), optimal_block_size):
         if arr[idx] == target:
             return idx
-        elif idx + optimal_blck_size > len(arr) - 1 or arr[idx + optimal_blck_size] > target:
+        elif idx + optimal_block_size > len(arr) - 1 or arr[idx + optimal_block_size] > target:
             break
 
-    result = linear_search(arr[idx: idx + optimal_blck_size], target)
+    result = linear_search(arr[idx: idx + optimal_block_size], target)
     if result != -1:
         return result + idx
     else:
@@ -88,7 +88,7 @@ def interpolation_search(arr: NumberSequence, target: Any, pre_check: bool = Tru
         if not is_sorted(arr):
             raise ValueError("arr is not sorted forehead, this algorithm works for sorted sequence only")
 
-    # Optiimum for arr that are uniformly distributed.
+    # Optimum for arr that are uniformly distributed.
 
     # Learn more about the interpolation formula:
     # https://medium.com/@smellycode/demystifying-interpolation-formula-for-interpolation-search-211780c43269

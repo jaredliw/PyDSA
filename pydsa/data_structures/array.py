@@ -129,12 +129,12 @@ class DynamicArray(StaticArray):
 
     @validate_args
     def clear(self) -> None:
-        """Override StaticArray clear() function so that the qarray will shrink."""
+        """Override StaticArray clear() function so that the array will shrink when an element is removed."""
         super(DynamicArray, self).__init__([])
 
     @validate_args
     def pop(self, index: int = -1) -> None:
-        """Override StaticArray pop() function so that the list shrink when element is removed."""
+        """Override StaticArray pop() function so that the list shrink when an element is removed."""
         old_length = self.max_length
         super(DynamicArray, self).pop(index)
         if self.__len__() <= old_length // 2:

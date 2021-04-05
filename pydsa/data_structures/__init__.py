@@ -22,7 +22,7 @@ class Node:
     __annots = {}
 
     @validate_args
-    def __init__(self, value: Any = None, **attr: dict):
+    def __init__(self, value: Any = None, **attr):
         self.value = value
         if attr is not None:
             for key, _value in attr.items():
@@ -78,7 +78,7 @@ class Node:
 
     @validate_args
     def set_annotations(self, **annot: dict) -> None:
-        """Annotate the atrribute(s) and it will validate value(s) when calling __setattr__."""
+        """Annotate the attribute(s) and it will validate value(s) when calling __setattr__."""
         for name, _type in annot.items():
             if name in self.__annots:
                 self.__annots[name] = _type
