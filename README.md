@@ -9,57 +9,96 @@ A collection of data structures and algorithms implemented in Python. The main a
 This project is currently underdeveloped. This project may be published to PyPI when it is mature. Feel free to fork this project and make it better.
 
 ### Structure Tree
-- Algorithms
-    - [Functions](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/functions.py)
-        - Ackermann-Peter Function
-    - [Number Theory](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/number_theory.py)
-        - Greatest Common Factor (GCD)
-        - Lowest Common Multiple (LCM)
-        - Primality Test 
-        - Wilson's Theorem
-    - [Searching](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/searching.py)
-        - Binary Search
-        - Exponential Search
-        - Fibbonacci Search
-        - Interpolation Search
-        - Jump Search
-        - Linear Search
-        - Ternary Search
-    - [Sequences](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sequences.py)
-        - Fibonacci Sequence
-    - [Sorting](https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sorting.py)
-        - *is_sorted*
-        - Bead Sort
-        - Bogobogosort
-        - Bogosort
-        - Bozosort
-        - Bucket Sort
-        - Bubble Sort
-        - Cocktail Sort
-        - Comb Sort
-        - Counting Sort
-        - Gnome Sort
-        - Insertion Sort
-        - Merge Sort
-        - Odd-even Sort
-        - Pigeonhole Sort
-        - Proxmap Sort
-        - Quicksort
-        - Radix Sort (LSD/MSD)
-        - Selection Sort
-        - Sleep Sort
-        - Slowsort
-        - Stooge Sort
-        - Worstsort
-- Data Structures
-    - *Node*
-    - [Array](https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/array.py)
-        - *List*
-        - Dynamic Array
-        - Static Array
-    - [Linked List](https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/linked_list.py)
-        - Singly Linked List
-        - Double Linked List
+<details>
+    <summary>Algorithms</summary>
+    <ul>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/functions.py">Functions</a>
+            <ul>
+                <li>Ackermann-Peter Function</li>
+            </ul>
+        </li>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/number_theory.py">Number Theory</a>
+            <ul>
+                <li>Greatest Common Factor (GCD)</li>
+                <li>Lowest Common Multiple (LCM)</li>
+                <li>Primality Test</li>
+                <li>Wilson's Theorem</li>
+            </ul>
+        </li>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/searching.py">Searching</a>
+            <ul>
+                <li>Binary Search</li>
+                <li>Exponential Search</li>
+                <li>Fibonacci Search</li>
+                <li>Interpolation Search</li>
+                <li>Jump Search</li>
+                <li>Linear Search</li>
+                <li>Ternary Search</li>
+            </ul>
+        </li>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sequences.py">Sequences</a>
+            <ul>
+                <li>Fibonacci Sequence</li>
+            </ul>
+        </li>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/sorting.py">Sorting</a>
+            <ul>
+                <li><i>is_sorted</i></li>
+                <li>Bead Sort</li>
+                <li>Bogobogosort</li>
+                <li>Bogosort</li>
+                <li>Bozosort</li>
+                <li>Bucket Sort</li>
+                <li>Bubble Sort</li>
+                <li>Cocktail Sort</li>
+                <li>Comb Sort</li>
+                <li>Counting Sort</li>
+                <li>Gnome Sort</li>
+                <li>Insertion Sort</li>
+                <li>Merge Sort</li>
+                <li>Odd-even Sort</li>
+                <li>Pigeonhole Sort</li>
+                <li>Proxmap Sort</li>
+                <li>Quicksort</li>
+                <li>Radix Sort (LSD/MSD)</li>
+                <li>Selection Sort</li>
+                <li>Sleep Sort</li>
+                <li>Slowsort</li>
+                <li>Stooge Sort</li>
+                <li>Worstsort</li>
+            </ul>
+        </li>
+    </ul>
+</details>
+
+<details>
+    <summary>Data Structures</summary>
+    <ul>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/__init__.py"><i>Node</i></a>
+        </li>
+    <li>
+        <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/array.py">Array</a>
+        <ul>
+            <li><i>List</i></li>
+            <li>Dynamic Array</li>
+            <li>Static Array</li>
+        </ul>
+    </li>
+    <li>
+        <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/linked_list.py">Linked List</a>
+        <ul>        
+            <li>Singly Linked List</li>
+            <li>Double Linked List</li>
+        </ul>
+    </li>
+    </ul>
+</details>
 
 ### Requirements and dependencies
 Minimum required version for Python is **Python 3.7**. **Python 2 is NOT supported**. 
