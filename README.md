@@ -73,6 +73,12 @@ This project is currently underdeveloped. This project may be published to PyPI 
                 <li>Worstsort</li>
             </ul>
         </li>
+        <li>
+            <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/algorithms/strings.py">String</a>
+            <ul>
+                <li>is_pangram</li>
+            </ul>
+        </li>
     </ul>
 </details>
 
