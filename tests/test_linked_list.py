@@ -13,7 +13,7 @@ def test_init():
     assert a.head == 20
     assert a.head.next_node is None
 
-    b = SinglyLinkedList("aaaaa")
+    b = SinglyLinkedList("aaaaa")  # noqa
     assert b.head == "a"
 
     c = SinglyLinkedList([])

@@ -38,6 +38,7 @@ def test_random_numbers():
 
 def test_chars():
     for _ in range(50):
+        # noinspection SpellCheckingInspection
         arr = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
         t = choice(arr)
         _test(arr, t, int_float_only=False)

@@ -27,15 +27,20 @@ class _Sequence:
         return hasattr(other, "__getitem__") and hasattr(other, "__len__")
 
 
+# noinspection PyTypeChecker
 Any = NewType("Any", _Any())
+# noinspection PyTypeChecker
 Function = NewType("Function", _Function())
 IntList = NewType("IntList", list)
+# noinspection PyTypeChecker
 Iterable = NewType("Iterable", _Iterable())
 IntFloatList = NewType("IntFloatList", list)
+# noinspection PyTypeChecker
 Sequence = NewType("Sequence", _Sequence())
+# noinspection PyTypeChecker
 NumberSequence = NewType("NumberSequence", _Sequence())
 NonNegativeInt = NewType('NonNegativeInt', int)
-PositiveInt = NewType('NaturalInt', int)
+PositiveInt = NewType('PositiveInt', int)
 check_functs = {NumberSequence: lambda x: all(type(item) in [int, float] for item in x),
                 IntFloatList: lambda x: all(type(item) in [int, float] for item in x),
                 IntList: lambda x: all(type(item) == int for item in x),
@@ -107,9 +112,9 @@ def validate_args(f):
     return _wrapper
 
 # Notes for PyDSA-styled annotations:
-# - If there is built-in type avaliable, don't hesistate to use it
+# - If there is built-in type available, don't hesitate to use it
 # - For logic OR, write it like this: "[int, str]" rather than "int or str"
-# - Do not use typing module (The items from there has insufficient infomation for argument validation)
-# - Define a new type if there is no avalaible type to use
+# - Do not use typing module (The items from there has insufficient information for argument validation)
+# - Define a new type if there is no available type to use
 #       - Use Function defined above rather than typing.Callable
 # - Do not use "from __future__ import annotations"

@@ -18,7 +18,7 @@ class StaticArray(list):
     """Array with static length."""
 
     @validate_args
-    def __init__(self: None, arr: [Iterable, None] = None, max_length: [NonNegativeInt, None] = None):
+    def __init__(self, arr: [Iterable, None] = None, max_length: [NonNegativeInt, None] = None):
         if arr is None:
             arr = []
 

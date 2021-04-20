@@ -1,4 +1,4 @@
-from pydsa.algorithms.strings import *
+from pydsa.algorithms.string import *
 
 
 def test_is_pangram():

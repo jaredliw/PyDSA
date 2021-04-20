@@ -85,6 +85,7 @@ def test_chars():
     exclude = {sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort,
                sorting.bead_sort, sorting.counting_sort, sorting.proxmap_sort}
 
+    # noinspection SpellCheckingInspection
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
     _test(tc, exclude=exclude)
@@ -94,6 +95,7 @@ def test_key():
     include = {sorting.bucket_sort, sorting.sleep_sort, sorting.pigeonhole_sort, sorting.radix_sort,
                sorting.bead_sort}
 
+    # noinspection SpellCheckingInspection
     tc = list("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?")
     tc *= 2
 

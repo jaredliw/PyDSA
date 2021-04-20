@@ -13,6 +13,7 @@ class _NodeType:
         return other == type(node)
 
 
+# noinspection PyTypeChecker
 NodeType = NewType("NodeType", _NodeType())
 
 

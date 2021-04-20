@@ -1,4 +1,4 @@
-"""An algorithm that is used to rearrange a given arrayaccording to a comparison operator on the elements."""
+"""An algorithm that is used to rearrange a given array according to a comparison operator on the elements."""
 from copy import deepcopy
 from itertools import permutations
 from math import ceil, sqrt
@@ -67,7 +67,7 @@ def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
         # After one inner loop, the largest/smallest item is at the end of the array. In the next loop, we can stop
         # just before it.
 
-        # Optimized Implementation: stopping the algorithm if inner loop didn’t cause any swap. (Means it is sorted)
+        # Optimized Implementation: stopping the algorithm if inner loop did not cause any swap. (Means it is sorted)
         if not swapped:
             break
     return arr
@@ -273,7 +273,7 @@ def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, piv
                     return c
 
     def _choose_pivot(part):
-        # Use the default funciton if the function si not given
+        # Use the default function if the function si not given
         if pivot_funct is None:
             return _median_of_three(part)
         else:
@@ -311,9 +311,9 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
     problem of sorting n numbers in ascending order into:
         (1) finding the maximum of those numbers, and
         (2) sorting the remaining ones.
-    Subproblem (1) can be further decomposed into
+    Sub-problem (1) can be further decomposed into
         (1.1) find the maximum of the first n/2 elements,
-        (1.2) find the maximum of the remaining n/2 eleements, and
+        (1.2) find the maximum of the remaining n/2 elements, and
         (1.3) find the largest of those two maxima."""
 
     if reverse:
@@ -323,10 +323,10 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
 
     arr = deepcopy(arr)
 
-    def _slowsort(start: int = 0, end: int = len(arr) - 1) -> list:
+    def _slowsort(start=0, end=len(arr) - 1):
         if end <= start:
             return
-        # Recursively sort the first half and the second ahlf
+        # Recursively sort the first half and the second half
         center = (start + end) // 2
         # Step (1.1), the maxima of thr first n/2 elements will be at arr[center].
         _slowsort(start, center)
@@ -386,15 +386,15 @@ def stooge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
 @validate_args
 def worstsort(arr: list, key: Function = lambda x: x, reverse: bool = False, recursive_depth: NonNegativeInt = 1,
               sorting_algo: Function = bubble_sort) -> list:
-    """For k=0, basort use bubble sort to sort the array. For any k>0, the algorithm first generates a list of all
+    """For k=0, worstsort use bubble sort to sort the array. For any k>0, the algorithm first generates a list of all
     permutations of the array. Then, it use bubble sort to sort the list of permutations and returns the first element
-    to badsort(arr, k-1)."""
+    to worstsort(arr, k-1)."""
 
     if recursive_depth == 0:
         return bubble_sort(arr, key, reverse)
     else:
         return worstsort(list(sorting_algo(list(permutations(arr)), lambda x: [key(item) for item in x], reverse)[0]),
-                         key, reverse, recursive_depth - 1, sorting_algo)
+                         key, reverse, recursive_depth - 1, sorting_algo)  # noqa
 
 
 @validate_args
@@ -588,7 +588,7 @@ def counting_sort(arr: IntList, reverse: bool = False) -> IntList:
     # Not stable, Not in place
 
     if not arr:
-        return []
+        return []  # noqa
 
     _min = min(arr)
     _max = max(arr)
@@ -607,13 +607,13 @@ def counting_sort(arr: IntList, reverse: bool = False) -> IntList:
             new.extend([(_max - idx)] * occur)
         else:
             new.extend([(_min + idx)] * occur)
-    return new
+    return new  # noqa
 
 
 @validate_args
 def pigeonhole_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
                     sorting_algo: Function = bubble_sort) -> list:
-    """Modified counting sort that sort the range using an underlying algortihm e.g. uicksort. This modified algortihm
+    """Modified counting sort that sort the range using an underlying algorithm e.g. quicksort. This modified algorithm
      works for any type of elements."""
     # Time complexity:
     #   Worst: O(n + k), where k is the range.
@@ -622,7 +622,7 @@ def pigeonhole_sort(arr: list, key: Function = lambda x: x, reverse: bool = Fals
     # Stability depends on sorting_algo, Not in place
 
     # Difference between Counting Sort and Pigeonhole Sort:
-    # Counting Sort counts the occurence of the items whereas Pigeonhole Sort moves the items into an auxiliary list.
+    # Counting Sort counts the occurrence of the items whereas Pigeonhole Sort moves the items into an auxiliary list.
 
     if not arr:
         return []
@@ -657,35 +657,35 @@ def radix_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, or
 
     _check_key_arr(arr, key, IntList)
 
-    def _radix_sort(part, ndigit=None):
+    def _radix_sort(part, n_digit=None):
         if not part:
             return []
 
         new = []
-        if ndigit is None:
-            ndigit = len(str(key(max(part, key=lambda x: abs(key(x))))).lstrip("-"))
+        if n_digit is None:
+            n_digit = len(str(key(max(part, key=lambda x: abs(key(x))))).lstrip("-"))
         if order == "LSD":
-            bound = ndigit
-            ndigit = 0
+            bound = n_digit
+            n_digit = 0
         elif order == "MSD":
             bound = 1
         else:
             raise ValueError(
                 "Invalid option '{}', order should be one of the following: {}".format(order, ["LSD", "MSD"]))
 
-        bucs = [[] for _ in range(10)]
+        buckets = [[] for _ in range(10)]
         for item in part:
-            idx = int(abs(key(item)) // (10 ** (ndigit - 1)) % 10)
+            idx = int(abs(key(item)) // (10 ** (n_digit - 1)) % 10)
             if reverse:
                 idx = 9 - idx
-            bucs[idx].append(item)
+            buckets[idx].append(item)
 
-        for buc in bucs:
+        for buc in buckets:
             if buc:
-                if len(buc) == 1 or ndigit == bound:
+                if len(buc) == 1 or n_digit == bound:
                     new.extend(buc)
                 else:
-                    new.extend(_radix_sort(buc, ndigit - 1))
+                    new.extend(_radix_sort(buc, n_digit - 1))
         return new
 
     non_negs = _radix_sort(list(filter(lambda x: key(x) >= 0, arr)))
@@ -754,7 +754,7 @@ def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
 # Caution: bead_sort returns IntList NOT list!
 @validate_args
 def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> IntList:
-    """Also known as Gravity sort, this algorithm was inspired from natural phenomenons and was designed keeping in mind
+    """Also known as Gravity sort, this algorithm was inspired from natural phenomena and was designed keeping in mind
      objects(or beads) falling under the influence of gravity."""
     # Time complexity:
     #   Worst: O(S), where S is the sum of the integers.
@@ -800,9 +800,9 @@ def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
     negs = _bead_sort(list(filter(lambda x: key(x) < 0, arr)), neg_flag=True)
 
     if reverse:
-        return poss + zeros + negs
+        return poss + zeros + negs  # noqa
     else:
-        return negs + zeros + poss
+        return negs + zeros + poss  # noqa
 
 
 @validate_args
@@ -825,7 +825,7 @@ def proxmap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) 
     _min = key(min(arr, key=key))
     _max = key(max(arr, key=key))
 
-    hit_counts = [0 for _ in range(int(_min), int(_max+1))]
+    hit_counts = [0 for _ in range(int(_min), int(_max + 1))]
     for item in arr:
         hit_counts[int(key(item)) - int(_min)] += 1
 
@@ -864,7 +864,6 @@ def proxmap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) 
         final = final[::-1]
     return final
 
-print(proxmap_sort([6.7, 5.9, 8.4, 1.2, 7.3, 3.7, 11.5, 1.1, 4.8, 0.4, 10.5, 6.1, 1.8], reverse=True))
 
 """Miscellaneous"""
 
@@ -880,20 +879,20 @@ def sleep_sort(arr: IntFloatList, key: Function = lambda x: x, reverse: bool = F
     #   Best: Omega(n + max)
     # Not stable, Not in place, **Not reliable**
 
-    warn("sleep_sort does not guarantee the accurancy of output. Adjust amplify if the output is not as expected.",
+    warn("sleep_sort does not guarantee the accuracy of output. Adjust amplify if the output is not as expected.",
          Warning)
 
     start = False
     final = []
 
     def _sleep(time):
-        # Stuck the thread if not all the threass has started
+        # Stuck the thread if not all the threads has started
         while not start:
             pass
         sleep(time * amplify)
         final.append(time)
 
-    # Create threass
+    # Create threads
     pool = []
     for item in arr:
         t = Thread(target=lambda: _sleep(key(item)))
@@ -906,6 +905,6 @@ def sleep_sort(arr: IntFloatList, key: Function = lambda x: x, reverse: bool = F
         t.join()
 
     if reverse:
-        return final[::-1]
+        return final[::-1]  # noqa
     else:
-        return final
+        return final  # noqa

@@ -135,7 +135,8 @@ class SinglyLinkedList:
                 raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
                                  .format(key, NodeType.__name__, type(value).__name__))
         else:
-            raise AttributeError("'{}' object has no attribute {}".format(type(self).__name__, key))  # todo replacethis
+            # todo replace this
+            raise AttributeError("'{}' object has no attribute {}".format(type(self).__name__, key))
 
     def __str__(self):
         to_list = []
@@ -143,7 +144,7 @@ class SinglyLinkedList:
             to_list.append(item)
         return str(to_list)
 
-    def __repr__(self): # todo
+    def __repr__(self):  # todo
         # arr = []
         # for node in self:
         #     arr.append(node)
@@ -267,7 +268,6 @@ class SinglyLinkedList:
         #     return _reverse(next_nd, cur_nd)
         #
         # self.head = _reverse(self.head)
-
 
     @validate_args
     def swap(self, idx1: int, idx2: int) -> None:
