@@ -30,6 +30,7 @@ def test_op():
     assert a == SinglyLinkedList([7, 8, 9, 10, 11, "Test"])
 
     assert SinglyLinkedList([1, 3, 5]) * 3 == SinglyLinkedList([1, 3, 5, 1, 3, 5, 1, 3, 5])
+    assert 4 * SinglyLinkedList([1, 3, 5]) == SinglyLinkedList([1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 3, 5])
 
     a = SinglyLinkedList([2, 4, "a"])
     a *= 2
@@ -85,6 +86,7 @@ def test_len():
 
 
 def test_repr_str():
+    raise NotImplementedError
     # arr = [1, "Test", set(), [], {1: "10"}, 3.2]
     # for array in ds:
     #     a = array(arr)
