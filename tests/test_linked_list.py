@@ -26,9 +26,7 @@ def test_op():
     assert a + b == SinglyLinkedList([1, 2, 3, 4, 5, 6])
 
     a = SinglyLinkedList([7, 8, 9])
-    print(a)
     a += SinglyLinkedList([10, 11, "Test"])
-    print(a)
     assert a == SinglyLinkedList([7, 8, 9, 10, 11, "Test"])
 
     assert SinglyLinkedList([1, 3, 5]) * 3 == SinglyLinkedList([1, 3, 5, 1, 3, 5, 1, 3, 5])

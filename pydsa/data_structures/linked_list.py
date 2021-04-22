@@ -19,20 +19,19 @@ class SinglyLinkedList:
     head = None
 
     @validate_args
-    def __init__(self, iterable: Iterable):
-        if not iterable:
+    def __init__(self, iterable: Iterable = None):
+        if iterable is None:
             self.head = None
-
-        for item in iterable:
-            self.append(item)
+        else:
+            for item in iterable:
+                self.append(item)
 
     def __add__(self, other):
         if not isinstance(other, self.__class__):
             raise TypeError(
                 "unsupported operand type(s) for +: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
         new = self.copy()
-        node = new.traverse(-1)
-        node.next_node = other.head
+        new += other
         return new
 
     def __contains__(self, item):
@@ -69,14 +68,18 @@ class SinglyLinkedList:
                 "unsupported operand type(s) for +: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
         node = self.traverse(-1)
         node.next_node = other.head
+        return self
 
     def __imul__(self, other):
         if not isinstance(other, int):
             raise TypeError(
                 "unsupported operand type(s) for *=: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
+        new = self.copy()
+        print(new.head.next_node is self.head.next_node)
         for _ in range(other - 1):
-            new = self.copy()
             self.__iadd__(new)
+            new = new.copy()
+        return self
 
     def __iter__(self):
         count = 0
@@ -113,11 +116,9 @@ class SinglyLinkedList:
         if not isinstance(other, int):
             raise TypeError(
                 "unsupported operand type(s) for *: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
-        new_self = self.copy()
-        for _ in range(other):
-            new = self.copy()
-            new_self += new
-        return new_self
+        new = self.copy()
+        new *= other
+        return new
 
     def __ne__(self, other):
         return not self.__eq__(other)
