@@ -1,7 +1,8 @@
 """A linear data structure where each element is a separate object."""
+import sys
 from copy import deepcopy
 
-from pydsa import Any, Iterable, validate_args
+from pydsa import Any, Iterable, validate_args, PositiveInt
 from pydsa.data_structures import Node, NodeType
 
 __all__ = ["ExceededMaxIterations", "SinglyLinkedList"]
@@ -66,8 +67,11 @@ class SinglyLinkedList:
         if not isinstance(other, self.__class__):
             raise TypeError(
                 "unsupported operand type(s) for +=: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
-        node = self.traverse(-1)
-        node.next_node = other.head
+        if self.head is None:
+            self.head = other.head
+        else:
+            node = self.traverse(-1)
+            node.next_node = other.head
         return self
 
     def __imul__(self, other):
@@ -178,19 +182,45 @@ class SinglyLinkedList:
         return deepcopy(self)
 
     @validate_args
-    def count(self):  # todo
-        raise NotImplementedError("todo")
+    def count(self, value):
+        """Return number of occurrences of value."""
+        # Time Complexity: O(n)
+
+        counter = 0
+        for item in self:
+            if item == value:
+                counter += 1
+        return counter
 
     @validate_args
     def extend(self, iterable: Iterable) -> None:
         """Extend singly linked list by appending elements from the iterable."""
+        head_node = None
+        last_node = None
         for item in iterable:
-            self.extend(item)
+            new_node = Node(item, next_node=None)
+            if head_node is None:
+                head_node = new_node
+            else:
+                last_node.next_node = new_node
+            last_node = new_node
+        new = self.__class__()
+        new.head = head_node
+        self += new
 
     @validate_args
-    def find_middle(self): # todo
-        raise NotImplementedError("todo")
-    
+    def find_middle(self) -> NodeType:
+        """Return the node in the middle of the list. Raises ValueError if the linked list in empty."""
+        if self.head is None:
+            raise ValueError("{} is empty".format(type(self).__name__))
+
+        slow = self.head
+        fast = self.head
+        while fast.next_node is not None and fast.next_node.next_node is not None:
+            slow = slow.next_node
+            fast = fast.next_node.next_node
+        return slow
+
     @validate_args
     def has_cycle(self) -> bool:  # todo
         """Detect cycle(s) in the list."""
@@ -198,12 +228,16 @@ class SinglyLinkedList:
         raise NotImplementedError("todo")
 
     @validate_args
-    def index(self):  # todo
-        raise NotImplementedError("todo")
+    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:  # todo
+        """Return first index of value. Raises ValueError if the value is not present."""
+        for idx, item in enumerate(self):
+            if item == value:
+                return idx  # noqa
+        raise ValueError("{} not in {}".format(value, type(self).__name__))
 
     @validate_args
     def insert(self, idx: int, value: Any) -> None:
-        """Create a node and insert it into the linked list at the index given."""
+        """Create a new node with the given value and insert it before index."""
         # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
 
         new_node = Node(value=value, next_node=None)
@@ -223,6 +257,8 @@ class SinglyLinkedList:
         """Pop node at the index given."""
         # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
 
+        if self.head is None:
+            raise IndexError("pop from empty {}".format(type(self).__name__))
         if idx == 0:
             self.head = self.head.next_node
         prev_node = self.traverse(idx - 1)
@@ -232,7 +268,8 @@ class SinglyLinkedList:
             prev_node.next_node = prev_node.next_node.next_node
 
     @validate_args
-    def remove(self):  # todo
+    def remove(self, value: Any) -> None:  # todo
+        """Remove first occurrence of value. Raises ValueError if the value is not present."""
         raise NotImplementedError("todo")
 
     @validate_args
@@ -241,7 +278,7 @@ class SinglyLinkedList:
 
         # Time Complexity: O(n) todo handle error
 
-        def _remove_duplicates(current: Any = None, previous: Any = None, reference: list = None, iteration: int = 0):
+        def _remove_duplicates(current=None, previous=None, reference=None, iteration=0):
             iteration += 1
             if iteration > self.MAX_ITER:
                 raise ExceededMaxIterations("Maximum number of iteration has been exceeded. Make sure there is no "
