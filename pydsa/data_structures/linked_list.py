@@ -169,7 +169,12 @@ class SinglyLinkedList:
         """Append a new node with value given to the end of the list."""
         # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
 
-        self.insert(-1, value)
+        new_node = Node(value, next_node=None)
+        if self.head is None:
+            self.head = new_node
+        else:
+            tail_node = self.traverse(-1)
+            tail_node.next_node = new_node
 
     @validate_args
     def clear(self) -> None:
@@ -250,10 +255,13 @@ class SinglyLinkedList:
             new_node.next_node = self.head
             self.head = new_node
         else:
-            if idx < 0:
-                prev_node = self.traverse(idx)
-            else:
+            try:
                 prev_node = self.traverse(idx - 1)
+            except IndexError:
+                if idx > 0:  # if idx (positive) >= length, append it at the end, same behavior as list.insert
+                    return self.append(value)
+                else:
+                    return self.insert(0, value)
             new_node.next_node = prev_node.next_node
             prev_node.next_node = new_node
 

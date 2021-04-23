@@ -253,17 +253,33 @@ def test_index():
 
 def test_insert():
     a = SinglyLinkedList()
+
     a.insert(-1, 10)
     assert a.head == 10
     assert a == SinglyLinkedList([10])
-    a.head = None
-    a.insert(100, 10)
-    a.insert(100, 10)
-    assert a.head == 10
-    assert a == SinglyLinkedList([10])
+
+    a.insert(0, 1)
+    assert a.head == 1
+    assert a == SinglyLinkedList([1, 10])
+
+    a.insert(1, 5)
+    assert a == SinglyLinkedList([1, 5, 10])
+
+    a.insert(-2, 3)
+    assert a == SinglyLinkedList([1, 3, 5, 10])
+
+    a.insert(-4, -10)
+    assert a == SinglyLinkedList([-10, 1, 3, 5, 10])
+
+    a.insert(100, None)
+    assert a == SinglyLinkedList([-10, 1, 3, 5, 10, None])
+
+    a.insert(-100, "hello")
+    assert a == SinglyLinkedList(["hello", -10, 1, 3, 5, 10, None])
 
     b = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True, None])
     b.insert(0, None)
+    assert b == SinglyLinkedList([None, 1, 2, 10, None, 3.4, "Hello", True, None])
 
 
 def test_pop():
@@ -282,9 +298,9 @@ def test_pop():
     a.pop(-2)
     assert a == SinglyLinkedList([2, 10, 3.4, True])
 
-    # a.pop(-4)
-    # assert a == SinglyLinkedList([10, 3.4, True])
-    # assert a.head == 10
+    a.pop(-4)
+    assert a == SinglyLinkedList([10, 3.4, True])
+    assert a.head == 10
 
     is_error(IndexError, lambda: SinglyLinkedList().pop())
     is_error(IndexError, lambda: SinglyLinkedList([""]).pop(1))
