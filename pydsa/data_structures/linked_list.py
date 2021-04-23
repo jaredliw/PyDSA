@@ -65,7 +65,7 @@ class SinglyLinkedList:
     def __iadd__(self, other):
         if not isinstance(other, self.__class__):
             raise TypeError(
-                "unsupported operand type(s) for +: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
+                "unsupported operand type(s) for +=: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
         node = self.traverse(-1)
         node.next_node = other.head
         return self
@@ -94,7 +94,7 @@ class SinglyLinkedList:
             current = current.next_node
 
     def __le__(self, other):
-        return self.__lt__(other) and self.__eq__(other)
+        return self.__lt__(other) or self.__eq__(other)
 
     def __len__(self):
         return sum(1 for _ in self)
@@ -139,20 +139,22 @@ class SinglyLinkedList:
                 raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
                                  .format(key, NodeType.__name__, type(value).__name__))
         else:
-            # todo replace this
             raise AttributeError("'{}' object has no attribute {}".format(type(self).__name__, key))
 
     def __str__(self):
-        to_list = []
-        for item in self:
-            to_list.append(item)
-        return str(to_list)
+        try:
+            to_list = []
+            for item in self:
+                to_list.append(item.value)
+            return "{}({})".format(type(self).__name__, str(to_list))
+        except ExceededMaxIterations:
+            return "{}({})".format(type(self).__name__, "<cannot show node(s)>")
 
-    def __repr__(self):  # todo
-        # arr = []
-        # for node in self:
-        #     arr.append(node)
-        return "{}({}, head={})".format(type(self).__name__, " -> ".join(map(str, self)), self.head)
+    def __repr__(self):
+        try:
+            return "{}({})".format(type(self).__name__, " -> ".join(map(lambda x: repr(x.value), self)))
+        except ExceededMaxIterations:
+            return "{}({})".format(type(self).__name__, "<cannot show node(s)>")
 
     @validate_args
     def append(self, value: Any) -> None:
@@ -176,15 +178,27 @@ class SinglyLinkedList:
         return deepcopy(self)
 
     @validate_args
+    def count(self):  # todo
+        raise NotImplementedError("todo")
+
+    @validate_args
     def extend(self, iterable: Iterable) -> None:
         """Extend singly linked list by appending elements from the iterable."""
         for item in iterable:
             self.extend(item)
 
     @validate_args
+    def find_middle(self): # todo
+        raise NotImplementedError("todo")
+    
+    @validate_args
     def has_cycle(self) -> bool:  # todo
         """Detect cycle(s) in the list."""
         # Floyd–Warshall algorithm
+        raise NotImplementedError("todo")
+
+    @validate_args
+    def index(self):  # todo
         raise NotImplementedError("todo")
 
     @validate_args
@@ -216,6 +230,10 @@ class SinglyLinkedList:
             prev_node.next_node = None
         else:
             prev_node.next_node = prev_node.next_node.next_node
+
+    @validate_args
+    def remove(self):  # todo
+        raise NotImplementedError("todo")
 
     @validate_args
     def remove_duplicates(self) -> None:
@@ -299,21 +317,16 @@ class SinglyLinkedList:
         """Loop through the linked list and get the node at the index given."""
         # Time Complexity: O(n), even for last k-th element
 
-        cur_item = None
-        neg_item = None
         for cur_idx, cur_item in enumerate(self):
             if idx < 0:
                 if cur_idx == abs(idx) - 1:
-                    neg_item = self.head
+                    target = self.head
                 elif cur_idx > abs(idx) - 1:
-                    neg_item = neg_item.next_node
+                    target = target.next_node  # noqa
             elif cur_idx == idx:
+                target = cur_item
                 break
-        if idx < 0:
-            if neg_item is None:
-                raise IndexError("{} index out of range".format(type(self).__name__))
-            return neg_item
-        else:
-            if cur_item is None:
-                raise IndexError("{} index out of range".format(type(self).__name__))
-            return cur_item
+
+        if "target" not in locals():  # Check "target" is defined
+            raise IndexError("{} index out of range".format(type(self).__name__))
+        return target  # noqa

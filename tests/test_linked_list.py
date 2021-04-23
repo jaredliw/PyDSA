@@ -1,5 +1,5 @@
 from pydsa.data_structures import Node
-from pydsa.data_structures.linked_list import SinglyLinkedList
+from pydsa.data_structures.linked_list import *
 from tests import is_error
 
 
@@ -86,15 +86,18 @@ def test_len():
 
 
 def test_repr_str():
-    raise NotImplementedError
-    # arr = [1, "Test", set(), [], {1: "10"}, 3.2]
-    # for array in ds:
-    #     a = array(arr)
-    #     assert str(a) == "[1, 'Test', set(), [], {1: '10'}, 3.2]"
-    #
-    # assert repr(StaticArray(arr)) == "StaticArray([1, 'Test', set(), [], {1: '10'}, 3.2], 6)"
-    # assert repr(DynamicArray(arr)) == "DynamicArray([1, 'Test', set(), [], {1: '10'}, 3.2], 6)"
-    pass
+    a = SinglyLinkedList()
+    assert repr(a) == "SinglyLinkedList()"
+    assert str(a) == "SinglyLinkedList([])"
+
+    b = SinglyLinkedList([1, 2, 3, "10"])
+    print(type(b.head.next_node.next_node.next_node.value))
+    assert repr(b) == "SinglyLinkedList(1 -> 2 -> 3 -> '10')"
+    assert str(b) == "SinglyLinkedList([1, 2, 3, '10'])"
+
+    circular = SinglyLinkedList([1, 2, 3])
+    circular.head.next_node.next_node.next_node = circular.head.next_node
+    assert repr(circular) == str(circular) == "SinglyLinkedList(<cannot show node(s)>)"
 
 
 def test_reversed():
@@ -139,3 +142,24 @@ def test_reverse():
     f = SinglyLinkedList([1, 3, 5, 3, 2, 4])
     f.reverse()
     assert f == SinglyLinkedList([4, 2, 3, 5, 3, 1])
+
+
+def test_traverse():
+    a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    sll = SinglyLinkedList(a)
+    for idx in range(-10, 10):
+        assert sll.traverse(idx) == a[idx]
+
+    is_error(TypeError, lambda: sll[-11])
+    is_error(IndexError, lambda: sll.traverse(-11))
+    is_error(IndexError, lambda: sll.traverse(10))
+    is_error(IndexError, lambda: sll.traverse(11))
+
+    sll1 = SinglyLinkedList([])
+    is_error(IndexError, lambda: sll1.traverse(0))
+    is_error(IndexError, lambda: sll1.traverse(-1))
+    is_error(IndexError, lambda: sll1.traverse(-2))
+
+    b = [10] * 100
+    sll1 = SinglyLinkedList(b)
+    is_error(ExceededMaxIterations, lambda: sll1.traverse(100))
