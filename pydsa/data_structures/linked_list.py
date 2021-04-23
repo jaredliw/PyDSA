@@ -64,7 +64,7 @@ class SinglyLinkedList:
     def __gt__(self, other):
         return (not self.__lt__(other)) and (not self.__eq__(other))
 
-    def __iadd__(self, other):  # todo
+    def __iadd__(self, other):
         if not isinstance(other, self.__class__):
             raise TypeError(
                 "unsupported operand type(s) for +=: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
@@ -258,24 +258,38 @@ class SinglyLinkedList:
             prev_node.next_node = new_node
 
     @validate_args
-    def pop(self, idx: int) -> None:
-        """Pop node at the index given."""
+    def pop(self, idx: int = -1) -> Any:
+        """Remove and return item at index (default last). Raises IndexError if list is empty or index is out of
+        range."""
         # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
 
         if self.head is None:
             raise IndexError("pop from empty {}".format(type(self).__name__))
+
         if idx == 0:
             self.head = self.head.next_node
-        prev_node = self.traverse(idx - 1)
-        if prev_node.next_node is None:
-            prev_node.next_node = None
+            return self.head
         else:
+            try:
+                prev_node = self.traverse(idx - 1)
+            except IndexError as e:
+                if self.traverse(idx) is self.head:  # Check if node at idx (negative) isw a head node
+                    return self.pop(0)
+                else:
+                    raise e
+            if prev_node.next_node is None:
+                raise IndexError("{} index out of range".format(type(self).__name__))
             prev_node.next_node = prev_node.next_node.next_node
+            return prev_node.next_node
 
     @validate_args
-    def remove(self, value: Any) -> None:  # todo
+    def remove(self, value: Any) -> None:
         """Remove first occurrence of value. Raises ValueError if the value is not present."""
-        raise NotImplementedError("todo")
+        for idx, item in enumerate(self):
+            if value == item:
+                self.pop(idx)
+                return
+        raise ValueError("{} not in {}".format(value, type(self).__name__))
 
     @validate_args
     def remove_duplicates(self) -> None:
@@ -343,6 +357,8 @@ class SinglyLinkedList:
         if idx1 == 0 or idx2 == 0:
             prev2 = self.traverse(idx2 - 1 if idx1 == 0 else idx1 - 1)
             node2 = prev2.next_node
+            if node2 is None:
+                raise IndexError("{} index out of range".format(type(self).__name__))
             self.head.next_node, node2.next_node = node2.next_node, self.head.next_node
             prev2.next_node = self.head
             self.head = node2

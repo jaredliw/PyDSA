@@ -264,13 +264,63 @@ def test_insert():
 
     b = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True, None])
     b.insert(0, None)
-    # b.insert()
+
+
+def test_pop():
+    a = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True, None])
+
+    a.pop()
+    assert a == SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True])
+
+    a.pop(3)
+    assert a == SinglyLinkedList([1, 2, 10, 3.4, "Hello", True])
+
+    a.pop(0)
+    assert a == SinglyLinkedList([2, 10, 3.4, "Hello", True])
+    assert a.head == 2
+
+    a.pop(-2)
+    assert a == SinglyLinkedList([2, 10, 3.4, True])
+
+    # a.pop(-4)
+    # assert a == SinglyLinkedList([10, 3.4, True])
+    # assert a.head == 10
+
+    is_error(IndexError, lambda: SinglyLinkedList().pop())
+    is_error(IndexError, lambda: SinglyLinkedList([""]).pop(1))
+    is_error(IndexError, lambda: SinglyLinkedList([""]).pop(-2))
+
+
+def test_swap():
+    a = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True, None])
+
+    a.swap(1, 2)
+    assert a == SinglyLinkedList([1, 10, 2, None, 3.4, "Hello", True, None])
+
+    a.swap(0, 6)
+    assert a == SinglyLinkedList([True, 10, 2, None, 3.4, "Hello", 1, None])
+
+    a.swap(3, -1)
+    assert a == SinglyLinkedList([True, 10, 2, None, 3.4, "Hello", 1, None])
+
+    a.swap(0, 7)
+    assert a == SinglyLinkedList([None, 10, 2, None, 3.4, "Hello", 1, True])
+
+    a.swap(-5, -3)
+    assert a == SinglyLinkedList([None, 10, 2, "Hello", 3.4, None, 1, True])
+
+    a.swap(-1, -1)
+    assert a == SinglyLinkedList([None, 10, 2, "Hello", 3.4, None, 1, True])
+
+    is_error(IndexError, lambda: a.swap(-9, 0))
+    is_error(IndexError, lambda: a.swap(0, 8))
+    is_error(IndexError, lambda: a.swap(9, -10))
 
 
 def test_traverse():
     a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, None]
     sll = SinglyLinkedList(a)
-    for idx in range(-10, 10):
+    for idx in range(-11, 10):
         assert sll.traverse(idx) == a[idx]
 
     is_error(TypeError, lambda: sll[-12])  # noqa, do on purpose
