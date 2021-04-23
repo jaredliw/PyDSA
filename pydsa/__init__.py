@@ -56,7 +56,7 @@ def check_arg(arg_name, inp, accept_types):
         accept_types = [accept_types]
 
     for at in accept_types:
-        # Relpace None with NoneType
+        # Replace None with NoneType
         if at is None:
             at = type(None)
 
@@ -105,7 +105,7 @@ def validate_args(f):
                 continue
             check_arg(accept.name, inp, accept_types)
 
-        # Call fuction
+        # Call function
         ret = f(*args, **kwargs)
         return ret
 

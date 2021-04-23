@@ -24,8 +24,7 @@ class SinglyLinkedList:
         if iterable is None:
             self.head = None
         else:
-            for item in iterable:
-                self.append(item)
+            self.extend(iterable)
 
     def __add__(self, other):
         if not isinstance(other, self.__class__):
@@ -36,10 +35,12 @@ class SinglyLinkedList:
         return new
 
     def __contains__(self, item):
-        for node in self:
-            if node.value == item:
-                return True
-        return False
+        try:
+            self.index(item)
+        except ValueError:
+            return False
+        else:
+            return True
 
     def __delattr__(self, item):
         if item == "head":
@@ -52,7 +53,7 @@ class SinglyLinkedList:
             if len(self) != len(other):
                 return False
             for node1, node2 in zip(self, other):
-                if node1.value != node2.value:
+                if node1 != node2:
                     return False
             return True
         return False
@@ -63,26 +64,29 @@ class SinglyLinkedList:
     def __gt__(self, other):
         return (not self.__lt__(other)) and (not self.__eq__(other))
 
-    def __iadd__(self, other):
+    def __iadd__(self, other):  # todo
         if not isinstance(other, self.__class__):
             raise TypeError(
                 "unsupported operand type(s) for +=: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
+        copied = other.copy()
         if self.head is None:
-            self.head = other.head
+            self.head = copied.head
         else:
             node = self.traverse(-1)
-            node.next_node = other.head
+            node.next_node = copied.head
         return self
 
     def __imul__(self, other):
         if not isinstance(other, int):
             raise TypeError(
                 "unsupported operand type(s) for *=: '{}' and '{}'".format(type(self).__name__, type(other).__name__))
-        new = self.copy()
-        print(new.head.next_node is self.head.next_node)
-        for _ in range(other - 1):
-            self.__iadd__(new)
-            new = new.copy()
+        if other <= 0:
+            self.clear()
+        else:
+            new = self.copy()
+            for _ in range(other - 1):
+                self.__iadd__(new)
+                new = new.copy()
         return self
 
     def __iter__(self):
@@ -163,7 +167,7 @@ class SinglyLinkedList:
     @validate_args
     def append(self, value: Any) -> None:
         """Append a new node with value given to the end of the list."""
-        # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given.
+        # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
 
         self.insert(-1, value)
 
@@ -195,6 +199,7 @@ class SinglyLinkedList:
     @validate_args
     def extend(self, iterable: Iterable) -> None:
         """Extend singly linked list by appending elements from the iterable."""
+        # Time Complexity: O(n), but it take O(n) to traverse to the last node
         head_node = None
         last_node = None
         for item in iterable:
@@ -206,7 +211,7 @@ class SinglyLinkedList:
             last_node = new_node
         new = self.__class__()
         new.head = head_node
-        self += new
+        self.__iadd__(new)
 
     @validate_args
     def find_middle(self) -> NodeType:

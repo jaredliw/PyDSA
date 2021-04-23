@@ -23,7 +23,11 @@ def test_init():
 def test_op():
     a = SinglyLinkedList([1, 2, 3])
     b = SinglyLinkedList([4, 5, 6])
-    assert a + b == SinglyLinkedList([1, 2, 3, 4, 5, 6])
+    c = a + b
+    assert c == SinglyLinkedList([1, 2, 3, 4, 5, 6])
+    a.head.next_node.value = 100
+    assert c.head.next_node.value == 2
+    assert a.head is not c.head
 
     a = SinglyLinkedList([7, 8, 9])
     a += SinglyLinkedList([10, 11, "Test"])
@@ -36,6 +40,8 @@ def test_op():
 
     assert SinglyLinkedList([1, 3, 5]) * 3 == SinglyLinkedList([1, 3, 5, 1, 3, 5, 1, 3, 5])
     assert 4 * SinglyLinkedList([1, 3, 5]) == SinglyLinkedList([1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 3, 5])
+    assert SinglyLinkedList() * 10 == SinglyLinkedList()
+    assert SinglyLinkedList([1, 3, 5]) * 0 == SinglyLinkedList()
 
     a = SinglyLinkedList([2, 4, "a"])
     a *= 2
