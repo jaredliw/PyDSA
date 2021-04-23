@@ -132,29 +132,6 @@ def test_set():
     is_error(AttributeError, _test)
 
 
-def test_reverse():
-    a = SinglyLinkedList([])
-    a.reverse()
-    assert a == SinglyLinkedList([])
-
-    b = SinglyLinkedList([1])
-    b.reverse()
-    assert b == SinglyLinkedList([1])
-
-    c = SinglyLinkedList([1, 2])
-    c.reverse()
-    assert c == SinglyLinkedList([2, 1])
-
-    d = SinglyLinkedList([1, 2, 3, 4, 5, 6, 7])
-    e = reversed(d)
-    d.reverse()
-    assert d == e
-
-    f = SinglyLinkedList([1, 3, 5, 3, 2, 4])
-    f.reverse()
-    assert f == SinglyLinkedList([4, 2, 3, 5, 3, 1])
-
-
 def test_append():
     a = [1, 3.2, "hello", None, None]
     sll = SinglyLinkedList(a)
@@ -305,6 +282,84 @@ def test_pop():
     is_error(IndexError, lambda: SinglyLinkedList().pop())
     is_error(IndexError, lambda: SinglyLinkedList([""]).pop(1))
     is_error(IndexError, lambda: SinglyLinkedList([""]).pop(-2))
+
+
+def test_remove():
+    a = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True, None])
+
+    a.remove(None)
+    assert a == SinglyLinkedList([1, 2, 10, 3.4, "Hello", True, None])
+
+    a.remove(None)
+    assert a == SinglyLinkedList([1, 2, 10, 3.4, "Hello", True])
+
+    a.remove(1)
+    assert a.head == 2
+    assert a == SinglyLinkedList([2, 10, 3.4, "Hello", True])
+
+    a.remove(True)
+    assert a == SinglyLinkedList([2, 10, 3.4, "Hello"])
+
+    is_error(ValueError, lambda: a.remove(1011))
+    is_error(ValueError, lambda: SinglyLinkedList().remove(10))
+
+
+def test_remove_duplicates():
+    a = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True])
+
+    a.remove_duplicates()
+    assert a == SinglyLinkedList([1, 2, 10, None, 3.4, "Hello"])  # True is considered duplicated as there is 1 there
+
+    b = SinglyLinkedList([2, 1, 1, 2])
+    b.remove_duplicates()
+    assert b == SinglyLinkedList([2, 1])
+
+    c = SinglyLinkedList([2, 1, 1, 1, 1, 1, 1, 3])
+    c.remove_duplicates()
+    assert c == SinglyLinkedList([2, 1, 3])
+
+    d = SinglyLinkedList([1, 1, 1, 1, 1, 1])
+    d.remove_duplicates()
+    assert d == SinglyLinkedList([1])
+
+    e = SinglyLinkedList([])
+    e.remove_duplicates()
+    assert e == SinglyLinkedList([])
+
+    f = SinglyLinkedList([1, 1, 1, 1, 2])
+    f.remove_duplicates()
+    assert f == SinglyLinkedList([1, 2])
+
+    g = SinglyLinkedList([2, 1, 3, 1, 4])
+    g.remove_duplicates()
+    assert g == SinglyLinkedList([2, 1, 3, 4])
+
+    circular = SinglyLinkedList([1, 2])
+    circular.head.next_node.next_node = circular.head
+    is_error(ExceededMaxIterations, circular.remove_duplicates)
+
+
+def test_reverse():
+    a = SinglyLinkedList([])
+    a.reverse()
+    assert a == SinglyLinkedList([])
+
+    b = SinglyLinkedList([1])
+    b.reverse()
+    assert b == SinglyLinkedList([1])
+
+    c = SinglyLinkedList([1, 2])
+    c.reverse()
+    assert c == SinglyLinkedList([2, 1])
+
+    d = SinglyLinkedList([1, 2, 3, 4, 5, 6, 7])
+    e = reversed(d)
+    d.reverse()
+    assert d == e
+
+    f = SinglyLinkedList([1, 3, 5, 3, 2, 4])
+    f.reverse()
+    assert f == SinglyLinkedList([4, 2, 3, 5, 3, 1])
 
 
 def test_swap():

@@ -232,14 +232,15 @@ class SinglyLinkedList:
         return slow
 
     @validate_args
-    def has_cycle(self) -> bool:  # todo
+    def has_cycle(self) -> bool:
         """Detect cycle(s) in the list."""
         # Floyd–Warshall algorithm
-        raise NotImplementedError("todo")
+        raise NotImplementedError
 
     @validate_args
-    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:  # todo
+    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
         """Return first index of value. Raises ValueError if the value is not present."""
+        # todo
         for idx, item in enumerate(self):
             if item == value:
                 return idx  # noqa
@@ -302,8 +303,7 @@ class SinglyLinkedList:
     @validate_args
     def remove_duplicates(self) -> None:
         """Remove duplicate item(s) in the list."""
-
-        # Time Complexity: O(n) todo handle error
+        # Time Complexity: O(n)
 
         def _remove_duplicates(current=None, previous=None, reference=None, iteration=0):
             iteration += 1
@@ -315,21 +315,33 @@ class SinglyLinkedList:
                 current = self.head
             if reference is None:
                 reference = []
-            if current.data in reference:
+
+            if current.value in reference:
                 temp = current.next_node
                 if temp is not None:
+                    inner_iteration = 0
                     while temp.value in reference:
+                        inner_iteration += 1
+                        if inner_iteration > self.MAX_ITER:
+                            raise ExceededMaxIterations(
+                                "Maximum number of iteration has been exceeded. Make sure there is no "
+                                "cycle in the linked list by using has_cycle() or increase "
+                                "MAX_ITER")
                         temp = temp.next_node
                         if temp is None:
                             break
                 previous.next_node = temp
             else:
-                reference.append(current.data)
+                reference.append(current.value)
+
             if current.next_node is None:
                 return
             return _remove_duplicates(current.next_node, current, reference, iteration)
 
-        return _remove_duplicates()
+        if self.head is None:
+            return
+        else:
+            return _remove_duplicates()
 
     @validate_args
     def reverse(self) -> None:
