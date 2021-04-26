@@ -233,18 +233,44 @@ class SinglyLinkedList:
 
     @validate_args
     def has_cycle(self) -> bool:
-        """Detect cycle(s) in the list."""
-        # Floyd–Warshall algorithm
+        """Detect cycle in the list."""
+        # Floyd's cycle-finding algorithm
         raise NotImplementedError
 
     @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
         """Return first index of value. Raises ValueError if the value is not present."""
-        # todo
-        for idx, item in enumerate(self):
-            if item == value:
-                return idx  # noqa
-        raise ValueError("{} not in {}".format(value, type(self).__name__))
+        # O(n) for positive start and end, O(n^2) for other circumstances
+
+        def _index():
+            nonlocal start
+            if start < end:
+                try:
+                    node = self.traverse(start)
+                except IndexError:
+                    raise ValueError("{} not in {}".format(value, type(self).__name__))
+                while node is not None and start < end:
+                    if node == value:
+                        return start
+                    node = node.next_node
+                    start += 1
+                raise ValueError("{} not in {}".format(value, type(self).__name__))
+            else:
+                raise ValueError("{} not in {}".format(value, type(self).__name__))
+
+        if start >= 0 and end >= 0:
+            return _index()  # noqa
+        else:
+            length = len(self)
+            if start < 0 and end < 0:
+                if -start > length:
+                    return self.index(value, 0, end)
+                else:
+                    return length + _index()  # noqa, convert negative index to positive
+            elif start < 0:  # Negative start, positive end
+                return self.index(value, length + start, end)
+            else:  # Positive start, negative end
+                return self.index(value, start, length + end)
 
     @validate_args
     def insert(self, idx: int, value: Any) -> None:

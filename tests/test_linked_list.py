@@ -221,12 +221,22 @@ def test_index():
     assert a.index(10) == 2
     assert a.index(True) == 0  # 1 == True
     assert a.index(1) == 0
+    assert a.index(3.4, 2, 6) == 4
+    assert a.index(3.4, 2, 100) == 4
+    assert a.index(3.4, -7, -2) == 4
+    assert a.index(3.4, -100, -2) == 4
+    assert a.index(None, 1, -3) == 3
+    is_error(ValueError, lambda: a.index(1, -1, 0))
+    is_error(ValueError, lambda: a.index(2, 5, 0))
+    is_error(ValueError, lambda: a.index(2, -10))
     is_error(ValueError, lambda: a.index(3))
 
     b = SinglyLinkedList()
     is_error(ValueError, lambda: b.index(None))
     is_error(ValueError, lambda: b.index(100))
 
+    c = SinglyLinkedList([1, 2, 3, 4, 5, 1, 10])
+    assert c.index(1, -4) == 5
 
 def test_insert():
     a = SinglyLinkedList()
