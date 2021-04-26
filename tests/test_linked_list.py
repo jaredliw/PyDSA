@@ -211,8 +211,14 @@ def test_find_middle():
     is_error(ValueError, c.find_middle)
 
 
-def test_has_cycle():
-    raise NotImplementedError
+def test_detect_cycle():
+    a = SinglyLinkedList([1, 2, 10, None, 3.4, "Hello", True, None])
+    assert a.detect_cycle() is None
+
+    b = SinglyLinkedList(range(100))
+    b.MAX_ITER = 110
+    b.traverse(-1).next_node = b.head
+    assert b.detect_cycle() is b.head
 
 
 def test_index():

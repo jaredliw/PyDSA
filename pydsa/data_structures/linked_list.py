@@ -146,6 +146,12 @@ class SinglyLinkedList:
             else:
                 raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
                                  .format(key, NodeType.__name__, type(value).__name__))
+        elif key == "MAX_ITER":
+            if isinstance(value, int):
+                self.__dict__[key] = value
+            else:
+                raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
+                                 .format(key, NodeType.__name__, type(value).__name__))
         else:
             raise AttributeError("'{}' object has no attribute {}".format(type(self).__name__, key))
 
@@ -232,10 +238,40 @@ class SinglyLinkedList:
         return slow
 
     @validate_args
-    def has_cycle(self) -> bool:
-        """Detect cycle in the list."""
+    def detect_cycle(self) -> [NodeType, None]:
+        """Check whether linked list contains a loop. Return the first node of the loop if the loop is present, else
+        return None."""
+
         # Floyd's cycle-finding algorithm
-        raise NotImplementedError
+        # See:
+        # https://github.com/jaredliw/leetcode-solutions/blob/master/0141%20Linked%20List%20Cycle.py
+        # https://github.com/jaredliw/leetcode-solutions/blob/master/0142%20Linked%20List%20Cycle%20II.py
+        if self.head is None:
+            return None
+
+        max_iter_copy = self.MAX_ITER
+        self.MAX_ITER = sys.maxsize
+        try:
+            # Phase I
+            fast_ptr = self.head
+            slow_ptr = self.head
+            while fast_ptr.next_node is not None and fast_ptr.next_node.next_node is not None:
+                # fast_ptr moves two steps once while slow_ptr moves one step once
+                # They will finally meet at some point if there is a loop
+                fast_ptr = fast_ptr.next_node.next_node
+                slow_ptr = slow_ptr.next_node
+                if fast_ptr is slow_ptr:
+                    # Phase II
+                    # Reset one pointer to the head
+                    fast_ptr = self.head
+                    while fast_ptr is not slow_ptr:
+                        fast_ptr = fast_ptr.next_node  # fast_ptr is no longer "fast" now
+                        slow_ptr = slow_ptr.next_node
+                    # Two pointers will meet at the node where the cycle begins
+                    return fast_ptr  # "return slow_ptr" does the job as well
+            return None
+        finally:
+            self.MAX_ITER = max_iter_copy  # Reset MAX_ITER
 
     @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
@@ -264,7 +300,7 @@ class SinglyLinkedList:
             length = len(self)
             if start < 0 and end < 0:
                 if -start > length:
-                    return self.index(value, 0, end)
+                    return self.index(value, end=end)
                 else:
                     return length + _index()  # noqa, convert negative index to positive
             elif start < 0:  # Negative start, positive end
