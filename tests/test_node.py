@@ -67,4 +67,4 @@ def test_set_annotations():
     def _test2():
         a.something_float = 1.2
 
-    is_error(TypeError, _test2)
+    is_error(AttributeError, _test2)
