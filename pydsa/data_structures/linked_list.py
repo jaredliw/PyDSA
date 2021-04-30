@@ -9,21 +9,35 @@ __all__ = ["ExceededMaxIterations", "SinglyLinkedList"]
 
 
 class ExceededMaxIterations(RuntimeWarning):
-    """Raised when maximum iterations has been exceeded."""
+    """Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list."""
     pass
 
 
 class SinglyLinkedList:
-    """A one-way linear data structure where elements are separated and non-contiguous objects that linked by
-    pointers. """
+    """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
+    pointers.
+
+    .. note:: :code:`SinglyLinkedList` supports all methods from build-in :code:`list`, except indexing / slicing \
+       (use :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse` for indexing). Beside that, \
+       :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.copy` is making a deep copy.
+
+    :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
+    :type MAX_ITER: int
+    :ivar head: Head of linked list.
+    :type head: Node or None
+    :raises ExceededMaxIterations: Raised when maximum iterations has been exceeded to prevent an infinite loop.
+    """
     MAX_ITER = 99
     head = None
 
     @validate_args
     def __init__(self, iterable: Iterable = None):
-        if iterable is None:
-            self.head = None
-        else:
+        """Initialize a new singly linked list from an iterable.
+
+        :param iterable: An iterable to be converted into a singly linked list, default to None.
+        :type iterable: Iterable or None
+        """
+        if iterable is not None:
             self.extend(iterable)
 
     def __add__(self, other):
@@ -96,10 +110,9 @@ class SinglyLinkedList:
             count += 1
             if count > self.MAX_ITER:
                 raise ExceededMaxIterations("maximum number of iteration has been exceeded. Make sure there is no "
-                                            "cycle in the linked list by using detect_cycle() or increase "
-                                            "MAX_ITER")
+                                            "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             yield current
-            current = current.next_node
+            current = current.next_node  # noqa
 
     def __le__(self, other):
         return self.__lt__(other) or self.__eq__(other)
@@ -172,9 +185,16 @@ class SinglyLinkedList:
 
     @validate_args
     def append(self, value: Any) -> None:
-        """Append a new node with value given to the end of the list."""
-        # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
+        """Append a new node with :code:`value` to the end of linked list.
 
+        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the last node
+
+        Space complexity: :code:`O(1)`
+
+        :param value: Value for the new node.
+        :type value: Any
+        :rtype: None
+        """
         new_node = Node(value, next_node=None)
         if self.head is None:
             self.head = new_node
@@ -184,22 +204,41 @@ class SinglyLinkedList:
 
     @validate_args
     def clear(self) -> None:
-        """Remove all items from singly linked list,"""
-        # Time Complexity: O(1)
+        """Remove all node(s) from linked list.
 
+        Time complexity: :code:`O(1)`
+
+        Space complexity: :code:`O(1)`
+
+        :rtype: None
+        """
         self.head = None
 
     @validate_args
     def copy(self):
-        """Return a deep copy of the linked list."""
-        # Time Complexity: O(n)
+        """Return a deep copy of linked list.
 
+        Time complexity: :code:`O(n)`
+
+        Space complexity: :code:`O(n)`
+
+        :rtype: SinglyLinkedList
+        """
         return deepcopy(self)
 
     @validate_args
-    def count(self, value):
-        """Return number of occurrences of value."""
-        # Time Complexity: O(n)
+    def count(self, value: Any) -> int:
+        """Return number of occurrences of nodes with :code:`value`.
+
+        Time complexity: :code:`O(n)`
+
+        Space complexity: :code:`O(n)`
+
+        :param value: Value to search for.
+        :type value: Any
+        :return: Number of occurrences.
+        :rtype: int
+        """
 
         counter = 0
         for item in self:
@@ -208,44 +247,16 @@ class SinglyLinkedList:
         return counter
 
     @validate_args
-    def extend(self, iterable: Iterable) -> None:
-        """Extend singly linked list by appending elements from the iterable."""
-        # Time Complexity: O(n), but it take O(n) to traverse to the last node
-        head_node = None
-        last_node = None
-        for item in iterable:
-            new_node = Node(item, next_node=None)
-            if head_node is None:
-                head_node = new_node
-            else:
-                last_node.next_node = new_node
-            last_node = new_node
-        new = self.__class__()
-        new.head = head_node
-        self.__iadd__(new)
-
-    @validate_args
-    def find_middle(self) -> NodeType:
-        """Return the node in the middle of the list. Raises ValueError if the linked list in empty."""
-        if self.head is None:
-            raise ValueError("{} is empty".format(type(self).__name__))
-
-        slow = self.head
-        fast = self.head
-        while fast.next_node is not None and fast.next_node.next_node is not None:
-            slow = slow.next_node
-            fast = fast.next_node.next_node
-        return slow
-
-    @validate_args
     def detect_cycle(self) -> [NodeType, None]:
-        """Check whether linked list contains a loop. Return the first node of the loop if the loop is present, else
-        return None."""
+        """Check whether linked list contains a cycle by Floyd's cycle-finding algorithm.
 
-        # Floyd's cycle-finding algorithm
-        # See:
-        # https://github.com/jaredliw/leetcode-solutions/blob/master/0141%20Linked%20List%20Cycle.py
-        # https://github.com/jaredliw/leetcode-solutions/blob/master/0142%20Linked%20List%20Cycle%20II.py
+        Time complexity: :code:`O(n)`
+
+        Space complexity: :code:`O(1)`
+
+        :return: The start node of the cycle. If there is no cycle, return None.
+        :rtype: Node or None
+        """
         if self.head is None:
             return None
 
@@ -257,7 +268,7 @@ class SinglyLinkedList:
             slow_ptr = self.head
             while fast_ptr.next_node is not None and fast_ptr.next_node.next_node is not None:
                 # fast_ptr moves two steps once while slow_ptr moves one step once
-                # They will finally meet at some point if there is a loop
+                # They will finally meet at some point if there is a cycle
                 fast_ptr = fast_ptr.next_node.next_node
                 slow_ptr = slow_ptr.next_node
                 if fast_ptr is slow_ptr:
@@ -274,9 +285,70 @@ class SinglyLinkedList:
             self.MAX_ITER = max_iter_copy  # Reset MAX_ITER
 
     @validate_args
+    def extend(self, iterable: Iterable) -> None:
+        """Create nodes with values from :code:`iterable` and extend them to the end of linked list.
+
+        Time complexity: :code:`O(n)`, but it take :code:`O(n)` to traverse to the last node
+
+        Space complexity: :code:`O(n)`
+
+        :param iterable: An iterable of values to extend after the linked list.
+        :type iterable: Iterable
+        :rtype: None
+        """
+        head_node = None
+        last_node = None
+        for item in iterable:
+            new_node = Node(item, next_node=None)
+            if head_node is None:
+                head_node = new_node
+            else:
+                last_node.next_node = new_node
+            last_node = new_node
+        new = self.__class__()
+        new.head = head_node
+        self.__iadd__(new)
+
+    @validate_args
+    def find_middle(self) -> NodeType:
+        """Return node at the middle of linked list, i.e. node at index :math:`\\lfloor\\frac{n}{2}\\rfloor`.
+
+        Time complexity: :code:`O(n)`
+
+        Space complexity: :code:`O(1)`
+
+        :return: Node at the middle of linked list
+        :rtype: Node
+        :raises ValueError: Raised when linked list is empty.
+        """
+        # todo: incorrect node is returned when length is even
+        # todo: seems inappropriate to raise ValueError here
+        if self.head is None:
+            raise ValueError("{} is empty".format(type(self).__name__))
+
+        slow = self.head
+        fast = self.head
+        while fast.next_node is not None and fast.next_node.next_node is not None:
+            slow = slow.next_node
+            fast = fast.next_node.next_node
+        return slow
+
+    @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
-        """Return first index of value. Raises ValueError if the value is not present."""
-        # O(n) for positive start and end, O(n^2) for other circumstances
+        """Return first index of node with :code:`value`. The optional arguments :code:`start` and :code:`end` are \
+        used to limit the search to a particular subsequence of the linked list. The returned index is computed \
+        relative to the beginning of the full sequence rather than the :code:`start` argument.
+
+        :param value: Value to search for.
+        :type value: Any
+        :param start: Start of subsequence (inclusive), default to 0.
+        :type start: int
+        :param end: End of subsequence (exclusive), default to :code:`sys.maxsize`.
+        :type end: int
+        :return: Index of node relative to the beginning of the full sequence.
+        :rtype: int
+        :raises ValueError: Raised when the value is not present.
+        """
 
         def _index():
             nonlocal start
@@ -288,7 +360,7 @@ class SinglyLinkedList:
                 while node is not None and start < end:
                     if node == value:
                         return start
-                    node = node.next_node
+                    node = node.next_node  # noqa
                     start += 1
                 raise ValueError("{} not in {}".format(value, type(self).__name__))
             else:
@@ -309,19 +381,28 @@ class SinglyLinkedList:
                 return self.index(value, start, length + end)
 
     @validate_args
-    def insert(self, idx: int, value: Any) -> None:
-        """Create a new node with the given value and insert it before index."""
-        # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
+    def insert(self, index: int, value: Any) -> None:
+        """Create a new node with :code:`value` and insert it before :code:`index`.
 
+        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the node at :code:`index`
+
+        Space complexity: :code:`O(1)`
+
+        :param index: Index to insert a new node.
+        :type index: int
+        :param value: Value of the new node.
+        :type value: Any
+        :rtype: None
+        """
         new_node = Node(value=value, next_node=None)
-        if idx == 0 or len(self) == 0:
+        if index == 0 or len(self) == 0:
             new_node.next_node = self.head
             self.head = new_node
         else:
             try:
-                prev_node = self.traverse(idx - 1)
+                prev_node = self.traverse(index - 1)
             except IndexError:
-                if idx > 0:  # if idx (positive) >= length, append it at the end, same behavior as list.insert
+                if index > 0:  # if index (positive) >= length, append it at the end, same behavior as list.insert
                     return self.append(value)
                 else:
                     return self.insert(0, value)
@@ -329,22 +410,31 @@ class SinglyLinkedList:
             prev_node.next_node = new_node
 
     @validate_args
-    def pop(self, idx: int = -1) -> Any:
-        """Remove and return item at index (default last). Raises IndexError if list is empty or index is out of
-        range."""
-        # Time Complexity: O(1), but it take O(n) to traverse to the node at the index given
+    def pop(self, index: int = -1) -> NodeType:
+        """Remove and return node at :code:`index` (default last). Raises IndexError if list is empty or index is out \
+        of range.
 
+        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node at :code:`index`
+
+        Space complexity: :code:`O(1)`
+
+        :param index: Index of node to pop, default to -1.
+        :type index: int
+        :return: Node at :code:`index`
+        :rtype: Node
+        :raises IndexError: Raised when linked list is empty or :code:`index` is out of range.
+        """
         if self.head is None:
             raise IndexError("pop from empty {}".format(type(self).__name__))
 
-        if idx == 0:
-            self.head = self.head.next_node
+        if index == 0:
+            self.head = self.head.next_node  # noqa
             return self.head
         else:
             try:
-                prev_node = self.traverse(idx - 1)
+                prev_node = self.traverse(index - 1)
             except IndexError as e:
-                if self.traverse(idx) is self.head:  # Check if node at idx (negative) isw a head node
+                if self.traverse(index) is self.head:  # Check if node at index (negative) is a head node
                     return self.pop(0)
                 else:
                     raise e
@@ -355,7 +445,13 @@ class SinglyLinkedList:
 
     @validate_args
     def remove(self, value: Any) -> None:
-        """Remove first occurrence of value. Raises ValueError if the value is not present."""
+        """Remove first occurrence of node with :code:`value`.
+
+        :param value: Value to search for.
+        :type value: Any
+        :rtype: None
+        :raises ValueError: Raised when the value is not present.
+        """
         for idx, item in enumerate(self):
             if value == item:
                 self.pop(idx)
@@ -364,15 +460,21 @@ class SinglyLinkedList:
 
     @validate_args
     def remove_duplicates(self) -> None:
-        """Remove duplicate item(s) in the list."""
-        # Time Complexity: O(n)
+        """Remove node(s) with duplicated value in linked list.
+
+        Time complexity: :code:`O(n)`
+
+        Space complexity: :code:`O(n)`
+
+        :rtype: None
+        :raises ExceededMaxIterations: Raised when MAX_ITER has been exceeded.
+        """
 
         def _remove_duplicates(current=None, previous=None, reference=None, iteration=0):
             iteration += 1
             if iteration > self.MAX_ITER:
                 raise ExceededMaxIterations("Maximum number of iteration has been exceeded. Make sure there is no "
-                                            "cycle in the linked list by using has_cycle() or increase "
-                                            "MAX_ITER")
+                                            "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             if current is None:
                 current = self.head
             if reference is None:
@@ -387,8 +489,7 @@ class SinglyLinkedList:
                         if inner_iteration > self.MAX_ITER:
                             raise ExceededMaxIterations(
                                 "Maximum number of iteration has been exceeded. Make sure there is no "
-                                "cycle in the linked list by using has_cycle() or increase "
-                                "MAX_ITER")
+                                "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
                         temp = temp.next_node
                         if temp is None:
                             break
@@ -407,9 +508,15 @@ class SinglyLinkedList:
 
     @validate_args
     def reverse(self) -> None:
-        """Reverse a linked list."""
-        # Time Complexity: O(n)
+        """Reverse the linked list in place.
 
+        Time complexity: :code:`O(n)`
+
+        Space complexity: :code:`O(1)`
+
+        :rtype: None
+        """
+        # todo: take care about MAX_ITER
         prev_nd = None
         while self.head is not None:
             next_nd = self.head.next_node
@@ -429,15 +536,33 @@ class SinglyLinkedList:
         #
         # self.head = _reverse(self.head)
 
-    @validate_args
-    def swap(self, idx1: int, idx2: int) -> None:
-        """Swap two nodes at the indices given."""
-        # Time Complexity: O(1)
+    def sort(self) -> None:
+        """Sort linked list in place.
 
-        if idx1 == idx2:
+        :rtype: None
+        """
+        # todo: implement sort
+        raise NotImplementedError
+
+    @validate_args
+    def swap(self, index1: int, index2: int) -> None:
+        """Swap two nodes at :code:`index1` and :code:`index2`.
+
+        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node
+
+        Space complexity: :code:`O(1)`
+
+        :param index1: Index of node 1.
+        :type index1: int
+        :param index2: Index of node 2.
+        :type index2: int
+        :rtype: None
+        """
+
+        if index1 == index2:
             return
-        if idx1 == 0 or idx2 == 0:
-            prev2 = self.traverse(idx2 - 1 if idx1 == 0 else idx1 - 1)
+        if index1 == 0 or index2 == 0:
+            prev2 = self.traverse(index2 - 1 if index1 == 0 else index1 - 1)
             node2 = prev2.next_node
             if node2 is None:
                 raise IndexError("{} index out of range".format(type(self).__name__))
@@ -445,25 +570,33 @@ class SinglyLinkedList:
             prev2.next_node = self.head
             self.head = node2
         else:
-            prev1 = self.traverse(idx1 - 1)
-            prev2 = self.traverse(idx2 - 1)
+            prev1 = self.traverse(index1 - 1)
+            prev2 = self.traverse(index2 - 1)
             node1 = prev1.next_node
             node2 = prev2.next_node
             prev1.next_node, prev2.next_node = prev2.next_node, prev1.next_node
             node1.next_node, node2.next_node = node2.next_node, node1.next_node
 
     @validate_args
-    def traverse(self, idx: int) -> NodeType:
-        """Loop through the linked list and get the node at the index given."""
-        # Time Complexity: O(n), even for last k-th element
+    def traverse(self, index: int) -> NodeType:
+        """Loop through the linked list and get the node at :code:`index`.
 
+        Time complexity: :code:`O(n)`, even for negative value of :code:`index`
+
+        Space complexity: :code:`O(1)`
+
+        :param index: Index of node.
+        :type index: int
+        :return: Node at :code:`index`.
+        :rtype: Node
+        """
         for cur_idx, cur_item in enumerate(self):
-            if idx < 0:
-                if cur_idx == abs(idx) - 1:
+            if index < 0:
+                if cur_idx == abs(index) - 1:
                     target = self.head
-                elif cur_idx > abs(idx) - 1:
+                elif cur_idx > abs(index) - 1:
                     target = target.next_node  # noqa
-            elif cur_idx == idx:
+            elif cur_idx == index:
                 target = cur_item
                 break
 
