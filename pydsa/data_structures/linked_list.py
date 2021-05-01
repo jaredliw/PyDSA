@@ -515,9 +515,13 @@ class SinglyLinkedList:
 
         :rtype: None
         """
-        # todo: take care about MAX_ITER
         prev_nd = None
+        iteration = 0
         while self.head is not None:
+            iteration += 1
+            if iteration > self.MAX_ITER:
+                raise ExceededMaxIterations("Maximum number of iteration has been exceeded. Make sure there is no "
+                                            "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             next_nd = self.head.next_node
             self.head.next_node = prev_nd
             prev_nd = self.head
