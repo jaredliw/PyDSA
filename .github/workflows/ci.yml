@@ -1,4 +1,4 @@
-name: Test PyDSA
+name: Test and Build
 
 # Controls when the action will run. 
 on:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test-and-build:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,7 +30,7 @@ jobs:
         run: python3 -m pytest
 
       - name: Install sphinx
-        run: pip3 isntall sphinx
+        run: pip3 install sphinx
 
       - name: Update html
         run: |
