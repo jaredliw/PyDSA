@@ -41,11 +41,10 @@ Afterwards, install all dependencies by running the command:
 
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
    :caption: Contents
    :glob:
 
-   algorithms/*
    data_structures/*
 
 

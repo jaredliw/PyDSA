@@ -321,13 +321,12 @@ class SinglyLinkedList:
         :rtype: Node
         :raises IdnexError: Raised when linked list is empty.
         """
-        # todo: incorrect node is returned when length is even
         if self.head is None:
             raise IndexError("{} is empty".format(type(self).__name__))
 
         slow = self.head
         fast = self.head
-        while fast.next_node is not None and fast.next_node.next_node is not None:
+        while fast.next_node is not None and fast.next_node.next_node is not None:  # noqa
             slow = slow.next_node
             fast = fast.next_node.next_node
         return slow

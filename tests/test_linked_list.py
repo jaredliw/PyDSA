@@ -6,12 +6,12 @@ from tests import is_error
 def test_init():
     a = SinglyLinkedList([10, 30, 40, None])
     assert a.head == 10
-    assert a.head.next_node == 30
+    assert a.head.next_node == 30  # noqa
     assert a.traverse(-1) == Node(next_node=None)
 
     a = SinglyLinkedList([20])
     assert a.head == 20
-    assert a.head.next_node is None
+    assert a.head.next_node is None  # noqa
 
     b = SinglyLinkedList("aaaaa")  # noqa
     assert b.head == "a"
@@ -25,7 +25,7 @@ def test_op():
     b = SinglyLinkedList([4, 5, 6])
     c = a + b
     assert c == SinglyLinkedList([1, 2, 3, 4, 5, 6])
-    a.head.next_node.value = 100
+    a.head.next_node.value = 100  # noqa
     assert c.head.next_node.value == 2
     assert a.head is not c.head
 
@@ -102,12 +102,12 @@ def test_repr_str():
     assert str(a) == "SinglyLinkedList([])"
 
     b = SinglyLinkedList([1, 2, 3, "10"])
-    print(type(b.head.next_node.next_node.next_node.value))
+    print(type(b.head.next_node.next_node.next_node.value))  # noqa
     assert repr(b) == "SinglyLinkedList(1 -> 2 -> 3 -> '10')"
     assert str(b) == "SinglyLinkedList([1, 2, 3, '10'])"
 
     circular = SinglyLinkedList([1, 2, 3])
-    circular.head.next_node.next_node.next_node = circular.head.next_node
+    circular.head.next_node.next_node.next_node = circular.head.next_node  # noqa
     assert repr(circular) == str(circular) == "SinglyLinkedList(<cannot show node(s)>)"
 
 
@@ -144,7 +144,7 @@ def test_append():
     sll2.append(10)
     sll2.append(20)
     assert sll2.head == 10
-    assert sll2.head.next_node == 20
+    assert sll2.head.next_node == 20  # noqa
 
 
 def test_clear():
@@ -164,7 +164,7 @@ def test_copy():
     b = a.copy()
     assert a == b
     assert a.head is not b.head
-    assert a.head.next_node is not b.head.next_node
+    assert a.head.next_node is not b.head.next_node  # noqa
 
     c = SinglyLinkedList([])
     d = c.copy()
@@ -200,12 +200,12 @@ def test_find_middle():
     a = SinglyLinkedList([1, 2, 3, 4, 5])
     middle = a.find_middle()
     assert middle == 3
-    assert middle is a.head.next_node.next_node
+    assert middle is a.head.next_node.next_node  # noqa
 
     b = SinglyLinkedList([1, 2, 10, 3.4, "Hello", True])
     middle = b.find_middle()
     assert middle == 10
-    assert middle is b.head.next_node.next_node
+    assert middle is b.head.next_node.next_node  # noqa
 
     c = SinglyLinkedList()
     is_error(IndexError, c.find_middle)
@@ -351,7 +351,7 @@ def test_remove_duplicates():
     assert g == SinglyLinkedList([2, 1, 3, 4])
 
     circular = SinglyLinkedList([1, 2])
-    circular.head.next_node.next_node = circular.head
+    circular.head.next_node.next_node = circular.head  # noqa
     is_error(ExceededMaxIterations, circular.remove_duplicates)
 
 
