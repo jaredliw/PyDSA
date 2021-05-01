@@ -30,7 +30,9 @@ jobs:
         run: python3 -m pytest
 
       - name: Install sphinx
-        run: pip3 install sphinx
+        run: |
+          pip3 install sphinx
+          pip3 install karma-sphinx-theme
 
       - name: Update html
         run: |
