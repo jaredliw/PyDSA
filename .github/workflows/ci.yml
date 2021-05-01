@@ -34,7 +34,6 @@ jobs:
 
       - name: Update html
         run: |
-          cd PyDSA
           make clean
           make html
 
