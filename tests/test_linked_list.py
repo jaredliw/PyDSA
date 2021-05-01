@@ -208,7 +208,7 @@ def test_find_middle():
     assert middle is b.head.next_node.next_node
 
     c = SinglyLinkedList()
-    is_error(ValueError, c.find_middle)
+    is_error(IndexError, c.find_middle)
 
 
 def test_detect_cycle():

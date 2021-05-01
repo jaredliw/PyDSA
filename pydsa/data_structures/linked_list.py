@@ -319,12 +319,11 @@ class SinglyLinkedList:
 
         :return: Node at the middle of linked list
         :rtype: Node
-        :raises ValueError: Raised when linked list is empty.
+        :raises IdnexError: Raised when linked list is empty.
         """
         # todo: incorrect node is returned when length is even
-        # todo: seems inappropriate to raise ValueError here
         if self.head is None:
-            raise ValueError("{} is empty".format(type(self).__name__))
+            raise IndexError("{} is empty".format(type(self).__name__))
 
         slow = self.head
         fast = self.head
