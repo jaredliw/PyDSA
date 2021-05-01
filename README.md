@@ -4,6 +4,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/jaredliw/PyDSA)
 [![GitHub license](https://img.shields.io/github/license/jaredliw/PyDSA)](https://github.com/jaredliw/PyDSA/blob/master/LICENSE)
 
+# :tada: :tada: [Documentation page](https://jaredliw.github.io/PyDSA/) is up now! :tada: :tada: 
 A collection of data structures and algorithms implemented in Python. The main aim of this project is to help python learners in understanding DSA and apply them in problem-solving as well as in competitive programming.
 
 This project is currently underdeveloped. This project may be published to PyPI when it is mature. Feel free to fork this project and make it better.
