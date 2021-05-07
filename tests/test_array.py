@@ -1,4 +1,4 @@
-from pydsa.data_structures.array import ConstantError, DynamicArray, ExceedMaxLengthError, List, StaticArray
+from pydsa.data_structures.array import *
 from tests import is_error
 
 ds = [StaticArray, DynamicArray]
@@ -304,25 +304,3 @@ def test_sort():
         a.sort()
         assert a == array([2, 2, 3, 4, 5])
         assert a.max_length == 5
-
-
-def test_rotate():
-    a = List([])
-    a.rotate(5)
-    assert a == []
-
-    b = List([1])
-    b.rotate(2)
-    assert b == [1]
-
-    c = List([1, 2, 3])
-    c.rotate(0)
-    assert c == [1, 2, 3]
-    c.rotate(2)
-    assert c == [3, 1, 2]
-    c.rotate(81)
-    assert c == [3, 1, 2]
-    c.rotate(-2)
-    assert c == [1, 2, 3]
-
-    is_error(TypeError, c.rotate)
