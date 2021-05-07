@@ -1,28 +1,47 @@
-"""An array is a collection of items stored at contiguous memory locations."""
+"""A collection of items stored at contiguous memory locations."""
 from pydsa import Any, Iterable, NonNegativeInt, validate_args
 
 __all__ = ["ExceedMaxLengthError", "ConstantError", "StaticArray", "DynamicArray", "List"]
 
 
 class ExceedMaxLengthError(OverflowError):
-    """Raised when the length of an array exceeds its limit."""
+    """Raised when length of a static array exceeds its limit."""
     pass
 
 
 class ConstantError(ValueError):
-    """Raised when trying to change a constant variable."""
+    """Raised when trying to change a constant attribute."""
     pass
 
 
 class StaticArray(list):
-    """Array with static length."""
+    """A continuous data structure that contains a group of elements with constant length.
+
+    .. note:: All methods are inherited from :code:`list`, refer to :code:`help(list)` for a more explicit \
+    documentation.
+
+    :raises ExceedMaxLengthError: Raised when the length of array is exceeding \
+    :attr:`~pydsa.data_structures.array.StaticArray.max_length`.
+    :raises ConstantError: Raised when trying to change the value of \
+    :attr:`~pydsa.data_structures.array.StaticArray.max_length`.
+    """
 
     @validate_args
-    def __init__(self, arr: [Iterable, None] = None, max_length: [NonNegativeInt, None] = None):
-        if arr is None:
-            arr = []
+    def __init__(self, iterable: [Iterable, None] = None, max_length: [NonNegativeInt, None] = None):
+        """Initialize a new static array from an iterable.
 
-        super(StaticArray, self).__init__(list(arr))
+        :param iterable: An iterable to be converted into a static array, default to None.
+        :type: Iterable or None
+        :param max_length: Maximum length of array, default to the length of \
+        :attr:`~pydsa.data_structures.array.StaticArray.iterable`.
+        :raises ExceedMaxLengthError: Raised when the length of \
+        :attr:`~pydsa.data_structures.array.StaticArray.iterable` is less than \
+        :attr:`~pydsa.data_structures.array.StaticArray.max_length`.
+        """
+        if iterable is None:
+            iterable = []
+
+        super(StaticArray, self).__init__(list(iterable))
 
         if max_length is None:
             max_length = len(self)
@@ -71,7 +90,10 @@ class StaticArray(list):
 
     @property
     def max_length(self):
-        """A constant maximum length of StaticArray."""
+        """Maximum length of array, cannot be changed after initializing.
+
+        :type: int
+        :raises ConstantError: Raised when trying to modify the value."""
         return self.__max_length
 
     @max_length.setter
@@ -81,32 +103,39 @@ class StaticArray(list):
         else:
             raise ConstantError("StaticArray.max_length is a constant")
 
-    @validate_args
-    def copy(self):
-        """Override list copy() function so that it returns a StaticArray object."""
+    def copy(self):  # noqa
+        self.__doc__ = super(StaticArray, self).copy.__doc__
+
         if self.__class__ == StaticArray:
             return self.__class__(super(StaticArray, self).copy(), self.max_length)
         else:
             return self.__class__(super(StaticArray, self).copy())
 
-    @validate_args
-    def extend(self, iterable: Iterable) -> None:
-        """Override list extend() function to ensure the length of the list is always below self.max_length."""
+    def extend(self, iterable: Iterable) -> None:  # noqa
+        self.__doc__ = super(StaticArray, self).copy.__doc__
+
         if len(self) + len(list(iterable)) > self.max_length:
             raise ExceedMaxLengthError('exceed StaticArray maximum length: {}'.format(self.max_length))
         super(StaticArray, self).extend(iterable)
 
 
 class DynamicArray(StaticArray):
-    """Array (implemented on StaticArray) with dynamic length."""
+    """Growable static array. Conceptual, need not to use in Python.
 
-    # Conceptual, need not to use in Python.
+    .. note:: All methods are inherited from :code:`list`, refer to :code:`help(list)` for a more explicit \
+    documentation.
+    """
 
     @validate_args
-    def __init__(self, arr: Iterable = None):
-        if arr is None:
-            arr = []
-        super(DynamicArray, self).__init__(arr)
+    def __init__(self, iterable: Iterable = None):
+        """Initialize a new static array from an iterable.
+
+        :param iterable: An iterable to be converted into a static array, default to None.
+        :type: Iterable or None
+        """
+        if iterable is None:
+            iterable = []
+        super(DynamicArray, self).__init__(iterable)
 
     def __getattribute__(self, item):
         if item in ['append', 'insert'] and self.__len__() + 1 > self.max_length:
@@ -128,21 +157,24 @@ class DynamicArray(StaticArray):
         super(DynamicArray, self).__init__(self, size)
 
     @validate_args
-    def clear(self) -> None:
-        """Override StaticArray clear() function so that the array will shrink when an element is removed."""
+    def clear(self) -> None:  # noqa
+        self.__doc__ = super(DynamicArray, self).clear.__doc__
+
         super(DynamicArray, self).__init__([])
 
     @validate_args
-    def pop(self, index: int = -1) -> None:
-        """Override StaticArray pop() function so that the list shrink when an element is removed."""
+    def pop(self, index: int = -1) -> None:  # noqa
+        self.__doc__ = super(DynamicArray, self).pop.__doc__
+
         old_length = self.max_length
         super(DynamicArray, self).pop(index)
         if self.__len__() <= old_length // 2:
             self.__shrink_array(old_length)
 
     @validate_args
-    def extend(self, iterable: Iterable) -> None:
-        """Override StaticArray extend() function to expand the list when exceeding the max_length of StaticArray."""
+    def extend(self, iterable: Iterable) -> None:  # noqa
+        self.__doc__ = super(DynamicArray, self).extend.__doc__
+
         if not hasattr(iterable, "__len__"):
             length = len(list(iterable))
         else:
@@ -152,21 +184,10 @@ class DynamicArray(StaticArray):
         super(DynamicArray, self).extend(iterable)
 
     @validate_args
-    def remove(self, elem: Any) -> None:
-        """Override list remove() function so that the list shrink when element is removed."""
+    def remove(self, elem: Any) -> None:  # noqa
+        self.__doc__ = super(DynamicArray, self).remove.__doc__
+
         old_length = self.max_length
         super(DynamicArray, self).remove(elem)
         if self.__len__() <= old_length // 2:
             self.__shrink_array(old_length)
-
-
-class List(list):
-    """Extended functionalities for python list."""
-
-    @validate_args
-    def rotate(self, k: int) -> None:
-        """Rotate the elements to the left by k. (Negative k means right rotation)"""
-        # Faster than collections.deque.rotate
-        if len(self) != 0:
-            k %= len(self)
-            self.__init__(self[k:] + self[:k])

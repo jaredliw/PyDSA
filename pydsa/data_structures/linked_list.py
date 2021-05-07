@@ -8,7 +8,7 @@ from pydsa.data_structures import Node, NodeType
 __all__ = ["ExceededMaxIterations", "SinglyLinkedList"]
 
 
-class ExceededMaxIterations(RuntimeWarning):
+class ExceededMaxIterations(RuntimeError):
     """Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list."""
     pass
 
@@ -17,9 +17,10 @@ class SinglyLinkedList:
     """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
     pointers.
 
-    .. note:: :code:`SinglyLinkedList` supports all methods from build-in :code:`list`, except indexing / slicing \
-       (use :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse` for indexing). Beside that, \
-       :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.copy` is making a deep copy.
+    .. note:: :class:`~pydsa.data_structures.linked_list.SinglyLinkedList` supports all methods from built-in \
+       :code:`list`, except indexing / slicing (use \
+       :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse` for indexing). Besides that, \
+       unlike :code:`list`, :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.copy` is making a deep copy.
 
     :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
     :type MAX_ITER: int
@@ -185,11 +186,12 @@ class SinglyLinkedList:
 
     @validate_args
     def append(self, value: Any) -> None:
-        """Append a new node with :code:`value` to the end of linked list.
+        """Append a new node with :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.append.value` to the \
+        end of linked list.
 
-        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the last node
+        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the last node.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :param value: Value for the new node.
         :type value: Any
@@ -206,9 +208,9 @@ class SinglyLinkedList:
     def clear(self) -> None:
         """Remove all node(s) from linked list.
 
-        Time complexity: :code:`O(1)`
+        Time complexity: :code:`O(1)`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :rtype: None
         """
@@ -218,9 +220,9 @@ class SinglyLinkedList:
     def copy(self):
         """Return a deep copy of linked list.
 
-        Time complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`.
 
-        Space complexity: :code:`O(n)`
+        Space complexity: :code:`O(n)`.
 
         :rtype: SinglyLinkedList
         """
@@ -228,11 +230,12 @@ class SinglyLinkedList:
 
     @validate_args
     def count(self, value: Any) -> int:
-        """Return number of occurrences of nodes with :code:`value`.
+        """Return number of occurrences of nodes with \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.count.value`.
 
-        Time complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`.
 
-        Space complexity: :code:`O(n)`
+        Space complexity: :code:`O(n)`.
 
         :param value: Value to search for.
         :type value: Any
@@ -250,9 +253,9 @@ class SinglyLinkedList:
     def detect_cycle(self) -> [NodeType, None]:
         """Check whether linked list contains a cycle by Floyd's cycle-finding algorithm.
 
-        Time complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :return: The start node of the cycle. If there is no cycle, return None.
         :rtype: Node or None
@@ -286,11 +289,13 @@ class SinglyLinkedList:
 
     @validate_args
     def extend(self, iterable: Iterable) -> None:
-        """Create nodes with values from :code:`iterable` and extend them to the end of linked list.
+        """Create nodes with values from \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.extend.iterable` and extend them to the end of \
+        linked list.
 
-        Time complexity: :code:`O(n)`, but it take :code:`O(n)` to traverse to the last node
+        Time complexity: :code:`O(n)`, but it take :code:`O(n)` to traverse to the last node.
 
-        Space complexity: :code:`O(n)`
+        Space complexity: :code:`O(n)`.
 
         :param iterable: An iterable of values to extend after the linked list.
         :type iterable: Iterable
@@ -313,13 +318,13 @@ class SinglyLinkedList:
     def find_middle(self) -> NodeType:
         """Return node at the middle of linked list, i.e. node at index :math:`\\lfloor\\frac{n}{2}\\rfloor`.
 
-        Time complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
-        :return: Node at the middle of linked list
+        :return: Node at the middle of linked list.
         :rtype: Node
-        :raises IdnexError: Raised when linked list is empty.
+        :raises IndexError: Raised when linked list is empty.
         """
         if self.head is None:
             raise IndexError("{} is empty".format(type(self).__name__))
@@ -333,9 +338,13 @@ class SinglyLinkedList:
 
     @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
-        """Return first index of node with :code:`value`. The optional arguments :code:`start` and :code:`end` are \
-        used to limit the search to a particular subsequence of the linked list. The returned index is computed \
-        relative to the beginning of the full sequence rather than the :code:`start` argument.
+        """Return first index of node with \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.value`. The optional arguments \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.start` and \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.end` are used to limit the search to a \
+        particular subsequence of the linked list. The returned index is computed relative to the beginning of the \
+        full sequence rather than the :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.start` \
+        argument.
 
         :param value: Value to search for.
         :type value: Any
@@ -380,11 +389,13 @@ class SinglyLinkedList:
 
     @validate_args
     def insert(self, index: int, value: Any) -> None:
-        """Create a new node with :code:`value` and insert it before :code:`index`.
+        """Create a new node with :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.insert.value` and \
+        insert it before :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.insert.index`.
 
-        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the node at :code:`index`
+        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the node at \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.insert.index`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :param index: Index to insert a new node.
         :type index: int
@@ -409,18 +420,21 @@ class SinglyLinkedList:
 
     @validate_args
     def pop(self, index: int = -1) -> NodeType:
-        """Remove and return node at :code:`index` (default last). Raises IndexError if list is empty or index is out \
-        of range.
+        """Remove and return node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` \
+        (default last). Raises :code:`IndexError` if list is empty or \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` is out of range.
 
-        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node at :code:`index`
+        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node at
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :param index: Index of node to pop, default to -1.
         :type index: int
-        :return: Node at :code:`index`
+        :return: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index`.
         :rtype: Node
-        :raises IndexError: Raised when linked list is empty or :code:`index` is out of range.
+        :raises IndexError: Raised when linked list is empty or \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` is out of range.
         """
         if self.head is None:
             raise IndexError("pop from empty {}".format(type(self).__name__))
@@ -443,7 +457,8 @@ class SinglyLinkedList:
 
     @validate_args
     def remove(self, value: Any) -> None:
-        """Remove first occurrence of node with :code:`value`.
+        """Remove first occurrence of node with \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.remove.value`.
 
         :param value: Value to search for.
         :type value: Any
@@ -458,11 +473,11 @@ class SinglyLinkedList:
 
     @validate_args
     def remove_duplicates(self) -> None:
-        """Remove node(s) with duplicated value in linked list.
+        """Remove node(s) with duplicated value(s) in linked list.
 
-        Time complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`.
 
-        Space complexity: :code:`O(n)`
+        Space complexity: :code:`O(n)`.
 
         :rtype: None
         :raises ExceededMaxIterations: Raised when MAX_ITER has been exceeded.
@@ -508,9 +523,9 @@ class SinglyLinkedList:
     def reverse(self) -> None:
         """Reverse the linked list in place.
 
-        Time complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :rtype: None
         """
@@ -548,11 +563,12 @@ class SinglyLinkedList:
 
     @validate_args
     def swap(self, index1: int, index2: int) -> None:
-        """Swap two nodes at :code:`index1` and :code:`index2`.
+        """Swap two nodes at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.swap.index1` and \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.swap.index2`.
 
-        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node
+        Time complexity: :code:`O(1)`, but it takes :code:`O(n)` to traverse to the node.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :param index1: Index of node 1.
         :type index1: int
@@ -581,15 +597,17 @@ class SinglyLinkedList:
 
     @validate_args
     def traverse(self, index: int) -> NodeType:
-        """Loop through the linked list and get the node at :code:`index`.
+        """Loop through the linked list and get the node at \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
 
-        Time complexity: :code:`O(n)`, even for negative value of :code:`index`
+        Time complexity: :code:`O(n)`, even for negative value of \
+        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
 
-        Space complexity: :code:`O(1)`
+        Space complexity: :code:`O(1)`.
 
         :param index: Index of node.
         :type index: int
-        :return: Node at :code:`index`.
+        :return: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
         :rtype: Node
         """
         for cur_idx, cur_item in enumerate(self):
