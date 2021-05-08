@@ -1,7 +1,7 @@
 """A collection of items stored at contiguous memory locations."""
 from pydsa import Any, Iterable, NonNegativeInt, validate_args
 
-__all__ = ["ExceedMaxLengthError", "ConstantError", "StaticArray", "DynamicArray", "List"]
+__all__ = ["ExceedMaxLengthError", "ConstantError", "StaticArray", "DynamicArray"]
 
 
 class ExceedMaxLengthError(OverflowError):
