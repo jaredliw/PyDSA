@@ -239,7 +239,7 @@ class SinglyLinkedList:
 
         :param value: Value to search for.
         :type value: Any
-        :return: Number of occurrences.
+        :returns: Number of occurrences.
         :rtype: int
         """
 
@@ -257,7 +257,7 @@ class SinglyLinkedList:
 
         Space complexity: :code:`O(1)`.
 
-        :return: The start node of the cycle. If there is no cycle, return None.
+        :returns: The start node of the cycle. If there is no cycle, return None.
         :rtype: Node or None
         """
         if self.head is None:
@@ -322,7 +322,7 @@ class SinglyLinkedList:
 
         Space complexity: :code:`O(1)`.
 
-        :return: Node at the middle of linked list.
+        :returns: Node at the middle of linked list.
         :rtype: Node
         :raises IndexError: Raised when linked list is empty.
         """
@@ -352,7 +352,7 @@ class SinglyLinkedList:
         :type start: int
         :param end: End of subsequence (exclusive), default to :code:`sys.maxsize`.
         :type end: int
-        :return: Index of node relative to the beginning of the full sequence.
+        :returns: Index of node relative to the beginning of the full sequence.
         :rtype: int
         :raises ValueError: Raised when the value is not present.
         """
@@ -431,7 +431,7 @@ class SinglyLinkedList:
 
         :param index: Index of node to pop, default to -1.
         :type index: int
-        :return: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index`.
+        :returns: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index`.
         :rtype: Node
         :raises IndexError: Raised when linked list is empty or \
         :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` is out of range.
@@ -607,7 +607,7 @@ class SinglyLinkedList:
 
         :param index: Index of node.
         :type index: int
-        :return: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
+        :returns: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
         :rtype: Node
         """
         for cur_idx, cur_item in enumerate(self):

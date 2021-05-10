@@ -12,6 +12,8 @@ The main aim of this project is to help python learners in understanding
 DSA and apply them in problem-solving as well as in competitive
 programming.
 
+Github repository: `https://github.com/jaredliw/PyDSA <https://github.com/jaredliw/PyDSA>`__
+
 
 Requirements and Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,6 +47,7 @@ Afterwards, install all dependencies by running the command:
    :caption: Contents
    :glob:
 
+   algorithms/*
    data_structures/*
 
 

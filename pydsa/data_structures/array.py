@@ -33,10 +33,10 @@ class StaticArray(list):
         :param iterable: An iterable to be converted into a static array, default to None.
         :type: Iterable or None
         :param max_length: Maximum length of array, default to the length of \
-        :attr:`~pydsa.data_structures.array.StaticArray.iterable`.
+        :paramref:`~pydsa.data_structures.array.StaticArray.__init__.iterable`.
         :raises ExceedMaxLengthError: Raised when the length of \
-        :attr:`~pydsa.data_structures.array.StaticArray.iterable` is less than \
-        :attr:`~pydsa.data_structures.array.StaticArray.max_length`.
+        :paramref:`~pydsa.data_structures.array.StaticArray.__init__.iterable` is less than \
+        :paramref:`~pydsa.data_structures.array.StaticArray.__init__.max_length`.
         """
         if iterable is None:
             iterable = []
