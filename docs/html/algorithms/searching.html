@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Searching &mdash; PyDSA 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Array" href="../data_structures/array.html" />
+    <link rel="prev" title="Welcome to PyDSA’s documentation!" href="../index.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                PyDSA
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Searching</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/algorithms/searching.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Searching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/array.html">Array</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_structures/linked_list.html">Linked List</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="module-pydsa.algorithms.searching">
+<span id="searching"></span><h1>Searching<a class="headerlink" href="#module-pydsa.algorithms.searching" title="Permalink to this headline">¶</a></h1>
+<p>Algorithms that are used to check for the presence of an element in an array and retrieve its index.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Some algorithms require the array to be sorted forehead. If <code class="code docutils literal notranslate"><span class="pre">pre_check</span></code> is set to False and    <code class="code docutils literal notranslate"><span class="pre">arr</span></code> is not sorted, an unexpected result will be returned.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.searching.binary_search">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.searching.</span></span><span class="sig-name descname"><span class="pre">binary_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.searching.binary_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search a sorted array by repeatedly dividing the search interval in half.</p>
+<dl class="simple">
+<dt>Two prerequisites to use this algorithm:</dt><dd><ul class="simple">
+<li><p>The array must be in sorted order.</p></li>
+<li><p>The array has constant time random access e.g. linked list is not suitable for this algorithm.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(log</span> <span class="pre">n)</span></code>.</p>
+<p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="pydsa.algorithms.searching.binary_search.params.arr"></span><strong>arr</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.binary_search.params.arr">¶</a> (<em>Sequence</em>) – A sequential data structure.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.binary_search.params.target"></span><strong>target</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.binary_search.params.target">¶</a> (<em>Any</em>) – Value to search for.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.binary_search.params.pre_check"></span><strong>pre_check</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.binary_search.params.pre_check">¶</a> (<em>bool</em>) – Check <a class="reference internal" href="#pydsa.algorithms.searching.binary_search.params.arr" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is sorted before running,     default to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of <a class="reference internal" href="#pydsa.algorithms.searching.binary_search.params.target" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> in     <a class="reference internal" href="#pydsa.algorithms.searching.binary_search.params.arr" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raised when <a class="reference internal" href="#pydsa.algorithms.searching.binary_search.params.arr" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is not sorted and     <a class="reference internal" href="#pydsa.algorithms.searching.binary_search.params.pre_check" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">pre_check</span></code></a> is set to True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.searching.exponential_search">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.searching.</span></span><span class="sig-name descname"><span class="pre">exponential_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.searching.exponential_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search exponentially to find the range where <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.target" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a>     may be present and do <a class="reference internal" href="#pydsa.algorithms.searching.binary_search" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">binary_search()</span></code></a> in the range.</p>
+<p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(log</span> <span class="pre">n)</span></code>.</p>
+<p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="pydsa.algorithms.searching.exponential_search.params.arr"></span><strong>arr</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.exponential_search.params.arr">¶</a> (<em>Sequence</em>) – A sequential data structure.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.exponential_search.params.target"></span><strong>target</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.exponential_search.params.target">¶</a> (<em>Any</em>) – Value to search for.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.exponential_search.params.pre_check"></span><strong>pre_check</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.exponential_search.params.pre_check">¶</a> (<em>bool</em>) – Check <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.arr" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is sorted before running,     default to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.target" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> in     <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.arr" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raised when <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.arr" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is not sorted and     <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.pre_check" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">pre_check</span></code></a> is set to True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.searching.interpolation_search">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.searching.</span></span><span class="sig-name descname"><span class="pre">interpolation_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.searching.interpolation_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>An improvement over <a class="reference internal" href="#pydsa.algorithms.searching.binary_search" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">binary_search()</span></code></a> for instances, where the values in a     sorted array are <strong>uniformly distributed</strong>.</p>
+<p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(log</span> <span class="pre">log</span> <span class="pre">n)</span></code>.</p>
+<p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Mechanism behind interpolation search</strong>     <br>     <br>     In <a class="reference internal" href="#pydsa.algorithms.searching.binary_search" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">binary_search()</span></code></a>, we take the average of two pointers i.e. <code class="code docutils literal notranslate"><span class="pre">start</span></code> and     <code class="code docutils literal notranslate"><span class="pre">end</span></code> to find the middle of the array. <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">interpolation_search()</span></code></a> improves on     this by using the formula:     <div class="math notranslate nohighlight">
+   \[
+      \begin{split}
+         pos = start+\frac{(end-start)\times(target-arr[start])}{arr[end]-arr[start]}
+      \end{split}
+   \]
+</div>     The idea of the formula is to return higher value of position when the element to be searched is closer to the end     of the array or vice versa.     <br>     <br>     Suppose that we have an array that contains elements that have linear relationship with their indices (the array     is said to be uniformly distributed). Therefore, we can construct a formula <span class="math notranslate nohighlight">\(f(x)=mx+c\)</span> that maps an index     to <code class="code docutils literal notranslate"><span class="pre">arr[x]</span></code>.    <br>     <br>     Let’s say that we have two points i.e. <span class="math notranslate nohighlight">\(A=(x_a,f(x_a))\)</span> and <span class="math notranslate nohighlight">\(B=(x_b,f(x_b))\)</span> and we want to find a     <span class="math notranslate nohighlight">\(x\)</span> that maps to <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.target" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a>. (Note:     <span class="math notranslate nohighlight">\(x_a&lt;x&lt;x_b\)</span>) Since three points are lied on the same line, gradient of point <span class="math notranslate nohighlight">\(A\)</span> and point     <span class="math notranslate nohighlight">\((x,f(x))\)</span> must be equal to gradient of point <span class="math notranslate nohighlight">\(A\)</span> and point <span class="math notranslate nohighlight">\(B\)</span>. thus, an equation can be     formed:     <div class="math notranslate nohighlight">
+   \[
+      \begin{split}
+         \frac{f(x_b)-f(x_a)}{x_b-x_a} &amp;= \frac{f(x)-f(x_a)}{x-x_a}                                 \\
+                                      x &amp;= x_a + \frac{(x_b-x_a)\times(f(x)-f(x_a))}{f(x_b)-f(x_a)}
+      \end{split}
+   \]
+</div>     In most of the real-life cases, we can’t form a relationship between indices and elements. However, if it     uniformly distributed, graph of <span class="math notranslate nohighlight">\(f(x)\)</span> will more likely to be a straight line and the formula will be more     efficient.     <div class="admonition seealso" style="padding: 2rem 0rem 0rem 0rem;">
+   <p class="admonition-title">See also</p>
+   <p>
+      <a class="reference external" href="https://medium.com/@smellycode/demystifying-interpolation-formula-             for-interpolation-search-211780c43269">https://medium.com/@smellycode/demystifying-interpolation-formula-             for-interpolation-search-211780c43269</a>
+  </p>
+</div></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="pydsa.algorithms.searching.interpolation_search.params.arr"></span><strong>arr</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.arr">¶</a> (<em>Sequence</em>) – A sequential data structure.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.interpolation_search.params.target"></span><strong>target</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.target">¶</a> (<em>Any</em>) – Value to search for.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.interpolation_search.params.pre_check"></span><strong>pre_check</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.pre_check">¶</a> (<em>bool</em>) – Check <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.arr" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is sorted before running,     default to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.target" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> in     <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.arr" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raised when <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.arr" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is not sorted and     <a class="reference internal" href="#pydsa.algorithms.searching.interpolation_search.params.pre_check" title="pydsa.algorithms.searching.interpolation_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">pre_check</span></code></a> is set to True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.searching.jump_search">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.searching.</span></span><span class="sig-name descname"><span class="pre">jump_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.searching.jump_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search a sorted array by jumping ahead by fixed steps (<span class="math notranslate nohighlight">\(\sqrt{n}\)</span> is optimum, where <span class="math notranslate nohighlight">\(n\)</span> is the     length of array).</p>
+<p>This algorithm is less efficient than <a class="reference internal" href="#pydsa.algorithms.searching.binary_search" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">binary_search()</span></code></a>, but it can be used in a     system where binary search is costly e.g. in the case that     <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.target" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> is an extreme value in     <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.arr" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+<p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(sqrt</span> <span class="pre">n)</span></code>.</p>
+<p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Why the optimal block size is</strong> <span class="math notranslate nohighlight">\(\sqrt{n}\)</span> <strong>?</strong>     <br>     <br>     Consider an array with size of <span class="math notranslate nohighlight">\(n\)</span> and a block size <span class="math notranslate nohighlight">\(m\)</span>. The worst case is when the value we want     to search for is the last element in the array. We need <span class="math notranslate nohighlight">\(\frac{n}{m}+m-1\)</span> steps: <span class="math notranslate nohighlight">\(\frac{n}{m}\)</span> jumps     to reach at the block where the value is located and another <span class="math notranslate nohighlight">\(m-1\)</span> steps to search linearly in the block.     <br>     <br>     The expression is minimal when the gradient is 0. We differentiate the expression respect to <span class="math notranslate nohighlight">\(m\)</span>:     <div class="math notranslate nohighlight">
+   \[
+      \begin{split}
+         \frac{\delta}{\delta m}(\frac{n}{m}+m-1) &amp;= 0         \\
+                                    -\frac{n}{m^2}+1 &amp;= 0         \\
+                                       \frac{n}{m^2} &amp;= 1         \\
+                                                  m^2 &amp;= n         \\
+                                                    m &amp;= \sqrt{n}
+      \end{split}
+   \]
+</div></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="pydsa.algorithms.searching.jump_search.params.arr"></span><strong>arr</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.jump_search.params.arr">¶</a> (<em>Sequence</em>) – A sequential data structure.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.jump_search.params.target"></span><strong>target</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.jump_search.params.target">¶</a> (<em>Any</em>) – Value to search for.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.jump_search.params.pre_check"></span><strong>pre_check</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.jump_search.params.pre_check">¶</a> (<em>bool</em>) – Check <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.arr" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is sorted before running,     default to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.target" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> in     <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.arr" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raised when <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.arr" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is not sorted and     <a class="reference internal" href="#pydsa.algorithms.searching.jump_search.params.pre_check" title="pydsa.algorithms.searching.jump_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">pre_check</span></code></a> is set to True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.searching.linear_search">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.searching.</span></span><span class="sig-name descname"><span class="pre">linear_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.searching.linear_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search sequentially from left to right.</p>
+<p>This algorithm functions well when <a class="reference internal" href="#pydsa.algorithms.searching.linear_search.params.arr" title="pydsa.algorithms.searching.linear_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is not sorted. It     takes <code class="code docutils literal notranslate"><span class="pre">O(n</span> <span class="pre">log</span> <span class="pre">n)</span></code> to sort an array and the efficiencies of other searching algorithms decrease because of     this.</p>
+<p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
+<p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="pydsa.algorithms.searching.linear_search.params.arr"></span><strong>arr</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.linear_search.params.arr">¶</a> (<em>Iterable</em>) – An iterable.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.linear_search.params.target"></span><strong>target</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.linear_search.params.target">¶</a> (<em>Any</em>) – Value to search for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of <a class="reference internal" href="#pydsa.algorithms.searching.linear_search.params.target" title="pydsa.algorithms.searching.linear_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> in     <a class="reference internal" href="#pydsa.algorithms.searching.linear_search.params.arr" title="pydsa.algorithms.searching.linear_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.searching.ternary_search">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.searching.</span></span><span class="sig-name descname"><span class="pre">ternary_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.searching.ternary_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#pydsa.algorithms.searching.binary_search" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">binary_search()</span></code></a>, this algorithm search a sorted array by     repeatedly dividing the search interval into three parts.</p>
+<p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(log3</span> <span class="pre">n)</span></code>.</p>
+<p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#pydsa.algorithms.searching.ternary_search" title="pydsa.algorithms.searching.ternary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">ternary_search()</span></code></a> <strong>is less preferable over</strong>     <a class="reference internal" href="#pydsa.algorithms.searching.binary_search" title="pydsa.algorithms.searching.binary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">binary_search()</span></code></a> <strong>. Why?</strong>     <br>     <br>     In short, <a class="reference internal" href="#pydsa.algorithms.searching.ternary_search" title="pydsa.algorithms.searching.ternary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">ternary_search()</span></code></a> makes more comparisons (means more time is needed!)     in worst case.     <br>     We need at most <span class="math notranslate nohighlight">\(4\lfloor\log_3 n\rfloor\)</span> comparisons in ternary search but     <span class="math notranslate nohighlight">\(2\lfloor\log_2 n\rfloor\)</span> comparisons in binary search.     <br>     <div class="align-center figure" id="id1">
+   <img alt="alternate text" src="../../../sphinx-source/images/binary-ternary.png">
+   <p class="caption"><span class="caption-text">Comparison between the performances
+      <a class="reference internal" href="#pydsa.algorithms.searching.binary_search"              title="pydsa.algorithms.searching.binary_search">
+         <code class="xref py py-func docutils literal notranslate">
+            <span class="pre">binary_search()</span>
+         </code>
+      </a> and
+      <a class="reference internal" href="#pydsa.algorithms.searching.ternary_search"              title="pydsa.algorithms.searching.ternary_search">
+         <code class="xref py py-func docutils literal notranslate">
+            <span class="pre">ternary_search()</span>
+         </code>
+      </a>. (For simplicity, floor functions are not plotted)</span>
+      <a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>     <br>     <a class="reference internal" href="#pydsa.algorithms.searching.ternary_search" title="pydsa.algorithms.searching.ternary_search"><code class="xref py py-func docutils literal notranslate"><span class="pre">ternary_search()</span></code></a> actually adds complexity to the implementation,     that’s why you seldom use quaternary search or k-nary search for any other higher order.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span class="target" id="pydsa.algorithms.searching.ternary_search.params.arr"></span><strong>arr</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.ternary_search.params.arr">¶</a> (<em>Sequence</em>) – A sequential data structure.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.ternary_search.params.target"></span><strong>target</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.ternary_search.params.target">¶</a> (<em>Any</em>) – Value to search for.</p></li>
+<li><p><span class="target" id="pydsa.algorithms.searching.ternary_search.params.pre_check"></span><strong>pre_check</strong><a class="paramlink headerlink reference internal" href="#pydsa.algorithms.searching.ternary_search.params.pre_check">¶</a> (<em>bool</em>) – Check <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.arr" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is sorted before running,     default to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.target" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">target</span></code></a> in     <a class="reference internal" href="#pydsa.algorithms.searching.exponential_search.params.arr" title="pydsa.algorithms.searching.exponential_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Raised when <a class="reference internal" href="#pydsa.algorithms.searching.ternary_search.params.arr" title="pydsa.algorithms.searching.ternary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">arr</span></code></a> is not sorted and     <a class="reference internal" href="#pydsa.algorithms.searching.ternary_search.params.pre_check" title="pydsa.algorithms.searching.ternary_search"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">pre_check</span></code></a> is set to True.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Jared Liw Zhi Long.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.0.
+        </div>
+    </div>  
+
+</body>
+</html>
