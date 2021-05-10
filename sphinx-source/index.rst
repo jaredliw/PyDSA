@@ -15,6 +15,11 @@ programming.
 Github repository: `https://github.com/jaredliw/PyDSA <https://github.com/jaredliw/PyDSA>`__
 
 
+.. raw:: html
+
+   <hr>
+
+
 Requirements and Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -23,6 +28,11 @@ supported**.
 
 For more details, please read
 `requirements.txt <https://github.com/jaredliw/PyDSA/blob/master/requirements.txt>`__.
+
+
+.. raw:: html
+
+   <hr>
 
 
 Installation
@@ -42,13 +52,31 @@ Afterwards, install all dependencies by running the command:
     pip install -r requirements.txt
 
 
+.. raw:: html
+
+   <hr>
+
+
+Contents
+~~~~~~~~
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
+   :caption: Algorithms
    :glob:
 
    algorithms/*
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Data Structures
+   :glob:
+
    data_structures/*
+
+
+.. raw:: html
+
+   <hr>
 
 
 Indices and tables
@@ -57,6 +85,11 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+.. raw:: html
+
+   <hr>
 
 
 License
