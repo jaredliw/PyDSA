@@ -333,6 +333,9 @@ class _LinkedList(ABC):
         a particular subsequence of the linked list. The returned index is computed relative to the beginning of the \
         full sequence rather than the start argument.
 
+        Time Complexity: :code:`O(n)`
+
+        Space Com
         :param value: Value to search for.
         :type value: Any
         :param start: Start of subsequence (inclusive), default to 0.
@@ -664,3 +667,64 @@ class SinglyLinkedList(_LinkedList):
         if "target" not in locals():  # Check "target" is defined
             raise IndexError("{} index out of range".format(type(self).__name__))
         return target  # noqa
+
+
+class DoublyLinkedList(_LinkedList):
+    def __new__(cls):
+        cls.__doc__ = super(DoublyLinkedList, cls).__doc__
+
+        return super(DoublyLinkedList, cls).__new__(cls)
+
+    def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
+        node_a.next_node = node_b
+        node_b.last_node = node_a
+
+    def _create_node(self, value: Any) -> NodeType:
+        return Node(value, last_node=None, next_node=None)
+
+    def extend(self, iterable: Iterable) -> None:
+        last_node = self.traverse(-1)
+        for item in iterable:
+            new_node = self._create_node(item)
+            self._connect_nodes(last_node, new_node)
+            last_node = new_node
+
+    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
+        pass
+
+    def insert(self, index: int, value: Any) -> None:
+        new_node = self._create_node(value)
+        node_at_idx = self.traverse(index)
+        if node_at_idx is self.head:
+            self.head = new_node
+        else:
+            last_node = node_at_idx.last_node  # noqa
+            self._connect_nodes(last_node, new_node)  # noqa
+        self._connect_nodes(new_node, node_at_idx)  # noqa
+
+    def pop(self, index: int = -1) -> NodeType:
+        node_at_idx = self.traverse(index)
+        if node_at_idx is self.head:
+            self.head = node_at_idx.next_node  # noqa
+        else:
+            last_node = node_at_idx.last_node  # noqa
+            self._connect_nodes(last_node, new_node)  # noqa
+
+    def reverse(self) -> None:
+        cur_node = self.traverse(-1)
+        self.head = cur_node
+        while cur_node.last_node is not None:
+            cur_node.last_node, cur_node.last_node = cur_node.next_node, cur_node.last_node
+            cur_node = cur_node.last_node
+        cur_node.next_node = None
+
+    def sort(self) -> None:
+        __doc__ = super(DoublyLinkedList, self).sort.__doc__
+        # todo: implement sort
+        raise NotImplementedError
+
+    def swap(self, index1: int, index2: int) -> None:
+        pass
+
+    def traverse(self, index: int) -> NodeType:
+        pass
