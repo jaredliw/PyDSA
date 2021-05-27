@@ -1,5 +1,6 @@
 """A linear data structure where each element is a separate object."""
 import sys
+from abc import ABC, abstractmethod
 from copy import deepcopy
 
 from pydsa import Any, Iterable, validate_args, PositiveInt
@@ -13,29 +14,15 @@ class ExceededMaxIterations(RuntimeError):
     pass
 
 
-class SinglyLinkedList:
-    """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
-    pointers.
-
-    .. note:: :class:`~pydsa.data_structures.linked_list.SinglyLinkedList` supports all methods from built-in \
-       :code:`list`, except indexing / slicing (use \
-       :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse` for indexing). Besides that, \
-       unlike :code:`list`, :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.copy` is making a deep copy.
-
-    :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
-    :type MAX_ITER: int
-    :ivar head: Head of linked list.
-    :type head: Node or None
-    :raises ExceededMaxIterations: Raised when maximum iterations has been exceeded to prevent an infinite loop.
-    """
+class _LinkedList(ABC):
     MAX_ITER = 99
     head = None
 
     @validate_args
     def __init__(self, iterable: Iterable = None):
-        """Initialize a new singly linked list from an iterable.
+        """Initialize a new linked list from an iterable.
 
-        :param iterable: An iterable to be converted into a singly linked list, default to None.
+        :param iterable: An iterable to be converted into a linked list, default to None.
         :type iterable: Iterable or None
         """
         if iterable is not None:
@@ -88,7 +75,7 @@ class SinglyLinkedList:
             self.head = copied.head
         else:
             node = self.traverse(-1)
-            node.next_node = copied.head
+            self._connect_nodes(node, copied.head)
         return self
 
     def __imul__(self, other):
@@ -184,29 +171,36 @@ class SinglyLinkedList:
         except ExceededMaxIterations:
             return "{}({})".format(type(self).__name__, "<cannot show node(s)>")
 
+    @abstractmethod
+    def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
+        pass
+
+    @abstractmethod
+    def _create_node(self, value: Any) -> NodeType:
+        pass
+
     @validate_args
     def append(self, value: Any) -> None:
-        """Append a new node with :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.append.value` to the \
-        end of linked list.
+        """Append a new node to the end of linked list.
 
         Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the last node.
 
         Space complexity: :code:`O(1)`.
 
-        :param value: Value for the new node.
+        :param value: Value for new node.
         :type value: Any
         :rtype: None
         """
-        new_node = Node(value, next_node=None)
+        new_node = self._create_node(value)
         if self.head is None:
             self.head = new_node
         else:
             tail_node = self.traverse(-1)
-            tail_node.next_node = new_node
+            self._connect_nodes(tail_node, new_node)
 
     @validate_args
     def clear(self) -> None:
-        """Remove all node(s) from linked list.
+        """Remove all nodes from linked list.
 
         Time complexity: :code:`O(1)`.
 
@@ -230,14 +224,13 @@ class SinglyLinkedList:
 
     @validate_args
     def count(self, value: Any) -> int:
-        """Return number of occurrences of nodes with \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.count.value`.
+        """Return number of occurrences of nodes with value.
 
         Time complexity: :code:`O(n)`.
 
         Space complexity: :code:`O(n)`.
 
-        :param value: Value to search for.
+        :param value: Value to count for.
         :type value: Any
         :returns: Number of occurrences.
         :rtype: int
@@ -287,11 +280,9 @@ class SinglyLinkedList:
         finally:
             self.MAX_ITER = max_iter_copy  # Reset MAX_ITER
 
-    @validate_args
+    @abstractmethod
     def extend(self, iterable: Iterable) -> None:
-        """Create nodes with values from \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.extend.iterable` and extend them to the end of \
-        linked list.
+        """Create nodes with values from iterable and extend them to the end of linked list.
 
         Time complexity: :code:`O(n)`, but it take :code:`O(n)` to traverse to the last node.
 
@@ -301,18 +292,7 @@ class SinglyLinkedList:
         :type iterable: Iterable
         :rtype: None
         """
-        head_node = None
-        last_node = None
-        for item in iterable:
-            new_node = Node(item, next_node=None)
-            if head_node is None:
-                head_node = new_node
-            else:
-                last_node.next_node = new_node
-            last_node = new_node
-        new = self.__class__()
-        new.head = head_node
-        self.__iadd__(new)
+        pass
 
     @validate_args
     def find_middle(self) -> NodeType:
@@ -336,15 +316,11 @@ class SinglyLinkedList:
             fast = fast.next_node.next_node
         return slow
 
-    @validate_args
+    @abstractmethod
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
-        """Return first index of node with \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.value`. The optional arguments \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.start` and \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.end` are used to limit the search to a \
-        particular subsequence of the linked list. The returned index is computed relative to the beginning of the \
-        full sequence rather than the :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.index.start` \
-        argument.
+        """Return first index of node with value. The optional arguments start and end are used to limit the search to \
+        a particular subsequence of the linked list. The returned index is computed relative to the beginning of the \
+        full sequence rather than the start argument.
 
         :param value: Value to search for.
         :type value: Any
@@ -356,44 +332,13 @@ class SinglyLinkedList:
         :rtype: int
         :raises ValueError: Raised when the value is not present.
         """
+        pass
 
-        def _index():
-            nonlocal start
-            if start < end:
-                try:
-                    node = self.traverse(start)
-                except IndexError:
-                    raise ValueError("{} not in {}".format(value, type(self).__name__))
-                while node is not None and start < end:
-                    if node == value:
-                        return start
-                    node = node.next_node  # noqa
-                    start += 1
-                raise ValueError("{} not in {}".format(value, type(self).__name__))
-            else:
-                raise ValueError("{} not in {}".format(value, type(self).__name__))
-
-        if start >= 0 and end >= 0:
-            return _index()  # noqa
-        else:
-            length = len(self)
-            if start < 0 and end < 0:
-                if -start > length:
-                    return self.index(value, end=end)
-                else:
-                    return length + _index()  # noqa, convert negative index to positive
-            elif start < 0:  # Negative start, positive end
-                return self.index(value, length + start, end)
-            else:  # Positive start, negative end
-                return self.index(value, start, length + end)
-
-    @validate_args
+    @abstractmethod
     def insert(self, index: int, value: Any) -> None:
-        """Create a new node with :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.insert.value` and \
-        insert it before :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.insert.index`.
+        """Create a new node with value and insert it before index.
 
-        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the node at \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.insert.index`.
+        Time complexity: :code:`O(1)`, but it take :code:`O(n)` to traverse to the node at index.
 
         Space complexity: :code:`O(1)`.
 
@@ -403,62 +348,28 @@ class SinglyLinkedList:
         :type value: Any
         :rtype: None
         """
-        new_node = Node(value=value, next_node=None)
-        if index == 0 or len(self) == 0:
-            new_node.next_node = self.head
-            self.head = new_node
-        else:
-            try:
-                prev_node = self.traverse(index - 1)
-            except IndexError:
-                if index > 0:  # if index (positive) >= length, append it at the end, same behavior as list.insert
-                    return self.append(value)
-                else:
-                    return self.insert(0, value)
-            new_node.next_node = prev_node.next_node
-            prev_node.next_node = new_node
+        pass
 
-    @validate_args
+    @abstractmethod
     def pop(self, index: int = -1) -> NodeType:
-        """Remove and return node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` \
-        (default last). Raises :code:`IndexError` if list is empty or \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` is out of range.
+        """Remove and return node at index (default last). Raises :code:`IndexError` if list is empty or index is out \
+        of range.
 
-        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node at
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index`.
+        Time complexity: :code:`O(1)`, but it takes `O(n)` to traverse to the node at index.
 
         Space complexity: :code:`O(1)`.
 
         :param index: Index of node to pop, default to -1.
         :type index: int
-        :returns: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index`.
+        :returns: Node at index.
         :rtype: Node
-        :raises IndexError: Raised when linked list is empty or \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.pop.index` is out of range.
+        :raises IndexError: Raised when linked list is empty or index is out of range.
         """
-        if self.head is None:
-            raise IndexError("pop from empty {}".format(type(self).__name__))
-
-        if index == 0:
-            self.head = self.head.next_node  # noqa
-            return self.head
-        else:
-            try:
-                prev_node = self.traverse(index - 1)
-            except IndexError as e:
-                if self.traverse(index) is self.head:  # Check if node at index (negative) is a head node
-                    return self.pop(0)
-                else:
-                    raise e
-            if prev_node.next_node is None:
-                raise IndexError("{} index out of range".format(type(self).__name__))
-            prev_node.next_node = prev_node.next_node.next_node
-            return prev_node.next_node
+        pass
 
     @validate_args
     def remove(self, value: Any) -> None:
-        """Remove first occurrence of node with \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.remove.value`.
+        """Remove first occurrence of node with value.
 
         :param value: Value to search for.
         :type value: Any
@@ -514,12 +425,10 @@ class SinglyLinkedList:
                 return
             return _remove_duplicates(current.next_node, current, reference, iteration)
 
-        if self.head is None:
-            return
-        else:
+        if self.head is not None:
             return _remove_duplicates()
 
-    @validate_args
+    @abstractmethod
     def reverse(self) -> None:
         """Reverse the linked list in place.
 
@@ -529,6 +438,166 @@ class SinglyLinkedList:
 
         :rtype: None
         """
+        pass
+
+    @abstractmethod
+    def sort(self) -> None:
+        """Sort linked list in place.
+
+        :rtype: None
+        """
+        pass
+
+    @abstractmethod
+    def swap(self, index1: int, index2: int) -> None:
+        """Swap two nodes at indices.
+
+        Time complexity: :code:`O(1)`, but it takes :code:`O(n)` to traverse to the node.
+
+        Space complexity: :code:`O(1)`.
+
+        :param index1: Index of node 1.
+        :type index1: int
+        :param index2: Index of node 2.
+        :type index2: int
+        :rtype: None
+        """
+        pass
+
+    @abstractmethod
+    def traverse(self, index: int) -> NodeType:
+        """Loop through the linked list and get the node at index.
+
+        Time complexity: :code:`O(n)`, even for negative index.
+
+        Space complexity: :code:`O(1)`.
+
+        :param index: Index of node.
+        :type index: int
+        :returns: Node at index.
+        :rtype: Node
+        """
+        pass
+
+
+class SinglyLinkedList(_LinkedList):
+    """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
+    pointers.
+
+    .. note:: :class:`~pydsa.data_structures.linked_list.SinglyLinkedList` supports all methods from built-in \
+       :code:`list`, except indexing / slicing (use \
+       :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse` for indexing). Besides that, \
+       unlike :code:`list`, :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.copy` is making a deep copy.
+
+    :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
+    :type MAX_ITER: int
+    :ivar head: Head of linked list.
+    :type head: Node or None
+    :raises ExceededMaxIterations: Raised when maximum iterations has been exceeded to prevent an infinite loop.
+    """
+    def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
+        node_a.next_node = node_b
+
+    def _create_node(self, value: Any) -> NodeType:
+        return Node(value, next_node=None)
+
+    @validate_args
+    def extend(self, iterable: Iterable) -> None:
+        __doc__ = super(SinglyLinkedList, self).extend.__doc__
+
+        head_node = None
+        last_node = None
+        for item in iterable:
+            new_node = self._create_node(item)
+            if head_node is None:
+                head_node = new_node
+            else:
+                self._connect_nodes(last_node, new_node)  # noqa
+            last_node = new_node
+        new = self.__class__()
+        new.head = head_node
+        self.__iadd__(new)
+
+    @validate_args
+    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
+        __doc__ = super(SinglyLinkedList, self).index.__doc__
+
+        def _index():
+            nonlocal start
+            if start < end:
+                try:
+                    node = self.traverse(start)
+                except IndexError:
+                    raise ValueError("{} not in {}".format(value, type(self).__name__))
+                while node is not None and start < end:
+                    if node == value:
+                        return start
+                    node = node.next_node  # noqa
+                    start += 1
+                raise ValueError("{} not in {}".format(value, type(self).__name__))
+            else:
+                raise ValueError("{} not in {}".format(value, type(self).__name__))
+
+        if start >= 0 and end >= 0:
+            return _index()  # noqa
+        else:
+            length = len(self)
+            if start < 0 and end < 0:
+                if -start > length:
+                    return self.index(value, end=end)
+                else:
+                    return length + _index()  # noqa, convert negative index to positive
+            elif start < 0:  # Negative start, positive end
+                return self.index(value, length + start, end)
+            else:  # Positive start, negative end
+                return self.index(value, start, length + end)
+
+    @validate_args
+    def insert(self, index: int, value: Any) -> None:
+        __doc__ = super(SinglyLinkedList, self).insert.__doc__
+
+        new_node = self._create_node(value)
+        if index == 0 or len(self) == 0:
+            new_node.next_node = self.head
+            self.head = new_node
+        else:
+            try:
+                prev_node = self.traverse(index - 1)
+            except IndexError:
+                if index > 0:  # if index (positive) >= length, append it at the end, same behavior as list.insert
+                    return self.append(value)
+                else:
+                    return self.insert(0, value)
+            new_node.next_node = prev_node.next_node
+            prev_node.next_node = new_node
+
+    @validate_args
+    def pop(self, index: int = -1) -> NodeType:
+        __doc__ = super(SinglyLinkedList, self).pop.__doc__
+
+        if self.head is None:
+            raise IndexError("pop from empty {}".format(type(self).__name__))
+
+        if index == 0:
+            self.head = self.head.next_node  # noqa
+            return self.head
+        else:
+            try:
+                prev_node = self.traverse(index - 1)
+            except IndexError as e:
+                if self.traverse(index) is self.head:  # Check if node at index (negative) is a head node
+                    return self.pop(0)
+                else:
+                    raise e
+            if prev_node.next_node is None:
+                raise IndexError("{} index out of range".format(type(self).__name__))
+            self._connect_nodes(prev_node, prev_node.next_node.next_node)
+            return prev_node.next_node
+
+    @validate_args
+    def reverse(self) -> None:
+        __doc__ = super(SinglyLinkedList, self).reverse.__doc__
+
         prev_nd = None
         iteration = 0
         while self.head is not None:
@@ -554,28 +623,13 @@ class SinglyLinkedList:
         # self.head = _reverse(self.head)
 
     def sort(self) -> None:
-        """Sort linked list in place.
-
-        :rtype: None
-        """
+        __doc__ = super(SinglyLinkedList, self).sort.__doc__
         # todo: implement sort
         raise NotImplementedError
 
     @validate_args
     def swap(self, index1: int, index2: int) -> None:
-        """Swap two nodes at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.swap.index1` and \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.swap.index2`.
-
-        Time complexity: :code:`O(1)`, but it takes :code:`O(n)` to traverse to the node.
-
-        Space complexity: :code:`O(1)`.
-
-        :param index1: Index of node 1.
-        :type index1: int
-        :param index2: Index of node 2.
-        :type index2: int
-        :rtype: None
-        """
+        __doc__ = super(SinglyLinkedList, self).swap.__doc__
 
         if index1 == index2:
             return
@@ -597,19 +651,8 @@ class SinglyLinkedList:
 
     @validate_args
     def traverse(self, index: int) -> NodeType:
-        """Loop through the linked list and get the node at \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
+        __doc__ = super(SinglyLinkedList, self).traverse.__doc__
 
-        Time complexity: :code:`O(n)`, even for negative value of \
-        :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
-
-        Space complexity: :code:`O(1)`.
-
-        :param index: Index of node.
-        :type index: int
-        :returns: Node at :paramref:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse.index`.
-        :rtype: Node
-        """
         for cur_idx, cur_item in enumerate(self):
             if index < 0:
                 if cur_idx == abs(index) - 1:
