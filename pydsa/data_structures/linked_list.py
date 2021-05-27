@@ -30,7 +30,7 @@ class _LinkedList(ABC):
     head = None
 
     @validate_args
-    def __init__(self, iterable: Iterable = None):
+    def __init__(self, iterable: Iterable = None) -> None:
         """Initialize a new linked list from an iterable.
 
         :param iterable: An iterable to be converted into a linked list, default to None.
@@ -111,7 +111,8 @@ class _LinkedList(ABC):
                 raise ExceededMaxIterations("maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             yield current
-            current = current.next_node  # noqa
+            # noinspection PyUnresolvedReferences
+            current = current.next_node
 
     def __le__(self, other):
         return self.__lt__(other) or self.__eq__(other)
@@ -291,7 +292,7 @@ class _LinkedList(ABC):
         finally:
             self.MAX_ITER = max_iter_copy  # Reset MAX_ITER
 
-    @abstractmethod
+    @validate_args
     def extend(self, iterable: Iterable) -> None:
         """Create nodes with values from iterable and extend them to the end of linked list.
 
@@ -303,7 +304,14 @@ class _LinkedList(ABC):
         :type iterable: Iterable
         :rtype: None
         """
-        pass
+        last_node = None if self.head is None else self.traverse(-1)
+        for item in iterable:
+            new_node = self._create_node(item)
+            if last_node is None:
+                self.head = new_node
+            else:
+                self._connect_nodes(last_node, new_node)
+            last_node = new_node
 
     @validate_args
     def find_middle(self) -> NodeType:
@@ -322,7 +330,7 @@ class _LinkedList(ABC):
 
         slow = self.head
         fast = self.head
-        while fast.next_node is not None and fast.next_node.next_node is not None:  # noqa
+        while fast.next_node is not None and fast.next_node.next_node is not None:
             slow = slow.next_node
             fast = fast.next_node.next_node
         return slow
@@ -333,9 +341,10 @@ class _LinkedList(ABC):
         a particular subsequence of the linked list. The returned index is computed relative to the beginning of the \
         full sequence rather than the start argument.
 
-        Time Complexity: :code:`O(n)`
+        Time complexity: :code:`O(n)`
 
-        Space Com
+        Space Complexity: :code:`O(1)`
+
         :param value: Value to search for.
         :type value: Any
         :param start: Start of subsequence (inclusive), default to 0.
@@ -494,30 +503,18 @@ class _LinkedList(ABC):
         pass
 
 
+# noinspection PyMissingOrEmptyDocstring
 class SinglyLinkedList(_LinkedList):
-    def __new__(cls):
+    def __new__(cls, iterable: Iterable = None, *args, **kwargs):
         cls.__doc__ = super(SinglyLinkedList, cls).__doc__
 
-        return super(SinglyLinkedList, cls).__new__(cls)
+        return super(SinglyLinkedList, cls).__new__(cls, *args, **kwargs)
 
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
         node_a.next_node = node_b
 
     def _create_node(self, value: Any) -> NodeType:
         return Node(value, next_node=None)
-
-    @validate_args
-    def extend(self, iterable: Iterable) -> None:
-        __doc__ = super(SinglyLinkedList, self).extend.__doc__
-
-        last_node = None if self.head is None else self.traverse(-1)
-        for item in iterable:
-            new_node = self._create_node(item)
-            if last_node is None:
-                self.head = new_node
-            else:
-                self._connect_nodes(last_node, new_node)  # noqa
-            last_node = new_node
 
     @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
@@ -533,21 +530,23 @@ class SinglyLinkedList(_LinkedList):
                 while node is not None and start < end:
                     if node == value:
                         return start
-                    node = node.next_node  # noqa
+                    node = node.next_node
                     start += 1
                 raise ValueError("{} not in {}".format(value, type(self).__name__))
             else:
                 raise ValueError("{} not in {}".format(value, type(self).__name__))
 
         if start >= 0 and end >= 0:
-            return _index()  # noqa
+            # noinspection PyTypeChecker
+            return _index()
         else:
             length = len(self)
             if start < 0 and end < 0:
                 if -start > length:
                     return self.index(value, end=end)
                 else:
-                    return length + _index()  # noqa, convert negative index to positive
+                    # noinspection PyTypeChecker
+                    return length + _index()  # Convert negative index to positive
             elif start < 0:  # Negative start, positive end
                 return self.index(value, length + start, end)
             else:  # Positive start, negative end
@@ -559,7 +558,8 @@ class SinglyLinkedList(_LinkedList):
 
         new_node = self._create_node(value)
         if index == 0 or len(self) == 0:
-            new_node.next_node = self.head
+            # noinspection PyTypeChecker
+            self._connect_nodes(new_node, self.head)
             self.head = new_node
         else:
             try:
@@ -569,8 +569,9 @@ class SinglyLinkedList(_LinkedList):
                     return self.append(value)
                 else:
                     return self.insert(0, value)
-            new_node.next_node = prev_node.next_node
-            prev_node.next_node = new_node
+            # noinspection PyTypeChecker
+            self._connect_nodes(new_node, prev_node.next_node)
+            self._connect_nodes(prev_node, new_node)
 
     @validate_args
     def pop(self, index: int = -1) -> NodeType:
@@ -580,7 +581,7 @@ class SinglyLinkedList(_LinkedList):
             raise IndexError("pop from empty {}".format(type(self).__name__))
 
         if index == 0:
-            self.head = self.head.next_node  # noqa
+            self.head = self.head.next_node
             return self.head
         else:
             try:
@@ -607,7 +608,7 @@ class SinglyLinkedList(_LinkedList):
                 raise ExceededMaxIterations("Maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             next_nd = self.head.next_node
-            self.head.next_node = prev_nd
+            self._connect_nodes(self.head, prev_nd)
             prev_nd = self.head
             self.head = next_nd
         self.head = prev_nd
@@ -640,7 +641,7 @@ class SinglyLinkedList(_LinkedList):
             if node2 is None:
                 raise IndexError("{} index out of range".format(type(self).__name__))
             self.head.next_node, node2.next_node = node2.next_node, self.head.next_node
-            prev2.next_node = self.head
+            self._connect_nodes(prev2, self.head)
             self.head = node2
         else:
             prev1 = self.traverse(index1 - 1)
@@ -659,72 +660,13 @@ class SinglyLinkedList(_LinkedList):
                 if cur_idx == abs(index) - 1:
                     target = self.head
                 elif cur_idx > abs(index) - 1:
-                    target = target.next_node  # noqa
+                    # noinspection PyUnboundLocalVariable
+                    target = target.next_node
             elif cur_idx == index:
                 target = cur_item
                 break
 
         if "target" not in locals():  # Check "target" is defined
             raise IndexError("{} index out of range".format(type(self).__name__))
-        return target  # noqa
-
-
-class DoublyLinkedList(_LinkedList):
-    def __new__(cls):
-        cls.__doc__ = super(DoublyLinkedList, cls).__doc__
-
-        return super(DoublyLinkedList, cls).__new__(cls)
-
-    def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
-        node_a.next_node = node_b
-        node_b.last_node = node_a
-
-    def _create_node(self, value: Any) -> NodeType:
-        return Node(value, last_node=None, next_node=None)
-
-    def extend(self, iterable: Iterable) -> None:
-        last_node = self.traverse(-1)
-        for item in iterable:
-            new_node = self._create_node(item)
-            self._connect_nodes(last_node, new_node)
-            last_node = new_node
-
-    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
-        pass
-
-    def insert(self, index: int, value: Any) -> None:
-        new_node = self._create_node(value)
-        node_at_idx = self.traverse(index)
-        if node_at_idx is self.head:
-            self.head = new_node
-        else:
-            last_node = node_at_idx.last_node  # noqa
-            self._connect_nodes(last_node, new_node)  # noqa
-        self._connect_nodes(new_node, node_at_idx)  # noqa
-
-    def pop(self, index: int = -1) -> NodeType:
-        node_at_idx = self.traverse(index)
-        if node_at_idx is self.head:
-            self.head = node_at_idx.next_node  # noqa
-        else:
-            last_node = node_at_idx.last_node  # noqa
-            self._connect_nodes(last_node, new_node)  # noqa
-
-    def reverse(self) -> None:
-        cur_node = self.traverse(-1)
-        self.head = cur_node
-        while cur_node.last_node is not None:
-            cur_node.last_node, cur_node.last_node = cur_node.next_node, cur_node.last_node
-            cur_node = cur_node.last_node
-        cur_node.next_node = None
-
-    def sort(self) -> None:
-        __doc__ = super(DoublyLinkedList, self).sort.__doc__
-        # todo: implement sort
-        raise NotImplementedError
-
-    def swap(self, index1: int, index2: int) -> None:
-        pass
-
-    def traverse(self, index: int) -> NodeType:
-        pass
+        # noinspection PyUnboundLocalVariable
+        return target
