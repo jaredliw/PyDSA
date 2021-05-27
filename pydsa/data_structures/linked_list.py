@@ -335,7 +335,7 @@ class _LinkedList(ABC):
             fast = fast.next_node.next_node
         return slow
 
-    @abstractmethod
+    @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
         """Return first index of node with value. The optional arguments start and end are used to limit the search to \
         a particular subsequence of the linked list. The returned index is computed relative to the beginning of the \
@@ -355,7 +355,39 @@ class _LinkedList(ABC):
         :rtype: int
         :raises ValueError: Raised when the value is not present.
         """
-        pass
+
+        def _index():
+            nonlocal start
+            if start < end:
+                try:
+                    node = self.traverse(start)
+                except IndexError:
+                    raise ValueError("{} not in {}".format(value, type(self).__name__))
+                while node is not None and start < end:
+                    if node == value:
+                        return start
+                    # noinspection PyUnresolvedReferences
+                    node = node.next_node
+                    start += 1
+                raise ValueError("{} not in {}".format(value, type(self).__name__))
+            else:
+                raise ValueError("{} not in {}".format(value, type(self).__name__))
+
+        if start >= 0 and end >= 0:
+            # noinspection PyTypeChecker
+            return _index()
+        else:
+            length = len(self)
+            if start < 0 and end < 0:
+                if -start > length:
+                    return self.index(value, end=end)
+                else:
+                    # noinspection PyTypeChecker
+                    return length + _index()  # Convert negative index to positive
+            elif start < 0:  # Negative start, positive end
+                return self.index(value, length + start, end)
+            else:  # Positive start, negative end
+                return self.index(value, start, length + end)
 
     @abstractmethod
     def insert(self, index: int, value: Any) -> None:
@@ -517,42 +549,6 @@ class SinglyLinkedList(_LinkedList):
         return Node(value, next_node=None)
 
     @validate_args
-    def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
-        __doc__ = super(SinglyLinkedList, self).index.__doc__
-
-        def _index():
-            nonlocal start
-            if start < end:
-                try:
-                    node = self.traverse(start)
-                except IndexError:
-                    raise ValueError("{} not in {}".format(value, type(self).__name__))
-                while node is not None and start < end:
-                    if node == value:
-                        return start
-                    node = node.next_node
-                    start += 1
-                raise ValueError("{} not in {}".format(value, type(self).__name__))
-            else:
-                raise ValueError("{} not in {}".format(value, type(self).__name__))
-
-        if start >= 0 and end >= 0:
-            # noinspection PyTypeChecker
-            return _index()
-        else:
-            length = len(self)
-            if start < 0 and end < 0:
-                if -start > length:
-                    return self.index(value, end=end)
-                else:
-                    # noinspection PyTypeChecker
-                    return length + _index()  # Convert negative index to positive
-            elif start < 0:  # Negative start, positive end
-                return self.index(value, length + start, end)
-            else:  # Positive start, negative end
-                return self.index(value, start, length + end)
-
-    @validate_args
     def insert(self, index: int, value: Any) -> None:
         __doc__ = super(SinglyLinkedList, self).insert.__doc__
 
@@ -635,7 +631,7 @@ class SinglyLinkedList(_LinkedList):
 
         if index1 == index2:
             return
-        if index1 == 0 or index2 == 0:
+        elif index1 == 0 or index2 == 0:
             prev2 = self.traverse(index2 - 1 if index1 == 0 else index1 - 1)
             node2 = prev2.next_node
             if node2 is None:
@@ -670,3 +666,117 @@ class SinglyLinkedList(_LinkedList):
             raise IndexError("{} index out of range".format(type(self).__name__))
         # noinspection PyUnboundLocalVariable
         return target
+
+
+# noinspection PyMissingOrEmptyDocstring
+class DoublyLinkedList(_LinkedList):
+    def __new__(cls, iterable: Iterable = None, *args, **kwargs):
+        cls.__doc__ = super(DoublyLinkedList, cls).__doc__
+
+        return super(DoublyLinkedList, cls).__new__(cls, *args, **kwargs)
+
+    def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
+        node_a.next_node = node_b
+        node_b.last_node = node_a
+
+    def _create_node(self, value: Any) -> NodeType:
+        return Node(value, last_node=None, next_node=None)
+
+    @validate_args
+    def insert(self, index: int, value: Any) -> None:
+        __doc__ = super(DoublyLinkedList, self).insert.__doc__
+
+        new_node = self._create_node(value)
+        node_at_idx = self.traverse(index)
+        if node_at_idx is self.head:
+            self.head = new_node
+        else:
+            last_node = node_at_idx.last_node
+            # noinspection PyTypeChecker
+            self._connect_nodes(last_node, new_node)
+        # noinspection PyTypeChecker
+        self._connect_nodes(new_node, node_at_idx)
+
+    @validate_args
+    def pop(self, index: int = -1) -> NodeType:
+        __doc__ = super(DoublyLinkedList, self).pop.__doc__
+
+        node_at_idx = self.traverse(index)
+        if node_at_idx is self.head:
+            self.head = node_at_idx.next_node
+        else:
+            last_node = node_at_idx.last_node
+            self._connect_nodes(last_node, new_node)  # todo err
+        return node_at_idx
+
+    @validate_args
+    def reverse(self) -> None:
+        __doc__ = super(DoublyLinkedList, self).reverse.__doc__
+
+        cur_node = self.traverse(-1)
+        self.head = cur_node
+        while cur_node.last_node is not None:
+            cur_node.last_node, cur_node.last_node = cur_node.next_node, cur_node.last_node
+            cur_node = cur_node.last_node
+        cur_node.next_node = None
+
+    @validate_args
+    def sort(self) -> None:
+        __doc__ = super(DoublyLinkedList, self).sort.__doc__
+
+        # todo: implement sort
+        raise NotImplementedError
+
+    @validate_args
+    def swap(self, index1: int, index2: int) -> None:
+        __doc__ = super(DoublyLinkedList, self).sort.__doc__
+
+        if index1 == index2:
+            return
+        elif index1 == 0 or index2 == 0:
+            node = self.traverse(index2 if index1 == 0 else index1)
+            prev = node.last_node
+
+            self.head.next_node, node.next_node = node.next_node, self.head.next_node
+            prev.next_node = self.head
+            if self.head.next_node is not None:
+                self.head.next_node.last_node = self.head
+            self.head.last_node = prev
+            prev.last_node = node
+            node.last_node = None
+
+            self.head = node
+        else:
+            node1 = self.traverse(index1)
+            node2 = self.traverse(index2)
+            prev1 = node1.last_node
+            prev2 = node2.last_node
+
+            prev1.next_node, prev2.next_node = prev2.next_node, prev1.next_node
+            node1.next_node, node2.next_node = node2.next_node, node1.next_node
+            if node1.next_node is not None:
+                node1.next_node.last_node = node1
+            node1.last_node = prev2
+            prev2.last_node = node2
+            node2.last_node = prev1
+
+    @validate_args
+    def traverse(self, index: int) -> NodeType:
+        __doc__ = super(DoublyLinkedList, self).traverse.__doc__
+
+        if index >= 0:
+            for idx, node in self:
+                if idx == index:
+                    return node
+                elif idx > index:
+                    raise IndexError("{} index out of range".format(type(self).__name__))
+        else:
+            end_node = self.traverse(-1)
+            # Traversing backwards
+            idx = -1
+            while end_node.last_node is not None:
+                if idx == index:
+                    return end_node
+                end_node = end_node.last_node
+                idx -= 1
+            raise IndexError("{} index out of range".format(type(self).__name__))
