@@ -15,6 +15,17 @@ class ExceededMaxIterations(RuntimeError):
 
 
 class _LinkedList(ABC):
+    """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
+    pointers.
+
+    .. Supports all methods from built-in :code:`list`, except indexing / slicing.
+
+    :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
+    :type MAX_ITER: int
+    :ivar head: Head of linked list.
+    :type head: Node or None
+    :raises ExceededMaxIterations: Raised when maximum iterations has been exceeded to prevent an infinite loop.
+    """
     MAX_ITER = 99
     head = None
 
@@ -481,20 +492,11 @@ class _LinkedList(ABC):
 
 
 class SinglyLinkedList(_LinkedList):
-    """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
-    pointers.
+    def __new__(cls):
+        cls.__doc__ = super(SinglyLinkedList, cls).__doc__
 
-    .. note:: :class:`~pydsa.data_structures.linked_list.SinglyLinkedList` supports all methods from built-in \
-       :code:`list`, except indexing / slicing (use \
-       :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.traverse` for indexing). Besides that, \
-       unlike :code:`list`, :func:`~pydsa.data_structures.linked_list.SinglyLinkedList.copy` is making a deep copy.
+        return super(SinglyLinkedList, cls).__new__(cls)
 
-    :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
-    :type MAX_ITER: int
-    :ivar head: Head of linked list.
-    :type head: Node or None
-    :raises ExceededMaxIterations: Raised when maximum iterations has been exceeded to prevent an infinite loop.
-    """
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
         node_a.next_node = node_b
 
@@ -505,18 +507,14 @@ class SinglyLinkedList(_LinkedList):
     def extend(self, iterable: Iterable) -> None:
         __doc__ = super(SinglyLinkedList, self).extend.__doc__
 
-        head_node = None
-        last_node = None
+        last_node = None if self.head is None else self.traverse(-1)
         for item in iterable:
             new_node = self._create_node(item)
-            if head_node is None:
-                head_node = new_node
+            if last_node is None:
+                self.head = new_node
             else:
                 self._connect_nodes(last_node, new_node)  # noqa
             last_node = new_node
-        new = self.__class__()
-        new.head = head_node
-        self.__iadd__(new)
 
     @validate_args
     def index(self, value: Any, start: int = 0, end: int = sys.maxsize) -> PositiveInt:
