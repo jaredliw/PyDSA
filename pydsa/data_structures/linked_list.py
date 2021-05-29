@@ -18,7 +18,7 @@ class _LinkedList(ABC):
     """A one-way linear data structure where elements are separated and non-contiguous objects that linked by \
     pointers.
 
-    .. Supports all methods from built-in :code:`list`, except indexing / slicing.
+    .. note:: Support all methods from built-in :code:`list`, except indexing / slicing.
 
     :ivar MAX_ITER: Maximum number of iterations, process will be terminated if it has been exceeded.
     :type MAX_ITER: int
@@ -230,7 +230,7 @@ class _LinkedList(ABC):
 
         Space complexity: :code:`O(n)`.
 
-        :rtype: SinglyLinkedList
+        :rtype: DoublyLinkedList / SinglyLinkedList
         """
         return deepcopy(self)
 
@@ -537,11 +537,6 @@ class _LinkedList(ABC):
 
 # noinspection PyMissingOrEmptyDocstring
 class SinglyLinkedList(_LinkedList):
-    def __new__(cls, iterable: Iterable = None, *args, **kwargs):
-        cls.__doc__ = super(SinglyLinkedList, cls).__doc__
-
-        return super(SinglyLinkedList, cls).__new__(cls, *args, **kwargs)
-
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
         node_a.next_node = node_b
 
@@ -670,11 +665,6 @@ class SinglyLinkedList(_LinkedList):
 
 # noinspection PyMissingOrEmptyDocstring
 class DoublyLinkedList(_LinkedList):
-    def __new__(cls, iterable: Iterable = None, *args, **kwargs):
-        cls.__doc__ = super(DoublyLinkedList, cls).__doc__
-
-        return super(DoublyLinkedList, cls).__new__(cls, *args, **kwargs)
-
     def _connect_nodes(self, node_a: [NodeType, None], node_b: [NodeType, None]) -> None:
         if node_a is not None:
             node_a.next_node = node_b
@@ -791,6 +781,11 @@ class DoublyLinkedList(_LinkedList):
             while end_node is not None:
                 if idx == index:
                     return end_node
+                # noinspection PyUnresolvedReferences
                 end_node = end_node.last_node
                 idx -= 1
             raise IndexError("{} index out of range".format(type(self).__name__))
+
+
+SinglyLinkedList.__doc__ = _LinkedList.__doc__
+DoublyLinkedList.__doc__ = _LinkedList.__doc__
