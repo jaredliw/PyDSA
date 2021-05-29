@@ -6,7 +6,7 @@ from copy import deepcopy
 from pydsa import Any, Iterable, validate_args, PositiveInt
 from pydsa.data_structures import Node, NodeType
 
-__all__ = ["ExceededMaxIterations", "SinglyLinkedList"]
+__all__ = ["ExceededMaxIterations", "SinglyLinkedList", "DoublyLinkedList"]
 
 
 class ExceededMaxIterations(RuntimeError):
@@ -644,7 +644,7 @@ class SinglyLinkedList(_LinkedList):
             prev2 = self.traverse(index2 - 1)
             node1 = prev1.next_node
             node2 = prev2.next_node
-            prev1.next_node, prev2.next_node = prev2.next_node, prev1.next_node
+            prev1.next_node, prev2.next_node = node2, node1
             node1.next_node, node2.next_node = node2.next_node, node1.next_node
 
     @validate_args
@@ -675,9 +675,11 @@ class DoublyLinkedList(_LinkedList):
 
         return super(DoublyLinkedList, cls).__new__(cls, *args, **kwargs)
 
-    def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
-        node_a.next_node = node_b
-        node_b.last_node = node_a
+    def _connect_nodes(self, node_a: [NodeType, None], node_b: [NodeType, None]) -> None:
+        if node_a is not None:
+            node_a.next_node = node_b
+        if node_b is not None:
+            node_b.last_node = node_a
 
     def _create_node(self, value: Any) -> NodeType:
         return Node(value, last_node=None, next_node=None)
@@ -686,8 +688,15 @@ class DoublyLinkedList(_LinkedList):
     def insert(self, index: int, value: Any) -> None:
         __doc__ = super(DoublyLinkedList, self).insert.__doc__
 
+        try:
+            node_at_idx = self.traverse(index)
+        except IndexError:
+            if index > 0:
+                self.append(value)
+                return
+            else:
+                node_at_idx = self.head
         new_node = self._create_node(value)
-        node_at_idx = self.traverse(index)
         if node_at_idx is self.head:
             self.head = new_node
         else:
@@ -706,19 +715,20 @@ class DoublyLinkedList(_LinkedList):
             self.head = node_at_idx.next_node
         else:
             last_node = node_at_idx.last_node
-            self._connect_nodes(last_node, new_node)  # todo err
+            self._connect_nodes(last_node, node_at_idx.next_node)
         return node_at_idx
 
     @validate_args
     def reverse(self) -> None:
         __doc__ = super(DoublyLinkedList, self).reverse.__doc__
 
-        cur_node = self.traverse(-1)
-        self.head = cur_node
-        while cur_node.last_node is not None:
-            cur_node.last_node, cur_node.last_node = cur_node.next_node, cur_node.last_node
-            cur_node = cur_node.last_node
-        cur_node.next_node = None
+        if self.head is not None:
+            cur_node = self.traverse(-1)
+            self.head = cur_node
+
+            while cur_node is not None:
+                cur_node.last_node, cur_node.next_node = cur_node.next_node, cur_node.last_node
+                cur_node = cur_node.next_node
 
     @validate_args
     def sort(self) -> None:
@@ -742,7 +752,8 @@ class DoublyLinkedList(_LinkedList):
             if self.head.next_node is not None:
                 self.head.next_node.last_node = self.head
             self.head.last_node = prev
-            prev.last_node = node
+            # prev.last_node = node
+            node.next_node.last_node = node
             node.last_node = None
 
             self.head = node
@@ -752,12 +763,12 @@ class DoublyLinkedList(_LinkedList):
             prev1 = node1.last_node
             prev2 = node2.last_node
 
-            prev1.next_node, prev2.next_node = prev2.next_node, prev1.next_node
+            prev1.next_node, prev2.next_node = node2, node1
             node1.next_node, node2.next_node = node2.next_node, node1.next_node
             if node1.next_node is not None:
                 node1.next_node.last_node = node1
             node1.last_node = prev2
-            prev2.last_node = node2
+            node2.next_node.last_node = node2
             node2.last_node = prev1
 
     @validate_args
@@ -765,16 +776,19 @@ class DoublyLinkedList(_LinkedList):
         __doc__ = super(DoublyLinkedList, self).traverse.__doc__
 
         if index >= 0:
-            for idx, node in self:
+            for idx, node in enumerate(self):
                 if idx == index:
                     return node
                 elif idx > index:
-                    raise IndexError("{} index out of range".format(type(self).__name__))
+                    break
+            raise IndexError("{} index out of range".format(type(self).__name__))
         else:
-            end_node = self.traverse(-1)
+            end_node = None
+            for end_node in self:
+                pass
             # Traversing backwards
             idx = -1
-            while end_node.last_node is not None:
+            while end_node is not None:
                 if idx == index:
                     return end_node
                 end_node = end_node.last_node
