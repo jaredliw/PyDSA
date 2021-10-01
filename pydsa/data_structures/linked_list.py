@@ -157,13 +157,13 @@ class _LinkedList(ABC):
     def __setattr__(self, key, value):
         if key == "head":
             if isinstance(value, Node) or value is None:
-                self.__dict__[key] = value
+                super(_LinkedList, self).__setattr__(key, value)
             else:
                 raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
                                  .format(key, NodeType.__name__, type(value).__name__))
         elif key == "MAX_ITER":
             if isinstance(value, int):
-                self.__dict__[key] = value
+                super(_LinkedList, self).__setattr__(key, value)
             else:
                 raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
                                  .format(key, NodeType.__name__, type(value).__name__))
@@ -539,6 +539,8 @@ class _LinkedList(ABC):
 
 # noinspection PyMissingOrEmptyDocstring
 class SinglyLinkedList(_LinkedList):
+    __slots__ = ("MAX_ITER", "head")
+
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
         node_a.next_node = node_b
 
@@ -547,8 +549,6 @@ class SinglyLinkedList(_LinkedList):
 
     @validate_args
     def insert(self, index: int, value: Any) -> None:
-        __doc__ = super(SinglyLinkedList, self).insert.__doc__
-
         new_node = self._create_node(value)
         if index == 0 or len(self) == 0:
             # noinspection PyTypeChecker
@@ -568,8 +568,6 @@ class SinglyLinkedList(_LinkedList):
 
     @validate_args
     def pop(self, index: int = -1) -> NodeType:
-        __doc__ = super(SinglyLinkedList, self).pop.__doc__
-
         if self.head is None:
             raise IndexError("pop from empty {}".format(type(self).__name__))
 
@@ -591,8 +589,6 @@ class SinglyLinkedList(_LinkedList):
 
     @validate_args
     def reverse(self) -> None:
-        __doc__ = super(SinglyLinkedList, self).reverse.__doc__
-
         prev_nd = None
         iteration = 0
         while self.head is not None:
@@ -618,14 +614,11 @@ class SinglyLinkedList(_LinkedList):
         # self.head = _reverse(self.head)
 
     def sort(self) -> None:
-        __doc__ = super(SinglyLinkedList, self).sort.__doc__
         # todo: implement sort
         raise NotImplementedError
 
     @validate_args
     def swap(self, index1: int, index2: int) -> None:
-        __doc__ = super(SinglyLinkedList, self).swap.__doc__
-
         if index1 == index2:
             return
         elif index1 == 0 or index2 == 0:
@@ -646,8 +639,6 @@ class SinglyLinkedList(_LinkedList):
 
     @validate_args
     def traverse(self, index: int) -> NodeType:
-        __doc__ = super(SinglyLinkedList, self).traverse.__doc__
-
         for cur_idx, cur_item in enumerate(self):
             if index < 0:
                 if cur_idx == abs(index) - 1:
@@ -678,8 +669,6 @@ class DoublyLinkedList(_LinkedList):
 
     @validate_args
     def insert(self, index: int, value: Any) -> None:
-        __doc__ = super(DoublyLinkedList, self).insert.__doc__
-
         try:
             node_at_idx = self.traverse(index)
         except IndexError:
@@ -700,8 +689,6 @@ class DoublyLinkedList(_LinkedList):
 
     @validate_args
     def pop(self, index: int = -1) -> NodeType:
-        __doc__ = super(DoublyLinkedList, self).pop.__doc__
-
         node_at_idx = self.traverse(index)
         if node_at_idx is self.head:
             self.head = node_at_idx.next_node
@@ -712,8 +699,6 @@ class DoublyLinkedList(_LinkedList):
 
     @validate_args
     def reverse(self) -> None:
-        __doc__ = super(DoublyLinkedList, self).reverse.__doc__
-
         if self.head is not None:
             cur_node = self.traverse(-1)
             self.head = cur_node
@@ -724,15 +709,11 @@ class DoublyLinkedList(_LinkedList):
 
     @validate_args
     def sort(self) -> None:
-        __doc__ = super(DoublyLinkedList, self).sort.__doc__
-
         # todo: implement sort
         raise NotImplementedError
 
     @validate_args
     def swap(self, index1: int, index2: int) -> None:
-        __doc__ = super(DoublyLinkedList, self).sort.__doc__
-
         if index1 == index2:
             return
         elif index1 == 0 or index2 == 0:
@@ -744,7 +725,6 @@ class DoublyLinkedList(_LinkedList):
             if self.head.next_node is not None:
                 self.head.next_node.last_node = self.head
             self.head.last_node = prev
-            # prev.last_node = node
             node.next_node.last_node = node
             node.last_node = None
 
@@ -765,8 +745,6 @@ class DoublyLinkedList(_LinkedList):
 
     @validate_args
     def traverse(self, index: int) -> NodeType:
-        __doc__ = super(DoublyLinkedList, self).traverse.__doc__
-
         if index >= 0:
             for idx, node in enumerate(self):
                 if idx == index:
@@ -787,7 +765,3 @@ class DoublyLinkedList(_LinkedList):
                 end_node = end_node.last_node
                 idx -= 1
             raise IndexError("{} index out of range".format(type(self).__name__))
-
-
-SinglyLinkedList.__doc__ = _LinkedList.__doc__
-DoublyLinkedList.__doc__ = _LinkedList.__doc__
