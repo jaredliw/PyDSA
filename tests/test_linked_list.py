@@ -86,6 +86,8 @@ def test_compare():
         assert ds([1, 2]) <= ds([3])
         assert ds([]) >= ds([])
         assert ds([4, 4, 4]) >= ds([4, 4])
+        assert not ds([1, 2, 3]) > ds([1, 2, 3])
+        assert not ds([1, 2, 3]) < ds([1, 2, 3])
         assert ds([]) != []
     assert SinglyLinkedList([1, 2, 3]) != DoublyLinkedList([1, 2, 3])
 
@@ -141,7 +143,7 @@ def test_reversed():
         a = [1, "Test", set(), [], {1: "10"}, 3.2]
         ll = ds(a)
         assert reversed(ll) == ds(reversed(a))
-        assert reversed(reversed(ll)) == ds(a)
+        assert reversed(reversed(ll)) == ds(a)  # noqa
 
         b = ds([])
         assert reversed(b) == ds([])

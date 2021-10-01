@@ -539,8 +539,6 @@ class _LinkedList(ABC):
 
 # noinspection PyMissingOrEmptyDocstring
 class SinglyLinkedList(_LinkedList):
-    __slots__ = ("MAX_ITER", "head")
-
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
         node_a.next_node = node_b
 

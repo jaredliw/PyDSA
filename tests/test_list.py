@@ -49,6 +49,8 @@ def test_compare():
         assert array([1, 2]) <= array([3])
         assert array([]) >= array([])
         assert array([4, 4, 4]) >= array([4, 3])
+        assert not array([1, 2, 3]) > array([1, 2, 3])
+        assert not array([1, 2, 3]) < array([1, 2, 3])
         assert array([]) != []
 
 
@@ -114,23 +116,27 @@ def test_reversed():
     assert repr(StaticList(reversed(a))) == "StaticList([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"
 
     a = DynamicList([1, "Test", set(), [], {1: "10"}, 3.2])
-    assert repr(DynamicList(reversed(a))) == "DynamicList([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"
+    assert repr(DynamicList(reversed(a))) == "DynamicList([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"  # noqa
 
 
 def test_set():
     for array in ds:
-        a = array([1, 2, 0.3])
+        array([1, 2, 0.3])
 
         def _test():
-            print(array)
-            array([1, 2, 3]).max_length = 10
-
-        is_error(ConstantError, _test)
-
-        def _test1():
             array([4, 5, 6]).some_random_stuff = 1  # noqa
 
-        is_error(AttributeError, _test1)
+        is_error(AttributeError, _test)
+
+    def _test1():
+        StaticList([1, 2, 3]).max_length = 10
+
+    is_error(ConstantError, _test1)
+
+    def _test2():
+        DynamicList([1, 2, 3]).max_length = 10  # noqa
+
+    is_error(AttributeError, _test2)
 
 
 def test_append():
@@ -217,7 +223,7 @@ def test_extend():
     assert c.max_length == 1
 
     d = DynamicList([1, 2])
-    d.extend(reversed(d))
+    d.extend(reversed(d))  # noqa
     d.extend([3, 4, 5, 6, 7, 8, 9])
     assert d == DynamicList([1, 2, 3, 4, 5, 6, 7, 8, 9])
     assert d.max_length == 16
