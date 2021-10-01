@@ -3,13 +3,13 @@ import sys
 from abc import ABC, abstractmethod
 from copy import deepcopy
 
-from pydsa import Any, Iterable, validate_args, PositiveInt
+from pydsa import Any, Iterable, validate_args, PositiveInt, inherit_docstrings
 from pydsa.data_structures import Node, NodeType
 
-__all__ = ["ExceededMaxIterations", "SinglyLinkedList", "DoublyLinkedList"]
+__all__ = ["ExceededMaxIter", "SinglyLinkedList", "DoublyLinkedList"]
 
 
-class ExceededMaxIterations(RuntimeError):
+class ExceededMaxIter(RuntimeError):
     """Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list."""
     pass
 
@@ -110,7 +110,7 @@ class _LinkedList(ABC):
         while current is not None:
             count += 1
             if count > self.MAX_ITER:
-                raise ExceededMaxIterations("maximum number of iteration has been exceeded. Make sure there is no "
+                raise ExceededMaxIter("maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             yield current
             # noinspection PyUnresolvedReferences
@@ -157,33 +157,31 @@ class _LinkedList(ABC):
     def __setattr__(self, key, value):
         if key == "head":
             if isinstance(value, Node) or value is None:
-                super(_LinkedList, self).__setattr__(key, value)
+                super().__setattr__(key, value)
             else:
-                raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
-                                 .format(key, NodeType.__name__, type(value).__name__))
+                raise ValueError(f"Value of '{key}' should be a(n) '{NodeType.__name__}', not '{type(value).__name__}'")
         elif key == "MAX_ITER":
             if isinstance(value, int):
-                super(_LinkedList, self).__setattr__(key, value)
+                super().__setattr__(key, value)
             else:
-                raise ValueError("Value of '{}' should be a(n) '{}', not '{}'"
-                                 .format(key, NodeType.__name__, type(value).__name__))
+                raise ValueError(f"Value of '{key}' should be a(n) '{NodeType.__name__}', not '{type(value).__name__}'")
         else:
-            raise AttributeError("'{}' object has no attribute {}".format(type(self).__name__, key))
+            raise AttributeError(f"'{type(self).__name__}' object has no attribute {key}")
 
     def __str__(self):
         try:
             to_list = []
             for item in self:
                 to_list.append(item.value)
-            return "{}({})".format(type(self).__name__, str(to_list))
-        except ExceededMaxIterations:
-            return "{}({})".format(type(self).__name__, "<cannot show node(s)>")
+            return f"{type(self).__name__}({str(to_list)})"
+        except ExceededMaxIter:
+            return f"{type(self).__name__}({'<cannot show node(s)>'})"
 
     def __repr__(self):
         try:
-            return "{}({})".format(type(self).__name__, " -> ".join(map(lambda x: repr(x.value), self)))
-        except ExceededMaxIterations:
-            return "{}({})".format(type(self).__name__, "<cannot show node(s)>")
+            return f"{type(self).__name__}({' -> '.join(map(lambda x: repr(x.value), self))})"
+        except ExceededMaxIter:
+            return f"{type(self).__name__}({'<cannot show node(s)>'})"
 
     @abstractmethod
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
@@ -364,16 +362,16 @@ class _LinkedList(ABC):
                 try:
                     node = self.traverse(start)
                 except IndexError:
-                    raise ValueError("{} not in {}".format(value, type(self).__name__))
+                    raise ValueError(f"{value} not in {type(self).__name__}")
                 while node is not None and start < end:
                     if node == value:
                         return start
                     # noinspection PyUnresolvedReferences
                     node = node.next_node
                     start += 1
-                raise ValueError("{} not in {}".format(value, type(self).__name__))
+                raise ValueError(f"{value} not in {type(self).__name__}")
             else:
-                raise ValueError("{} not in {}".format(value, type(self).__name__))
+                raise ValueError(f"{value} not in {type(self).__name__}")
 
         if start >= 0 and end >= 0:
             # noinspection PyTypeChecker
@@ -454,7 +452,7 @@ class _LinkedList(ABC):
         def _remove_duplicates(current=None, previous=None, reference=None, iteration=0):
             iteration += 1
             if iteration > self.MAX_ITER:
-                raise ExceededMaxIterations("Maximum number of iteration has been exceeded. Make sure there is no "
+                raise ExceededMaxIter("Maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             if current is None:
                 current = self.head
@@ -468,7 +466,7 @@ class _LinkedList(ABC):
                     while temp.value in reference:
                         inner_iteration += 1
                         if inner_iteration > self.MAX_ITER:
-                            raise ExceededMaxIterations(
+                            raise ExceededMaxIter(
                                 "Maximum number of iteration has been exceeded. Make sure there is no "
                                 "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
                         temp = temp.next_node
@@ -538,6 +536,7 @@ class _LinkedList(ABC):
 
 
 # noinspection PyMissingOrEmptyDocstring
+@inherit_docstrings
 class SinglyLinkedList(_LinkedList):
     def _connect_nodes(self, node_a: NodeType, node_b: NodeType) -> None:
         node_a.next_node = node_b
@@ -581,7 +580,7 @@ class SinglyLinkedList(_LinkedList):
                 else:
                     raise e
             if prev_node.next_node is None:
-                raise IndexError("{} index out of range".format(type(self).__name__))
+                raise IndexError(f"{type(self).__name__} index out of range")
             self._connect_nodes(prev_node, prev_node.next_node.next_node)
             return prev_node.next_node
 
@@ -592,7 +591,7 @@ class SinglyLinkedList(_LinkedList):
         while self.head is not None:
             iteration += 1
             if iteration > self.MAX_ITER:
-                raise ExceededMaxIterations("Maximum number of iteration has been exceeded. Make sure there is no "
+                raise ExceededMaxIter("Maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             next_nd = self.head.next_node
             self._connect_nodes(self.head, prev_nd)
@@ -623,7 +622,7 @@ class SinglyLinkedList(_LinkedList):
             prev2 = self.traverse(index2 - 1 if index1 == 0 else index1 - 1)
             node2 = prev2.next_node
             if node2 is None:
-                raise IndexError("{} index out of range".format(type(self).__name__))
+                raise IndexError(f"{type(self).__name__} index out of range")
             self.head.next_node, node2.next_node = node2.next_node, self.head.next_node
             self._connect_nodes(prev2, self.head)
             self.head = node2
@@ -649,12 +648,13 @@ class SinglyLinkedList(_LinkedList):
                 break
 
         if "target" not in locals():  # Check "target" is defined
-            raise IndexError("{} index out of range".format(type(self).__name__))
+            raise IndexError(f"{type(self).__name__} index out of range")
         # noinspection PyUnboundLocalVariable
         return target
 
 
 # noinspection PyMissingOrEmptyDocstring
+@inherit_docstrings
 class DoublyLinkedList(_LinkedList):
     def _connect_nodes(self, node_a: [NodeType, None], node_b: [NodeType, None]) -> None:
         if node_a is not None:

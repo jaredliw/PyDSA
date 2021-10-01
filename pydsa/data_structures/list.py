@@ -1,5 +1,5 @@
 """A collection of items stored at contiguous memory locations."""
-from pydsa import Any, Iterable, NonNegativeInt, validate_args
+from pydsa import Any, Iterable, NonNegativeInt, inherit_docstrings, validate_args
 
 __all__ = ["ExceedMaxLengthError", "ConstantError", "StaticList", "DynamicList"]
 
@@ -14,6 +14,8 @@ class ConstantError(ValueError):
     pass
 
 
+# noinspection PyMissingOrEmptyDocstring
+@inherit_docstrings
 class StaticList(list):
     """A continuous data structure that contains a group of elements with constant length.
 
@@ -42,28 +44,28 @@ class StaticList(list):
         if iterable is None:
             iterable = []
 
-        super(StaticList, self).__init__(list(iterable))
+        super().__init__(list(iterable))
 
         if max_length is None:
             max_length = len(self)
 
         self.max_length = max_length
         if self.max_length < len(self):
-            raise ExceedMaxLengthError("exceed static list maximum length: {}".format(self.max_length))
+            raise ExceedMaxLengthError(f"exceed static list maximum length: {self.max_length}")
 
     def __add__(self, other):
-        return self.__class__(super(StaticList, self).__add__(other))
+        return self.__class__(super().__add__(other))
 
     def __eq__(self, other):
-        return isinstance(other, self.__class__) and super(StaticList, self).__eq__(other)
+        return isinstance(other, self.__class__) and super().__eq__(other)
 
     def __ge__(self, other):
         return self.__gt__(other) or self.__eq__(other)
 
     def __getattribute__(self, item):
-        if item in ["append", "insert"] and super(StaticList, self).__len__() + 1 > self.max_length:
-            raise ExceedMaxLengthError("exceed static array maximum length: {}".format(self.max_length))
-        return super(StaticList, self).__getattribute__(item)
+        if item in ["append", "insert"] and super().__len__() + 1 > self.max_length:
+            raise ExceedMaxLengthError(f"exceed static array maximum length: {self.max_length}")
+        return super().__getattribute__(item)
 
     def __gt__(self, other):
         return not self.__lt__(other) and self.__ne__(other)
@@ -72,19 +74,19 @@ class StaticList(list):
         return self.__eq__(other) or self.__lt__(other)
 
     def __lt__(self, other):
-        return isinstance(other, self.__class__) and super(StaticList, self).__lt__(other)
+        return isinstance(other, self.__class__) and super().__lt__(other)
 
     def __mul__(self, other):
-        return self.__class__(super(StaticList, self).__mul__(other))
+        return self.__class__(super().__mul__(other))
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __repr__(self):
-        return "{}({}, {})".format(self.__class__.__name__, super(StaticList, self).__repr__(), self.max_length)
+        return f"{self.__class__.__name__}({super().__repr__()}, {self.max_length})"
 
     def __str__(self):
-        return super(StaticList, self).__repr__()
+        return super().__repr__()
 
     @property
     def max_length(self):
@@ -105,16 +107,18 @@ class StaticList(list):
 
     def copy(self):
         if self.__class__ == StaticList:  # For forward compatibility
-            return self.__class__(super(StaticList, self).copy(), self.max_length)
+            return self.__class__(super().copy(), self.max_length)
         else:
-            return self.__class__(super(StaticList, self).copy())
+            return self.__class__(super().copy())
 
     def extend(self, iterable: Iterable) -> None:
         if len(self) + len(list(iterable)) > self.max_length:
-            raise ExceedMaxLengthError('exceed StaticList maximum length: {}'.format(self.max_length))
-        super(StaticList, self).extend(iterable)
+            raise ExceedMaxLengthError(f"exceed StaticList maximum length: {self.max_length}")
+        super().extend(iterable)
 
 
+# noinspection PyMissingOrEmptyDocstring
+@inherit_docstrings
 class DynamicList:
     """Growable static list. Conceptual, need not to use in Python.
 
@@ -125,7 +129,7 @@ class DynamicList:
 
     @validate_args
     def __init__(self, iterable: Iterable = None):
-        """Initialize a new static list from an iterable.
+        """Initialize a new dynamic list from an iterable.
 
         :param iterable: An iterable to be converted into a static list, default to None.
         :type: Iterable or None
@@ -189,7 +193,7 @@ class DynamicList:
         return not self.__eq__(other)
 
     def __repr__(self):
-        return "{}({}, {})".format(self.__class__.__name__, self.__container.__str__(), self.__container.max_length)
+        return f"{self.__class__.__name__}({self.__container.__str__()}, {self.__container.max_length})"
 
     def __reversed__(self):
         return self.__container.__reversed__()

@@ -410,7 +410,7 @@ def test_remove_duplicates():
 
         circular = ds([1, 2])
         circular.head.next_node.next_node = circular.head
-        is_error(ExceededMaxIterations, circular.remove_duplicates)
+        is_error(ExceededMaxIter, circular.remove_duplicates)
 
 
 def test_reverse():
@@ -485,4 +485,4 @@ def test_traverse():
 
         b = [10] * 100
         ll2 = ds(b)
-        is_error(ExceededMaxIterations, lambda: ll2.traverse(100))
+        is_error(ExceededMaxIter, lambda: ll2.traverse(100))

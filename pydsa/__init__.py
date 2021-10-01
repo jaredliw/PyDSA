@@ -1,10 +1,10 @@
 from functools import wraps
-from inspect import isclass, Parameter, signature
+from inspect import getmembers, isclass, isfunction, Parameter, signature
 from itertools import zip_longest
 from typing import NewType
 
 __all__ = ["Any", "Function", "IntList", "Iterable", "IntFloatList", "Sequence", "NumberSequence", "NonNegativeInt",
-           "PositiveInt", "check_arg", "validate_args"]
+           "PositiveInt", "check_arg", "inherit_docstrings", "validate_args"]
 
 
 class _Any:
@@ -113,6 +113,7 @@ def validate_args(f):
 
     return _wrapper
 
+
 # Notes for PyDSA-styled annotations:
 # - If there is built-in type available, don't hesitate to use it
 # - For logic OR, write it like this: "[int, str]" rather than "int or str"
@@ -120,3 +121,14 @@ def validate_args(f):
 # - Define a new type if there is no available type to use
 #       - Use Function defined above rather than typing.Callable
 # - Do not use "from __future__ import annotations"
+
+def inherit_docstrings(cls):
+    """Class decorator. Inherit docstrings from parent class."""
+    # Code from: https://stackoverflow.com/a/17393254/13080049
+    for name, func in getmembers(cls, isfunction):
+        if func.__doc__:
+            continue
+        for parent in cls.__mro__[1:]:
+            if hasattr(parent, name):
+                func.__doc__ = getattr(parent, name).__doc__
+    return cls
