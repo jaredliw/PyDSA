@@ -26,8 +26,7 @@ class _LinkedList(ABC):
     :type head: Node or None
     :raises ExceededMaxIterations: Raised when maximum iterations has been exceeded to prevent an infinite loop.
     """
-    MAX_ITER = 99
-    head = None
+    __slots__ = ("MAX_ITER", "head")
 
     @validate_args
     def __init__(self, iterable: Iterable = None) -> None:
@@ -36,6 +35,9 @@ class _LinkedList(ABC):
         :param iterable: An iterable to be converted into a linked list, default to None.
         :type iterable: Iterable or None
         """
+        self.MAX_ITER = 99
+        self.head = None
+
         if iterable is not None:
             self.extend(iterable)
 

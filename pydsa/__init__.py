@@ -40,11 +40,13 @@ Sequence = NewType("Sequence", _Sequence())
 # noinspection PyTypeChecker
 NumberSequence = NewType("NumberSequence", _Sequence())
 NonNegativeInt = NewType('NonNegativeInt', int)
+PositiveFloat = NewType("PositiveFloat", float)
 PositiveInt = NewType('PositiveInt', int)
 check_functs = {NumberSequence: lambda x: all(type(item) in [int, float] for item in x),
                 IntFloatList: lambda x: all(type(item) in [int, float] for item in x),
                 IntList: lambda x: all(type(item) == int for item in x),
                 NonNegativeInt: lambda x: x >= 0,
+                PositiveFloat: lambda x: x >= 0,
                 PositiveInt: lambda x: x >= 1}
 
 

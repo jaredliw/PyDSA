@@ -1,7 +1,7 @@
-from pydsa.data_structures.array import *
+from pydsa.data_structures.list import *
 from tests import is_error
 
-ds = [StaticArray, DynamicArray]
+ds = [StaticList, DynamicList]
 
 
 def test_init():
@@ -11,8 +11,8 @@ def test_init():
         is_error(TypeError, array, 123)
         is_error(TypeError, array, [], 1.2)
 
-    StaticArray([7, 8, 9], 10)
-    is_error(ExceedMaxLengthError, StaticArray, [1, 2, 3], 1)
+    StaticList([7, 8, 9], 10)
+    is_error(ExceedMaxLengthError, StaticList, [1, 2, 3], 1)
 
 
 def test_op():
@@ -27,7 +27,7 @@ def test_op():
         a *= 2
         assert a == array([2, 4, "a", 2, 4, "a"])
 
-    assert StaticArray([1, 2, 3], 6) + StaticArray([4, 5, 6], 5) == StaticArray([1, 2, 3, 4, 5, 6], 7)
+    assert StaticList([1, 2, 3], 6) + StaticList([4, 5, 6], 5) == StaticList([1, 2, 3, 4, 5, 6], 7)
 
 
 def test_in():
@@ -96,7 +96,7 @@ def test_len():
         assert len(array([])) == 0
         assert len(array([1])) == 1
 
-    assert len(StaticArray([], 10)) == 0
+    assert len(StaticList([], 10)) == 0
 
 
 def test_repr_str():
@@ -105,85 +105,90 @@ def test_repr_str():
         a = array(arr)
         assert str(a) == "[1, 'Test', set(), [], {1: '10'}, 3.2]"
 
-    assert repr(StaticArray(arr)) == "StaticArray([1, 'Test', set(), [], {1: '10'}, 3.2], 6)"
-    assert repr(DynamicArray(arr)) == "DynamicArray([1, 'Test', set(), [], {1: '10'}, 3.2], 6)"
+    assert repr(StaticList(arr)) == "StaticList([1, 'Test', set(), [], {1: '10'}, 3.2], 6)"
+    assert repr(DynamicList(arr)) == "DynamicList([1, 'Test', set(), [], {1: '10'}, 3.2], 6)"
 
 
 def test_reversed():
-    a = StaticArray([1, "Test", set(), [], {1: "10"}, 3.2])
-    assert repr(StaticArray(reversed(a))) == "StaticArray([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"
+    a = StaticList([1, "Test", set(), [], {1: "10"}, 3.2])
+    assert repr(StaticList(reversed(a))) == "StaticList([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"
 
-    a = DynamicArray([1, "Test", set(), [], {1: "10"}, 3.2])
-    assert repr(DynamicArray(reversed(a))) == "DynamicArray([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"
+    a = DynamicList([1, "Test", set(), [], {1: "10"}, 3.2])
+    assert repr(DynamicList(reversed(a))) == "DynamicList([3.2, {1: '10'}, [], set(), 'Test', 1], 6)"
 
 
 def test_set():
     for array in ds:
         a = array([1, 2, 0.3])
-        a.some_random_stuff = 1  # noqa
 
-    def _test():
-        StaticArray([1, 2, 3]).max_length = 10
+        def _test():
+            print(array)
+            array([1, 2, 3]).max_length = 10
 
-    is_error(ConstantError, _test)
+        is_error(ConstantError, _test)
+
+        def _test1():
+            array([4, 5, 6]).some_random_stuff = 1  # noqa
+
+        is_error(AttributeError, _test1)
 
 
 def test_append():
-    a = StaticArray()
+    a = StaticList()
 
     def _test():
         a.append(10)
 
     is_error(ExceedMaxLengthError, _test)
 
-    b = StaticArray([1, 2, 3], 5)
+    b = StaticList([1, 2, 3], 5)
     b.append(9)
-    assert b == StaticArray([1, 2, 3, 9])
+    assert b == StaticList([1, 2, 3, 9])
 
-    c = DynamicArray([])
+    c = DynamicList([])
     c.append(10)
-    assert c == DynamicArray([10])
+    assert c == DynamicList([10])
     assert c.max_length == 1
-    assert c != StaticArray([10])
+    assert c != StaticList([10])
     c.append(20)
     c.append(30)
-    assert c == DynamicArray([10, 20, 30])
+    assert c == DynamicList([10, 20, 30])
     assert c.max_length == 4
     c.append(40)
     c.append(50)
-    assert c == DynamicArray([10, 20, 30, 40, 50])
+    assert c == DynamicList([10, 20, 30, 40, 50])
     assert c.max_length == 8
 
 
 def test_clear():
-    a = StaticArray([1, 2, 3, 4, 5])
+    a = StaticList([1, 2, 3, 4, 5])
     a.clear()
-    assert a == StaticArray([])
+    assert a == StaticList([])
     assert a.max_length == 5
 
-    b = DynamicArray([1, 2, 3, 4, 5])
+    b = DynamicList([1, 2, 3, 4, 5])
     b.clear()
-    assert b == DynamicArray([])
+    assert b == DynamicList([])
     assert b.max_length == 0
 
 
 def test_copy():
-    a = StaticArray([1], 10)
+    a = StaticList([1], 10)
     b = a.copy()
     assert a == b
     assert a is not b
     b.append(2)
-    assert b == StaticArray([1, 2])
-    assert a == StaticArray([1])
+    assert b == StaticList([1, 2])
+    assert a == StaticList([1])
 
-    c = DynamicArray([1])
+    c = DynamicList([1])
     d = c.copy()
 
     assert c == d
     assert c is not d
     d.append(2)
-    assert d == DynamicArray([1, 2])
-    assert c == DynamicArray([1])
+    assert d == DynamicList([1, 2])
+    assert c == DynamicList([1])
 
 
 def test_count():
@@ -198,23 +203,23 @@ def test_count():
 
 
 def test_extend():
-    a = StaticArray()
+    a = StaticList()
     is_error(ExceedMaxLengthError, a.extend, ["nothing here"])
 
-    b = StaticArray([1, 2, 3], 10)
+    b = StaticList([1, 2, 3], 10)
     b.extend([4, 5, 4, 3, 2])
-    assert b == StaticArray([1, 2, 3, 4, 5, 4, 3, 2])
+    assert b == StaticList([1, 2, 3, 4, 5, 4, 3, 2])
     is_error(ExceedMaxLengthError, b.extend, [0, 0, "exceed"])
 
-    c = DynamicArray([])
+    c = DynamicList([])
     c.extend([1])
-    assert c == DynamicArray([1])
+    assert c == DynamicList([1])
     assert c.max_length == 1
 
-    d = DynamicArray([1, 2])
+    d = DynamicList([1, 2])
     d.extend(reversed(d))
     d.extend([3, 4, 5, 6, 7, 8, 9])
-    assert d == DynamicArray([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    assert d == DynamicList([1, 2, 3, 4, 5, 6, 7, 8, 9])
     assert d.max_length == 16
 
 
@@ -230,23 +235,23 @@ def test_index():
 
 
 def test_insert():
-    a = StaticArray(max_length=10)
+    a = StaticList(max_length=10)
     a.insert(0, 10)
-    assert a == StaticArray([10])
+    assert a == StaticList([10])
     a.insert(-1, 20)
-    assert a == StaticArray([20, 10])
+    assert a == StaticList([20, 10])
     a.insert(1, 15)
-    assert a == StaticArray([20, 15, 10])
+    assert a == StaticList([20, 15, 10])
 
-    b = DynamicArray()
+    b = DynamicList()
     b.insert(0, 10)
-    assert b == DynamicArray([10])
+    assert b == DynamicList([10])
     assert b.max_length == 1
     b.insert(-1, 20)
-    assert b == DynamicArray([20, 10])
+    assert b == DynamicList([20, 10])
     assert b.max_length == 2
     b.insert(1, 15)
-    assert b == DynamicArray([20, 15, 10])
+    assert b == DynamicList([20, 15, 10])
     assert b.max_length == 4
 
 
@@ -280,10 +285,10 @@ def test_remove():
         b.remove(2)
         assert b == array([2, 2, 2])
 
-    c = DynamicArray([1, 2, 3, 3, 3, 3, 3, 3])
+    c = DynamicList([1, 2, 3, 3, 3, 3, 3, 3])
     for _ in range(6):
         c.remove(3)
-    assert c == DynamicArray([1, 2])
+    assert c == DynamicList([1, 2])
     assert c.max_length == 2
 
 

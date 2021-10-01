@@ -160,6 +160,9 @@ def test_set():
 
         is_error(AttributeError, _test)
 
+        a.max_iter = 10
+        a.head = Node()
+
 
 def test_append():
     for ds in to_test:
