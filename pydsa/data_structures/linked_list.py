@@ -2,8 +2,9 @@
 import sys
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from operator import gt, lt
 
-from pydsa import Any, Iterable, validate_args, PositiveInt, inherit_docstrings
+from pydsa import Any, Iterable, validate_args, PositiveInt, inherit_docstrings, Function
 from pydsa.data_structures import Node, NodeType
 
 __all__ = ["ExceededMaxIter", "SinglyLinkedList", "DoublyLinkedList"]
@@ -247,7 +248,6 @@ class _LinkedList(ABC):
         :returns: Number of occurrences.
         :rtype: int
         """
-
         counter = 0
         for item in self:
             if item == value:
@@ -495,13 +495,52 @@ class _LinkedList(ABC):
         """
         pass
 
-    @abstractmethod
-    def sort(self) -> None:
-        """Sort linked list in place.
+    @validate_args
+    def sort(self, key: Function = None, reverse: bool = False) -> None:
+        """ Perform insertion sort in place.
 
+        Time complexity: :code:`O(n^2)`.
+
+        Space complexity: :code:`O(1)`.
+
+        :param key: A function that serves as a key for the sort comparison, default to None.
+        :type key: Callable
+        :param reverse: The order of sorting, default to False i.e. ascending.
+        :type reverse: bool
         :rtype: None
         """
-        pass
+        if self.head is None or self.head.next_node is None:
+            return
+
+        if reverse:
+            cmp_func = gt
+        else:
+            cmp_func = lt
+        if key is None:
+            key = lambda x: x  # noqa
+
+        dummy_node = self._create_node(-1)
+        dummy_node.next_node = self.head
+
+        next_ = self.head.next_node
+        cur = self.head
+        while next_ is not None:
+            # No action needed, move forward
+            if not cmp_func(key(next_.value), key(cur.value)):
+                next_ = next_.next_node
+                cur = cur.next_node
+                continue
+            # Start from the beginning, find the correct place for insertion
+            correct_place = dummy_node
+            while not cmp_func(key(next_.value), key(correct_place.next_node.value)):
+                correct_place = correct_place.next_node
+            # Insert
+            self._connect_nodes(cur, next_.next_node)
+            self._connect_nodes(next_, correct_place.next_node)
+            self._connect_nodes(correct_place, next_)
+            # Move forward
+            next_ = cur.next_node
+        self.head = dummy_node.next_node
 
     @abstractmethod
     def swap(self, index1: int, index2: int) -> None:
@@ -610,10 +649,6 @@ class SinglyLinkedList(_LinkedList):
         #
         # self.head = _reverse(self.head)
 
-    def sort(self) -> None:
-        # todo: implement sort
-        raise NotImplementedError
-
     @validate_args
     def swap(self, index1: int, index2: int) -> None:
         if index1 == index2:
@@ -704,11 +739,6 @@ class DoublyLinkedList(_LinkedList):
             while cur_node is not None:
                 cur_node.last_node, cur_node.next_node = cur_node.next_node, cur_node.last_node
                 cur_node = cur_node.next_node
-
-    @validate_args
-    def sort(self) -> None:
-        # todo: implement sort
-        raise NotImplementedError
 
     @validate_args
     def swap(self, index1: int, index2: int) -> None:

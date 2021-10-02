@@ -1,3 +1,5 @@
+import random
+
 from pydsa.data_structures import Node
 from pydsa.data_structures.linked_list import *
 from tests import is_error
@@ -441,6 +443,25 @@ def test_reverse():
         g.reverse()
         g.reverse()
         assert g == copied
+
+
+def test_sort():
+    def test_func(tc, key=None, reverse=False):
+        tc = list(tc)
+        a = ds(tc)
+        a.sort(key=key, reverse=reverse)
+        ref = ds(sorted(tc, key=key, reverse=reverse))
+
+    for ds in to_test:
+        ds.MAX_ITER = 999
+        test_func([])
+        test_func([100])
+        for _ in range(50):
+            test_func(random.choice([random.random(), random.randint(-1000, 1000)]) for _ in range(99))
+            test_func((random.choice([random.random(), random.randint(-1000, 1000)]) for _ in range(99)), reverse=True)
+        test_func("`1234567890-=~!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}asdfghjkl;'\\ASDFGHJKL:\"|zxcvbnm,./ZXCVBNM<>?",
+                  key=ord)
+        test_func("This is a test string AA", key=str.lower, reverse=True)
 
 
 def test_swap():
