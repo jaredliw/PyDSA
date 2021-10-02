@@ -3,8 +3,7 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Linked List &mdash; PyDSA 0.0.1 documentation</title>
@@ -26,13 +25,12 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Array" href="array.html" /> 
+    <link rel="next" title="Array" href="list.html" />
+    <link rel="prev" title="Sorting" href="../algorithms/sorting.html" /> 
 
 </head>
 
@@ -106,15 +104,15 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
+                                <p class="caption"><span class="caption-text">Algorithms</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/searching.html">Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/sorting.html">Sorting</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Data Structures</span></p>
+<p class="caption"><span class="caption-text">Data Structures</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="array.html">Array</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Linked List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="list.html">Array</a></li>
 </ul>
 
                             
@@ -125,28 +123,21 @@
                     <div class="document">
                         
                             
-  <section id="module-pydsa.data_structures.linked_list">
+  <div class="section" id="module-pydsa.data_structures.linked_list">
 <span id="linked-list"></span><h1>Linked List<a class="headerlink" href="#module-pydsa.data_structures.linked_list" title="Permalink to this headline">¶</a></h1>
 <p>A linear data structure where each element is a separate object.</p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.ExceededMaxIter">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">ExceededMaxIter</span></span><a class="headerlink" href="#pydsa.data_structures.linked_list.ExceededMaxIter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
-<p>Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list.</p>
-</dd></dl>
-
 <dl class="py class">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">DoublyLinkedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></code><code class="sig-name descname"><span class="pre">DoublyLinkedList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">SinglyLinkedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></code><code class="sig-name descname"><span class="pre">SinglyLinkedList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydsa.data_structures.linked_list._LinkedList</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a new linked list from an iterable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -156,8 +147,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.append">
-<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.append" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.append">
+<code class="sig-name descname"><span class="pre">append</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.append" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append a new node to the end of linked list.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>, but it take <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code> to traverse to the last node.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -172,8 +163,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.clear" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.clear">
+<code class="sig-name descname"><span class="pre">clear</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all nodes from linked list.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -185,8 +176,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.copy" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.copy">
+<code class="sig-name descname"><span class="pre">copy</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a deep copy of linked list.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
@@ -198,8 +189,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.count">
-<span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.count" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.count">
+<code class="sig-name descname"><span class="pre">count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return number of occurrences of nodes with value.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
@@ -217,8 +208,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.detect_cycle">
-<span class="sig-name descname"><span class="pre">detect_cycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.detect_cycle" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.detect_cycle">
+<code class="sig-name descname"><span class="pre">detect_cycle</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.detect_cycle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether linked list contains a cycle by Floyd’s cycle-finding algorithm.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -233,8 +224,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.extend">
-<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.extend" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.extend">
+<code class="sig-name descname"><span class="pre">extend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.extend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create nodes with values from iterable and extend them to the end of linked list.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>, but it take <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code> to traverse to the last node.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
@@ -249,8 +240,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.find_middle">
-<span class="sig-name descname"><span class="pre">find_middle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.find_middle" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.find_middle">
+<code class="sig-name descname"><span class="pre">find_middle</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.find_middle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return node at the middle of linked list, i.e. node at index <span class="math notranslate nohighlight">\(\lfloor\frac{n}{2}\rfloor\)</span>.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -268,8 +259,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.index">
-<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9223372036854775807</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.index" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.index">
+<code class="sig-name descname"><span class="pre">index</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9223372036854775807</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return first index of node with value. The optional arguments start and end are used to limit the search to         a particular subsequence of the linked list. The returned index is computed relative to the beginning of the         full sequence rather than the start argument.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code></p>
 <p>Space Complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code></p>
@@ -294,8 +285,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.insert">
-<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.insert" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.insert">
+<code class="sig-name descname"><span class="pre">insert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.insert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new node with value and insert it before index.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>, but it take <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code> to traverse to the node at index.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -313,8 +304,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.pop">
-<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.pop" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.pop">
+<code class="sig-name descname"><span class="pre">pop</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.pop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove and return node at index (default last). Raises <code class="code docutils literal notranslate"><span class="pre">IndexError</span></code> if list is empty or index is out         of range.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>, but it takes <cite>O(n)</cite> to traverse to the node at index.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -335,8 +326,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.remove">
-<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.remove" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.remove">
+<code class="sig-name descname"><span class="pre">remove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.remove" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove first occurrence of node with value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -352,8 +343,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.remove_duplicates">
-<span class="sig-name descname"><span class="pre">remove_duplicates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.remove_duplicates" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.remove_duplicates">
+<code class="sig-name descname"><span class="pre">remove_duplicates</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.remove_duplicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove node(s) with duplicated value(s) in linked list.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
@@ -368,8 +359,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.reverse">
-<span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.reverse" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.reverse">
+<code class="sig-name descname"><span class="pre">reverse</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.reverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reverse the linked list in place.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -381,8 +372,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.sort" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.sort">
+<code class="sig-name descname"><span class="pre">sort</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform insertion sort in place.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n^2)</span></code>.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -400,8 +391,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.swap">
-<span class="sig-name descname"><span class="pre">swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.swap" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.swap">
+<code class="sig-name descname"><span class="pre">swap</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.swap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Swap two nodes at indices.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>, but it takes <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code> to traverse to the node.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -419,8 +410,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.traverse">
-<span class="sig-name descname"><span class="pre">traverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.traverse" title="Permalink to this definition">¶</a></dt>
+<dt id="pydsa.data_structures.linked_list.SinglyLinkedList.traverse">
+<code class="sig-name descname"><span class="pre">traverse</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.traverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loop through the linked list and get the node at index.</p>
 <p>Time complexity: <code class="code docutils literal notranslate"><span class="pre">O(n)</span></code>, even for negative index.</p>
 <p>Space complexity: <code class="code docutils literal notranslate"><span class="pre">O(1)</span></code>.</p>
@@ -439,7 +430,14 @@
 
 </dd></dl>
 
-</section>
+<dl class="py exception">
+<dt id="pydsa.data_structures.linked_list.ExceededMaxIter">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></code><code class="sig-name descname"><span class="pre">ExceededMaxIter</span></code><a class="headerlink" href="#pydsa.data_structures.linked_list.ExceededMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list.</p>
+</dd></dl>
+
+</div>
 
 
                         
@@ -463,17 +461,16 @@
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2021, Jared Liw Zhi Long.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
         </div>
     </div>  
 

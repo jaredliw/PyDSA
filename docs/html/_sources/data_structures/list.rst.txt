@@ -1,7 +1,7 @@
 Array
 =====
 
-.. automodule:: pydsa.data_structures.array
+.. automodule:: pydsa.data_structures.list
    :members:
    :show-inheritance:
    :special-members: __init__

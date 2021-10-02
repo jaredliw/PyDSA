@@ -309,12 +309,13 @@ def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, piv
 def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
     """SlowSort is an example of MultiplyAndSurrender - a worst possible sort algorithm. The algorithm decompose the
     problem of sorting n numbers in ascending order into:
-        (1) finding the maximum of those numbers, and
-        (2) sorting the remaining ones.
-    Sub-problem (1) can be further decomposed into
-        (1.1) find the maximum of the first n/2 elements,
-        (1.2) find the maximum of the remaining n/2 elements, and
-        (1.3) find the largest of those two maxima."""
+    1. finding the maximum of those numbers, and
+    2. sorting the remaining ones.
+    Sub-problem 1 can be further decomposed into
+    1.1 find the maximum of the first n/2 elements,
+    1.2 find the maximum of the remaining n/2 elements, and
+    1.3 find the largest of those two maxima.
+    """
 
     if reverse:
         cmp_funct = gt
