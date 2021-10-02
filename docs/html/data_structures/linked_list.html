@@ -106,12 +106,12 @@
                         
                             
                             
-                                <p class="caption"><span class="caption-text">Algorithms</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/searching.html">Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/sorting.html">Sorting</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Data Structures</span></p>
+<p class="caption" role="heading"><span class="caption-text">Data Structures</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="array.html">Array</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Linked List</a></li>
@@ -128,6 +128,13 @@
   <section id="module-pydsa.data_structures.linked_list">
 <span id="linked-list"></span><h1>Linked List<a class="headerlink" href="#module-pydsa.data_structures.linked_list" title="Permalink to this headline">¶</a></h1>
 <p>A linear data structure where each element is a separate object.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.ExceededMaxIter">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">ExceededMaxIter</span></span><a class="headerlink" href="#pydsa.data_structures.linked_list.ExceededMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">DoublyLinkedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList" title="Permalink to this definition">¶</a></dt>
@@ -137,22 +144,6 @@
 <dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">SinglyLinkedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pydsa.data_structures.linked_list._LinkedList</span></code></p>
-<p>A one-way linear data structure where elements are separated and non-contiguous objects that linked by     pointers.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Support all methods from built-in <code class="code docutils literal notranslate"><span class="pre">list</span></code>, except indexing / slicing.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>MAX_ITER</strong> – Maximum number of iterations, process will be terminated if it has been exceeded.</p></li>
-<li><p><strong>head</strong> – Head of linked list.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pydsa.data_structures.linked_list.ExceededMaxIterations" title="pydsa.data_structures.linked_list.ExceededMaxIterations"><strong>ExceededMaxIterations</strong></a> – Raised when maximum iterations has been exceeded to prevent an infinite loop.</p>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="pydsa.data_structures.linked_list.SinglyLinkedList.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.SinglyLinkedList.__init__" title="Permalink to this definition">¶</a></dt>
@@ -371,7 +362,7 @@
 <dd class="field-odd"><p>None</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pydsa.data_structures.linked_list.ExceededMaxIterations" title="pydsa.data_structures.linked_list.ExceededMaxIterations"><strong>ExceededMaxIterations</strong></a> – Raised when MAX_ITER has been exceeded.</p>
+<dd class="field-even"><p><strong>ExceededMaxIterations</strong> – Raised when MAX_ITER has been exceeded.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -440,13 +431,6 @@
 
 </dd></dl>
 
-<dl class="py exception">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.ExceededMaxIterations">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">ExceededMaxIterations</span></span><a class="headerlink" href="#pydsa.data_structures.linked_list.ExceededMaxIterations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
-<p>Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list.</p>
-</dd></dl>
-
 </section>
 
 
@@ -481,7 +465,7 @@
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2021, Jared Liw Zhi Long.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
         </div>
     </div>  
 

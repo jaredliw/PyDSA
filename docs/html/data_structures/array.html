@@ -107,12 +107,12 @@
                         
                             
                             
-                                <p class="caption"><span class="caption-text">Algorithms</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/searching.html">Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/sorting.html">Sorting</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Data Structures</span></p>
+<p class="caption" role="heading"><span class="caption-text">Data Structures</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Array</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linked_list.html">Linked List</a></li>
@@ -126,101 +126,8 @@
                     <div class="document">
                         
                             
-  <section id="module-pydsa.data_structures.array">
-<span id="array"></span><h1>Array<a class="headerlink" href="#module-pydsa.data_structures.array" title="Permalink to this headline">¶</a></h1>
-<p>A collection of items stored at contiguous memory locations.</p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.ConstantError">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.array.</span></span><span class="sig-name descname"><span class="pre">ConstantError</span></span><a class="headerlink" href="#pydsa.data_structures.array.ConstantError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
-<p>Raised when trying to change a constant attribute.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.DynamicArray">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.array.</span></span><span class="sig-name descname"><span class="pre">DynamicArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.array.DynamicArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pydsa.data_structures.array.StaticArray" title="pydsa.data_structures.array.StaticArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">pydsa.data_structures.array.StaticArray</span></code></a></p>
-<p>Growable static array. Conceptual, need not to use in Python.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>All methods are inherited from <code class="code docutils literal notranslate"><span class="pre">list</span></code>, refer to <code class="code docutils literal notranslate"><span class="pre">help(list)</span></code> for a more explicit     documentation.</p>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.DynamicArray.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.array.DynamicArray.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize a new static array from an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><span class="target" id="pydsa.data_structures.array.DynamicArray.params.iterable"></span><strong>iterable</strong><a class="paramlink headerlink reference internal" href="#pydsa.data_structures.array.DynamicArray.params.iterable">¶</a> – An iterable to be converted into a static array, default to None.</p>
-</dd>
-<dt class="field-even">Type</dt>
-<dd class="field-even"><p>Iterable or None</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.ExceedMaxLengthError">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.array.</span></span><span class="sig-name descname"><span class="pre">ExceedMaxLengthError</span></span><a class="headerlink" href="#pydsa.data_structures.array.ExceedMaxLengthError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">OverflowError</span></code></p>
-<p>Raised when length of a static array exceeds its limit.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.StaticArray">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.array.</span></span><span class="sig-name descname"><span class="pre">StaticArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.array.StaticArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
-<p>A continuous data structure that contains a group of elements with constant length.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>All methods are inherited from <code class="code docutils literal notranslate"><span class="pre">list</span></code>, refer to <code class="code docutils literal notranslate"><span class="pre">help(list)</span></code> for a more explicit     documentation.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#pydsa.data_structures.array.ExceedMaxLengthError" title="pydsa.data_structures.array.ExceedMaxLengthError"><strong>ExceedMaxLengthError</strong></a> – Raised when the length of array is exceeding     <a class="reference internal" href="#pydsa.data_structures.array.StaticArray.max_length" title="pydsa.data_structures.array.StaticArray.max_length"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_length</span></code></a>.</p></li>
-<li><p><a class="reference internal" href="#pydsa.data_structures.array.ConstantError" title="pydsa.data_structures.array.ConstantError"><strong>ConstantError</strong></a> – Raised when trying to change the value of     <a class="reference internal" href="#pydsa.data_structures.array.StaticArray.max_length" title="pydsa.data_structures.array.StaticArray.max_length"><code class="xref py py-attr docutils literal notranslate"><span class="pre">max_length</span></code></a>.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.StaticArray.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.array.StaticArray.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize a new static array from an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><span class="target" id="pydsa.data_structures.array.StaticArray.params.iterable"></span><strong>iterable</strong><a class="paramlink headerlink reference internal" href="#pydsa.data_structures.array.StaticArray.params.iterable">¶</a> – An iterable to be converted into a static array, default to None.</p></li>
-<li><p><span class="target" id="pydsa.data_structures.array.StaticArray.params.max_length"></span><strong>max_length</strong><a class="paramlink headerlink reference internal" href="#pydsa.data_structures.array.StaticArray.params.max_length">¶</a> – Maximum length of array, default to the length of         <a class="reference internal" href="#pydsa.data_structures.array.StaticArray.__init__.params.iterable" title="pydsa.data_structures.array.StaticArray.__init__"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">iterable</span></code></a>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Type</dt>
-<dd class="field-even"><p>Iterable or None</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#pydsa.data_structures.array.ExceedMaxLengthError" title="pydsa.data_structures.array.ExceedMaxLengthError"><strong>ExceedMaxLengthError</strong></a> – Raised when the length of         <a class="reference internal" href="#pydsa.data_structures.array.StaticArray.__init__.params.iterable" title="pydsa.data_structures.array.StaticArray.__init__"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">iterable</span></code></a> is less than         <a class="reference internal" href="#pydsa.data_structures.array.StaticArray.__init__.params.max_length" title="pydsa.data_structures.array.StaticArray.__init__"><code class="xref py py-paramref docutils literal notranslate"><span class="pre">max_length</span></code></a>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pydsa.data_structures.array.StaticArray.max_length">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">max_length</span></span><a class="headerlink" href="#pydsa.data_structures.array.StaticArray.max_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maximum length of array, cannot be changed after initializing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pydsa.data_structures.array.ConstantError" title="pydsa.data_structures.array.ConstantError"><strong>ConstantError</strong></a> – Raised when trying to modify the value.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+  <section id="array">
+<h1>Array<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h1>
 </section>
 
 
@@ -254,7 +161,7 @@
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2021, Jared Liw Zhi Long.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
         </div>
     </div>  
 
