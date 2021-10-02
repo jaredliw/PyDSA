@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Array &mdash; PyDSA 0.0.1 documentation</title>
@@ -25,6 +26,8 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/sphinx_paramlinks.css" type="text/css" />
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -103,12 +106,12 @@
                         
                             
                             
-                                <p class="caption"><span class="caption-text">Algorithms</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">Algorithms</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/searching.html">Searching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/sorting.html">Sorting</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Data Structures</span></p>
+<p class="caption" role="heading"><span class="caption-text">Data Structures</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="linked_list.html">Linked List</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Array</a></li>
@@ -122,19 +125,19 @@
                     <div class="document">
                         
                             
-  <div class="section" id="module-pydsa.data_structures.list">
+  <section id="module-pydsa.data_structures.list">
 <span id="array"></span><h1>Array<a class="headerlink" href="#module-pydsa.data_structures.list" title="Permalink to this headline">¶</a></h1>
 <p>A collection of items stored at contiguous memory locations.</p>
 <dl class="py exception">
-<dt id="pydsa.data_structures.list.ConstantError">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></code><code class="sig-name descname"><span class="pre">ConstantError</span></code><a class="headerlink" href="#pydsa.data_structures.list.ConstantError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pydsa.data_structures.list.ConstantError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></span><span class="sig-name descname"><span class="pre">ConstantError</span></span><a class="headerlink" href="#pydsa.data_structures.list.ConstantError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
 <p>Raised when trying to change a constant attribute.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="pydsa.data_structures.list.DynamicList">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></code><code class="sig-name descname"><span class="pre">DynamicList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.DynamicList" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pydsa.data_structures.list.DynamicList">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></span><span class="sig-name descname"><span class="pre">DynamicList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.DynamicList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Growable static list. Conceptual, need not to use in Python.</p>
 <div class="admonition note">
@@ -142,8 +145,8 @@
 <p>All methods are inherited from <code class="code docutils literal notranslate"><span class="pre">list</span></code>, refer to <code class="code docutils literal notranslate"><span class="pre">help(list)</span></code> for a more explicit     documentation.</p>
 </div>
 <dl class="py method">
-<dt id="pydsa.data_structures.list.DynamicList.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.DynamicList.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pydsa.data_structures.list.DynamicList.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.DynamicList.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a new dynamic list from an iterable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -158,15 +161,15 @@
 </dd></dl>
 
 <dl class="py exception">
-<dt id="pydsa.data_structures.list.ExceedMaxLengthError">
-<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></code><code class="sig-name descname"><span class="pre">ExceedMaxLengthError</span></code><a class="headerlink" href="#pydsa.data_structures.list.ExceedMaxLengthError" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pydsa.data_structures.list.ExceedMaxLengthError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></span><span class="sig-name descname"><span class="pre">ExceedMaxLengthError</span></span><a class="headerlink" href="#pydsa.data_structures.list.ExceedMaxLengthError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">OverflowError</span></code></p>
 <p>Raised when length of a static list exceeds its limit.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="pydsa.data_structures.list.StaticList">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></code><code class="sig-name descname"><span class="pre">StaticList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.StaticList" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pydsa.data_structures.list.StaticList">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.list.</span></span><span class="sig-name descname"><span class="pre">StaticList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.StaticList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
 <p>A continuous data structure that contains a group of elements with constant length.</p>
 <div class="admonition note">
@@ -182,8 +185,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt id="pydsa.data_structures.list.StaticList.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.StaticList.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pydsa.data_structures.list.StaticList.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.list.StaticList.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a new static list from an iterable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -201,9 +204,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pydsa.data_structures.list.StaticList.max_length">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_length</span></code><a class="headerlink" href="#pydsa.data_structures.list.StaticList.max_length" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pydsa.data_structures.list.StaticList.max_length">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">max_length</span></span><a class="headerlink" href="#pydsa.data_structures.list.StaticList.max_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Maximum length of list, cannot be changed after initializing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -217,7 +220,7 @@
 
 </dd></dl>
 
-</div>
+</section>
 
 
                         
@@ -241,6 +244,7 @@
             SOURCELINK_SUFFIX: '.txt'
         };
     </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -249,7 +253,7 @@
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2021, Jared Liw Zhi Long.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
         </div>
     </div>  
 
