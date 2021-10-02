@@ -90,11 +90,10 @@ This project is currently underdeveloped. This project may be published to PyPI 
             <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/__init__.py"><i>Node</i></a>
         </li>
     <li>
-        <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/array.py">Array</a>
+        <a href="https://github.com/jaredliw/PyDSA/blob/master/pydsa/data_structures/list.py">List</a>
         <ul>
-            <li><i>List</i></li>
-            <li>Dynamic Array</li>
-            <li>Static Array</li>
+            <li>Dynamic List</li>
+            <li>Static List</li>
         </ul>
     </li>
     <li>
@@ -126,9 +125,6 @@ pip install -r requirements.txt
 ### License
 Released under the terms of [MIT License](https://github.com/jaredliw/PyDSA/blob/master/LICENSE).
 
-### Support
-Support me on Patreon:
-
-[<img src="https://cloakandmeeple.files.wordpress.com/2017/06/become_a_patron_button3x.png?w=610" height="57.19" width="244">](https://patreon.com/jaredliw)
-
-Thanks to all contributors and supporters!
+### Sponsorship
+If you would like to make a monetary contribution to this repository, kindly contact me via jaredliw@gmail.com.
+Thank you!
