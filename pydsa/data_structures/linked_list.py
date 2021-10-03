@@ -7,10 +7,10 @@ from operator import gt, lt
 from pydsa import Any, Iterable, validate_args, PositiveInt, inherit_docstrings, Function
 from pydsa.data_structures import Node, NodeType
 
-__all__ = ["ExceededMaxIter", "SinglyLinkedList", "DoublyLinkedList"]
+__all__ = ["ExceedMaxIter", "SinglyLinkedList", "DoublyLinkedList"]
 
 
-class ExceededMaxIter(RuntimeError):
+class ExceedMaxIter(RuntimeError):
     """Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list."""
     pass
 
@@ -111,7 +111,7 @@ class _LinkedList(ABC):
         while current is not None:
             count += 1
             if count > self.MAX_ITER:
-                raise ExceededMaxIter("maximum number of iteration has been exceeded. Make sure there is no "
+                raise ExceedMaxIter("maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             yield current
             # noinspection PyUnresolvedReferences
@@ -175,13 +175,13 @@ class _LinkedList(ABC):
             for item in self:
                 to_list.append(item.value)
             return f"{type(self).__name__}({str(to_list)})"
-        except ExceededMaxIter:
+        except ExceedMaxIter:
             return f"{type(self).__name__}({'<cannot show node(s)>'})"
 
     def __repr__(self):
         try:
             return f"{type(self).__name__}({' -> '.join(map(lambda x: repr(x.value), self))})"
-        except ExceededMaxIter:
+        except ExceedMaxIter:
             return f"{type(self).__name__}({'<cannot show node(s)>'})"
 
     @abstractmethod
@@ -452,7 +452,7 @@ class _LinkedList(ABC):
         def _remove_duplicates(current=None, previous=None, reference=None, iteration=0):
             iteration += 1
             if iteration > self.MAX_ITER:
-                raise ExceededMaxIter("Maximum number of iteration has been exceeded. Make sure there is no "
+                raise ExceedMaxIter("Maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             if current is None:
                 current = self.head
@@ -466,7 +466,7 @@ class _LinkedList(ABC):
                     while temp.value in reference:
                         inner_iteration += 1
                         if inner_iteration > self.MAX_ITER:
-                            raise ExceededMaxIter(
+                            raise ExceedMaxIter(
                                 "Maximum number of iteration has been exceeded. Make sure there is no "
                                 "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
                         temp = temp.next_node
@@ -630,7 +630,7 @@ class SinglyLinkedList(_LinkedList):
         while self.head is not None:
             iteration += 1
             if iteration > self.MAX_ITER:
-                raise ExceededMaxIter("Maximum number of iteration has been exceeded. Make sure there is no "
+                raise ExceedMaxIter("Maximum number of iteration has been exceeded. Make sure there is no "
                                             "cycle in the linked list by using detect_cycle() or increase MAX_ITER")
             next_nd = self.head.next_node
             self._connect_nodes(self.head, prev_nd)

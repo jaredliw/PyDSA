@@ -82,6 +82,10 @@ class StaticList(list):
     def __imul__(self, other):
         if not isinstance(other, int):
             super().__imul__(other)  # Let list handle the error
+        if other < 1:  # Fun fact: [...] * -1 => []
+            self.clear()
+            return self
+
         content = self[:]
         for _ in range(other - 1):
             self.extend(content)
@@ -94,12 +98,15 @@ class StaticList(list):
         return isinstance(other, self.__class__) and super().__lt__(other)
 
     def __mul__(self, other):
-        new = deepcopy(other)
+        new = deepcopy(self)
         new.__imul__(other)
         return new
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __repr__(self):
         return f"{self.__class__.__name__}({super().__repr__()}, {self.max_length})"
@@ -122,7 +129,7 @@ class StaticList(list):
         except AttributeError:
             self.__max_length = value
         else:
-            raise ConstantError("StaticList.max_length is a constant")
+            raise ConstantError(f"{self.__class__.__name__}.max_length is a constant")
 
     def copy(self):
         if self.__class__ == StaticList:  # For forward compatibility
@@ -151,7 +158,7 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     .. note:: All methods are inherited from :code:`list`, refer to :code:`help(list)` for a more explicit \
     documentation.
     """
-    __slots__ = ("__container",)
+    __slots__ = ("__container", "max_length")
 
     @validate_args
     def __init__(self, iterable: Iterable = None):
@@ -169,6 +176,15 @@ class DynamicList(metaclass=_DynamicListMetaclass):
             other = other.__container
         return self.__class__(self.__container.__add__(other))
 
+    def __delattr__(self, item):
+        try:
+            if item in dir(StaticList):
+                self.__container.__class__.__dict__[item].__delete__(item)
+            else:
+                self.__class__.__dict__[item].__delete__(item)
+        except KeyError:
+            raise AttributeError(f"type object '{self.__class__.__name__}' has no attribute '{item}'")
+
     def __delitem__(self, key):
         self.__container.__delitem__(key)
 
@@ -185,9 +201,7 @@ class DynamicList(metaclass=_DynamicListMetaclass):
         return self.__gt__(other) or self.__eq__(other)
 
     def __getattr__(self, item):
-        cur_length = self.__container.__len__()
-        max_length = self.__container.max_length
-        if item in ['append', 'insert'] and cur_length + 1 > max_length:
+        if item in ['append', 'insert'] and self.__container.__len__() + 1 > self.__container.max_length:
             self.__expend_list()
         return getattr(self.__container, item)
 
@@ -223,6 +237,15 @@ class DynamicList(metaclass=_DynamicListMetaclass):
 
     def __reversed__(self):
         return self.__container.__reversed__()
+
+    def __setattr__(self, key, value):
+        try:
+            if key in dir(StaticList):
+                self.__container.__class__.__dict__[key].__set__(self, value)
+            else:
+                self.__class__.__dict__[key].__set__(self, value)
+        except KeyError:
+            raise AttributeError(f"'{self.__class__.__name__}' has no attribute '{key}'")
 
     def __str__(self):
         return self.__container.__str__()
