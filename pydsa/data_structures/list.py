@@ -76,6 +76,14 @@ class StaticList(list):
         self.extend(other)
         return self
 
+    def __imul__(self, other):
+        if not isinstance(other, int):
+            super().__iadd__(other)  # Let list handle the error
+        content = self[:]
+        for _ in range(other - 1):
+            self.extend(content)
+        return self
+
     def __le__(self, other):
         return self.__eq__(other) or self.__lt__(other)
 
@@ -83,7 +91,9 @@ class StaticList(list):
         return isinstance(other, self.__class__) and super().__lt__(other)
 
     def __mul__(self, other):
-        return self.__class__(super().__mul__(other))
+        new = self.copy()
+        new.__imul__(other)
+        return new
 
     def __ne__(self, other):
         return not self.__eq__(other)
