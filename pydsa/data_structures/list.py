@@ -1,6 +1,6 @@
 """A collection of items stored at contiguous memory locations."""
 from pydsa import Any, Iterable, NonNegativeInt, inherit_docstrings, validate_args
-
+from copy import deepcopy
 __all__ = ["ExceedMaxLengthError", "ConstantError", "StaticList", "DynamicList"]
 
 
@@ -54,8 +54,8 @@ class StaticList(list):
             raise ExceedMaxLengthError(f"exceed static list maximum length: {self.max_length}")
 
     def __add__(self, other):
-        new = self.copy()
-        new.extend(other)
+        new = deepcopy(self)
+        new.__iadd__(other)
         return new
 
     def __eq__(self, other):
@@ -73,12 +73,15 @@ class StaticList(list):
         return not self.__lt__(other) and self.__ne__(other)
 
     def __iadd__(self, other):
+        if not isinstance(other, StaticList):
+            raise TypeError(f"can only concatenate {self.__class__.__name__} (not '{other.__class__.__name__}') to "
+                            f"{self.__class__.__name__}")
         self.extend(other)
         return self
 
     def __imul__(self, other):
         if not isinstance(other, int):
-            super().__iadd__(other)  # Let list handle the error
+            super().__imul__(other)  # Let list handle the error
         content = self[:]
         for _ in range(other - 1):
             self.extend(content)
@@ -91,7 +94,7 @@ class StaticList(list):
         return isinstance(other, self.__class__) and super().__lt__(other)
 
     def __mul__(self, other):
-        new = self.copy()
+        new = deepcopy(other)
         new.__imul__(other)
         return new
 
@@ -134,9 +137,15 @@ class StaticList(list):
             super().append(item)
 
 
+class _DynamicListMetaclass(type):
+    """Overwriting __dir__ method for DynamicList class."""
+    def __dir__(cls):
+        return list(set(super().__dir__() + StaticList().__dir__()))
+
+
 # noinspection PyMissingOrEmptyDocstring
 @inherit_docstrings
-class DynamicList:
+class DynamicList(metaclass=_DynamicListMetaclass):
     """Growable static list. Conceptual, need not to use in Python.
 
     .. note:: All methods are inherited from :code:`list`, refer to :code:`help(list)` for a more explicit \
@@ -170,7 +179,7 @@ class DynamicList:
             return False
 
     def __dir__(self):
-        return self.__container.__dir__()
+        return list(set(dir(self.__class__) + dir(self.__container)))
 
     def __ge__(self, other):
         return self.__gt__(other) or self.__eq__(other)
