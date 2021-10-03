@@ -54,7 +54,9 @@ class StaticList(list):
             raise ExceedMaxLengthError(f"exceed static list maximum length: {self.max_length}")
 
     def __add__(self, other):
-        return self.copy().extend(other)
+        new = self.copy()
+        new.extend(other)
+        return new
 
     def __eq__(self, other):
         return isinstance(other, self.__class__) and super().__eq__(other)
