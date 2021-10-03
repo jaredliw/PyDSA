@@ -54,7 +54,7 @@ class StaticList(list):
             raise ExceedMaxLengthError(f"exceed static list maximum length: {self.max_length}")
 
     def __add__(self, other):
-        return self.__class__(super().__add__(other))
+        return self.copy().extend(other)
 
     def __eq__(self, other):
         return isinstance(other, self.__class__) and super().__eq__(other)
@@ -69,6 +69,10 @@ class StaticList(list):
 
     def __gt__(self, other):
         return not self.__lt__(other) and self.__ne__(other)
+
+    def __iadd__(self, other):
+        self.extend(other)
+        return self
 
     def __le__(self, other):
         return self.__eq__(other) or self.__lt__(other)
@@ -112,9 +116,10 @@ class StaticList(list):
             return self.__class__(super().copy())
 
     def extend(self, iterable: Iterable) -> None:
-        if len(self) + len(list(iterable)) > self.max_length:
-            raise ExceedMaxLengthError(f"exceed StaticList maximum length: {self.max_length}")
-        super().extend(iterable)
+        for item in iterable:
+            if len(self) + 1 > self.max_length:
+                raise ExceedMaxLengthError(f"exceed StaticList maximum length: {self.max_length}")
+            super().append(item)
 
 
 # noinspection PyMissingOrEmptyDocstring
