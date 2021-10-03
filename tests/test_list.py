@@ -276,8 +276,8 @@ def test_extend(item):
         is_error(ExceedMaxLengthError, b.extend, [0, 0, "exceed"])
     elif item == DynamicList:
         c = item([])
-        c.extend([1])
-        assert c == item([1])
+        c.extend([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        assert c == item([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
         assert c.max_length == 1
 
         d = item([1, 2])
@@ -285,6 +285,13 @@ def test_extend(item):
         d.extend([3, 4, 5, 6, 7, 8, 9])
         assert d == item([1, 2, 3, 4, 5, 6, 7, 8, 9])
         assert d.max_length == 16
+
+    if item == StaticList:
+        e = item(max_length=50)
+    else:
+        e = item()
+    e.extend(filter(lambda x: x % 2, range(10)))
+    assert e == item([1, 3, 5, 7, 9])
 
 
 @mark.parametrize("item", ds)

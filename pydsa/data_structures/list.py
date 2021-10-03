@@ -1,6 +1,9 @@
 """A collection of items stored at contiguous memory locations."""
+import math
+
 from pydsa import Any, Iterable, NonNegativeInt, inherit_docstrings, validate_args
-from copy import deepcopy
+from copy import deepcopy, copy
+
 __all__ = ["ExceedMaxLengthError", "ConstantError", "StaticList", "DynamicList"]
 
 
@@ -131,12 +134,11 @@ class StaticList(list):
         else:
             raise ConstantError(f"{self.__class__.__name__}.max_length is a constant")
 
+    @validate_args
     def copy(self):
-        if self.__class__ == StaticList:  # For forward compatibility
-            return self.__class__(super().copy(), self.max_length)
-        else:
-            return self.__class__(super().copy())
+        return copy(self)  # shallow copy
 
+    @validate_args
     def extend(self, iterable: Iterable) -> None:
         for item in iterable:
             if len(self) + 1 > self.max_length:
@@ -200,9 +202,9 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     def __ge__(self, other):
         return self.__gt__(other) or self.__eq__(other)
 
-    def __getattr__(self, item):
+    def __getattr__(self, item):  # todo: failure, change to __getattribute__
         if item in ['append', 'insert'] and self.__container.__len__() + 1 > self.__container.max_length:
-            self.__expend_list()
+            self.__create_new_container(self.__container.__len__() + 1)
         return getattr(self.__container, item)
 
     def __getitem__(self, item):
@@ -250,45 +252,32 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     def __str__(self):
         return self.__container.__str__()
 
-    def __expend_list(self) -> None:
-        size = self.__container.max_length
-        if size == 0:
-            size = 1
-        else:
-            size *= 2
-        self.__container = StaticList(self.__container[:], size)
-
-    def __shrink_list(self) -> None:
-        self.__container = StaticList(self.__container[:], self.__container.max_length // 2)
-
-    def __post_check(self) -> None:
-        if self.__len__() <= self.__container.max_length // 2:
-            self.__shrink_list()
+    def __create_new_container(self, length=None):
+        if length is None:
+            length = self.__container.__len__()
+        self.__container = StaticList(self.__container[:], 0 if length == 0 else 2 ** math.ceil(math.log2(length)))
 
     @validate_args
     def clear(self) -> None:
         self.__container = StaticList()
 
     @validate_args
-    def copy(self):
-        return self.__class__(self.__container.copy())
-
-    @validate_args
-    def extend(self, iterable: Iterable) -> None:
+    def extend(self, iterable: Iterable) -> None:  # todo: buggy, does not work for generator
         if not hasattr(iterable, "__len__"):
             length = len(list(iterable))
         else:
             length = len(iterable)
         while self.__len__() + length > self.__container.max_length:
-            self.__expend_list()
+            self.__create_new_container()  # todo
         self.__container.extend(iterable)
 
     @validate_args
     def pop(self, index: int = -1) -> None:
         self.__container.pop(index)
-        self.__post_check()
+        self.__create_new_container()
 
     @validate_args
     def remove(self, elem: Any) -> None:
         self.__container.remove(elem)
-        self.__post_check()
+        print(self)
+        self.__create_new_container()
