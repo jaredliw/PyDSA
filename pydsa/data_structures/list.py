@@ -76,7 +76,7 @@ class StaticList(list):
         return not self.__lt__(other) and self.__ne__(other)
 
     def __iadd__(self, other):
-        if not isinstance(other, StaticList):
+        if not isinstance(other, self.__class__):
             raise TypeError(f"can only concatenate {self.__class__.__name__} (not '{other.__class__.__name__}') to "
                             f"{self.__class__.__name__}")
         self.extend(other)
@@ -84,7 +84,7 @@ class StaticList(list):
 
     def __imul__(self, other):
         if not isinstance(other, int):
-            super().__imul__(other)  # Let list handle the error
+            super().__imul__(other)  # Let list handles the exception
         if other < 1:  # Fun fact: [...] * -1 => []
             self.clear()
             return self
@@ -128,7 +128,7 @@ class StaticList(list):
     @max_length.setter
     def max_length(self, value):
         try:
-            print(self.__max_length)
+            self.__max_length
         except AttributeError:
             self.__max_length = value
         else:
@@ -160,7 +160,7 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     .. note:: All methods are inherited from :code:`list`, refer to :code:`help(list)` for a more explicit \
     documentation.
     """
-    __slots__ = ("__container", "max_length")
+    __slots__ = ("__container",)
 
     @validate_args
     def __init__(self, iterable: Iterable = None):
@@ -174,9 +174,19 @@ class DynamicList(metaclass=_DynamicListMetaclass):
         self.__container = iterable if isinstance(iterable, StaticList) else StaticList(iterable)
 
     def __add__(self, other):
-        if isinstance(other, self.__class__):
-            other = other.__container
-        return self.__class__(self.__container.__add__(other))
+        new = deepcopy(self)
+        new.__iadd__(other)
+        return new
+
+    def __copy__(self):
+        new = self.__class__.__new__(self.__class__)
+        new.__container = self.__container
+        return new
+
+    def __deepcopy__(self, memodict):
+        new = self.__class__.__new__(self.__class__)
+        new.__container = self.__container.__class__(self.__container[:], self.max_length)
+        return new
 
     def __delattr__(self, item):
         try:
@@ -185,7 +195,7 @@ class DynamicList(metaclass=_DynamicListMetaclass):
             else:
                 self.__class__.__dict__[item].__delete__(item)
         except KeyError:
-            raise AttributeError(f"type object '{self.__class__.__name__}' has no attribute '{item}'")
+            raise AttributeError(f"'{self.__class__.__name__}' has no attribute '{item}'")
 
     def __delitem__(self, key):
         self.__container.__delitem__(key)
@@ -202,16 +212,39 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     def __ge__(self, other):
         return self.__gt__(other) or self.__eq__(other)
 
-    def __getattr__(self, item):  # todo: failure, change to __getattribute__
-        if item in ['append', 'insert'] and self.__container.__len__() + 1 > self.__container.max_length:
-            self.__create_new_container(self.__container.__len__() + 1)
-        return getattr(self.__container, item)
+    def __getattr__(self, item):
+        if item in ['append', 'insert'] and self.__len__() + 1 > self.max_length:
+            self.__create_new_container(length=self.__len__() + 1)
+        try:
+            return getattr(self.__class__, item)
+        except AttributeError:
+            try:
+                return getattr(self.__container, item)
+            except AttributeError:
+                pass  # Do not raise error here, prevent nested exceptions
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{item}'")
 
     def __getitem__(self, item):
         return self.__container.__getitem__(item)
 
     def __gt__(self, other):
         return not self.__lt__(other) and self.__ne__(other)
+
+    def __iadd__(self, other):
+        if not isinstance(other, self.__class__):
+            raise TypeError(f"can only concatenate {self.__class__.__name__} (not '{other.__class__.__name__}') to "
+                            f"{self.__class__.__name__}")
+        self.extend(other)
+        return self
+
+    def __imul__(self, other):
+        if isinstance(other, int):
+            if other < 1:
+                self.__create_new_container([], 0)
+            elif self.__len__() * other > self.max_length:
+                self.__create_new_container(length=self.__len__() * other)
+        self.__container.__imul__(other)
+        return self
 
     def __iter__(self):
         return self.__container.__iter__()
@@ -229,16 +262,21 @@ class DynamicList(metaclass=_DynamicListMetaclass):
             return False
 
     def __mul__(self, other):
-        return self.__class__(self.__container.__mul__(other))
+        new = deepcopy(self)
+        new.__imul__(other)
+        return new
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.__container.__str__()}, {self.__container.max_length})"
+        return f"{self.__class__.__name__}({self.__container.__str__()}, {self.max_length})"
 
     def __reversed__(self):
         return self.__container.__reversed__()
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __setattr__(self, key, value):
         try:
@@ -252,24 +290,37 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     def __str__(self):
         return self.__container.__str__()
 
-    def __create_new_container(self, length=None):
+    @property
+    def max_length(self):
+        return self.__container.max_length
+
+    @max_length.setter
+    def max_length(self, value):
+        self.__container.max_length = value
+
+    def __create_new_container(self, content=None, length=None):
+        if content is None:
+            content = self.__container[:]
         if length is None:
-            length = self.__container.__len__()
-        self.__container = StaticList(self.__container[:], 0 if length == 0 else 2 ** math.ceil(math.log2(length)))
+            length = self.__len__()
+        self.__container = StaticList(content, 0 if length == 0 else 2 ** math.ceil(math.log2(length)))
+
+    @validate_args
+    def copy(self):
+        return copy(self)
 
     @validate_args
     def clear(self) -> None:
-        self.__container = StaticList()
+        self.__create_new_container([], 0)
 
     @validate_args
-    def extend(self, iterable: Iterable) -> None:  # todo: buggy, does not work for generator
-        if not hasattr(iterable, "__len__"):
-            length = len(list(iterable))
-        else:
-            length = len(iterable)
-        while self.__len__() + length > self.__container.max_length:
-            self.__create_new_container()  # todo
-        self.__container.extend(iterable)
+    def extend(self, iterable: Iterable) -> None:
+        init_length = self.__len__()
+        for item in iterable:
+            if init_length + 1 > self.max_length:
+                self.__create_new_container(length=init_length + 1)
+            self.__container.append(item)
+            init_length += 1
 
     @validate_args
     def pop(self, index: int = -1) -> None:
@@ -279,5 +330,4 @@ class DynamicList(metaclass=_DynamicListMetaclass):
     @validate_args
     def remove(self, elem: Any) -> None:
         self.__container.remove(elem)
-        print(self)
         self.__create_new_container()

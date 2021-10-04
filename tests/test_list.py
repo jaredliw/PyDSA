@@ -35,31 +35,42 @@ def test_op_add(item):
 
         is_error(ExceedMaxLengthError, _test1)
 
-        a = item([7, 8, 9], 6)
-        a += item([10, 11, "Test"])
-        assert a == item([7, 8, 9, 10, 11, "Test"])
-
         def _test2():
-            b = item([1, 2, 3])
-            b += item([4, 5, 6])
+            instance = item([1, 2, 3])
+            isntance += item([4, 5, 6])
 
         is_error(ExceedMaxLengthError, _test2)
 
         def _test3():
-            a + [1, 2, 3]
+            StaticList([1, 2, 3]) + DynamicList([1, 2, 3])
 
         is_error(TypeError, _test3)
-
-        def _test4():
-            a + DynamicList([1, 2, 3])
-
-        is_error(TypeError, _test4)
     elif item == DynamicList:
         assert item([1, 2, 3]) + item([4, 5, 6]) == item([1, 2, 3, 4, 5, 6])
 
-        a = item(["a", "b"])
-        a += ["c", "d"]
-        assert a == item("abcd")
+        def _test4():
+            DynamicList([1, 2, 3]) + StaticList([1, 2, 3])
+
+        is_error(TypeError, _test4)
+
+    if item == StaticList:
+        a = item([7, 8, 9], 6)
+    else:
+        a = item([7, 8, 9])
+    a += item([10, 11, "Test"])
+    assert a == item([7, 8, 9, 10, 11, "Test"])
+
+    def _test5():
+        a + [1, 2, 3]
+
+    is_error(TypeError, _test5)
+    
+    if item == StaticList:
+        b = item(["a", "b"], 4)
+    else:
+        b = item(["a", "b"])
+    b += item(["c", "d"])
+    assert b == item("abcd")
 
 
 @mark.parametrize("item", ds)
@@ -80,12 +91,16 @@ def test_op_mul(item):
     assert a == item([])
     assert isinstance(a, item)
 
-    assert 4 * item([7, 8, 9], 12) == item([7, 8, 9, 7, 8, 9, 7, 8, 9, 7, 8, 9])
+    if item == StaticList:
+        assert 4 * item([7, 8, 9], 12) == item([7, 8, 9, 7, 8, 9, 7, 8, 9, 7, 8, 9])
+        assert isinstance(3 * item([7, 8, 9], 12), item)
+    elif item == DynamicList:
+        assert 4 * item([7, 8, 9]) == item([7, 8, 9, 7, 8, 9, 7, 8, 9, 7, 8, 9])
+        assert isinstance(3 * item([7, 8, 9]), item)
     assert item([7, 8, 9]) * 1 == item([7, 8, 9])
     assert item([7, 8, 9]) * 0 == item([])
     assert item([7, 8, 9]) * -1 == item([])
     assert -100 * item([7, 8, 9]) == item([])
-    assert isinstance(3 * item([7, 8, 9], 12), item)
 
     if item == StaticList:
         def _test():
@@ -298,12 +313,13 @@ def test_extend(item):
         c = item([])
         c.extend([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
         assert c == item([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-        assert c.max_length == 1
+        assert c.max_length == 16
 
         d = item([1, 2])
         d.extend(reversed(d))  # noqa
+        assert d == item([1, 2, 2, 1])
         d.extend([3, 4, 5, 6, 7, 8, 9])
-        assert d == item([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        assert d == item([1, 2, 2, 1, 3, 4, 5, 6, 7, 8, 9])
         assert d.max_length == 16
 
     if item == StaticList:
