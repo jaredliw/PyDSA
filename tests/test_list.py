@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from pytest import mark
 
 from pydsa.data_structures.list import *
@@ -248,6 +250,24 @@ def test_copy(item):
     b = a.copy()
     assert a == b
     assert a is not b
+    if item == DynamicList:
+        assert a._DynamicList__container is b._DynamicList__container
+    b.append(2)
+    assert b == item([1, 2])
+    assert a == item([1])
+
+
+@mark.parametrize("item", ds)
+def test_deepcopy(item):
+    if item == StaticList:
+        a = item([1], max_length=2)
+    else:
+        a = item([1])
+    b = deepcopy(a)
+    assert a == b
+    assert a is not b
+    if item == DynamicList:
+        assert a._DynamicList__container is not b._DynamicList__container
     b.append(2)
     assert b == item([1, 2])
     assert a == item([1])
