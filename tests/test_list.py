@@ -37,7 +37,7 @@ def test_op_add(item):
 
         def _test2():
             instance = item([1, 2, 3])
-            isntance += item([4, 5, 6])
+            instance += item([4, 5, 6])
 
         is_error(ExceedMaxLengthError, _test2)
 
