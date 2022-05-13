@@ -112,7 +112,7 @@ def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
 
 @validate_args
 def odd_even_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
-    """A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two 
+    """A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two
     phases occurs -- Odd and Even Phases."""
     # Time complexity:
     #   Worst (reverse sorted): O(n^2)
@@ -342,6 +342,42 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
         _slowsort(start, end - 1)
 
     _slowsort()
+    return arr
+
+
+@validate_args
+def heap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+    if reverse:
+        cmp_funct = gt
+    else:
+        cmp_funct = lt
+
+    arr = deepcopy(arr)
+
+    def _heapify(idx):
+        l = 2 * idx + 1
+        r = l + 1
+
+        idx_max_or_min = idx
+        if l < heap_size and not cmp_funct(arr[l], arr[idx_max_or_min]):
+            idx_max_or_min = l
+        if r < heap_size and not cmp_funct(arr[r], arr[idx_max_or_min]):
+            idx_max_or_min = r
+
+        if idx_max_or_min != idx:
+            arr[idx], arr[idx_max_or_min] = arr[idx_max_or_min], arr[idx]
+            _heapify(idx_max_or_min)
+
+    # Build heap
+    heap_size = len(arr)
+    for i in range(heap_size // 2, -1, -1):
+        _heapify(i)
+    # Sort
+    for i in range(heap_size - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heap_size -= 1
+        # Heapify root element
+        _heapify(0)
     return arr
 
 
