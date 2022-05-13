@@ -129,6 +129,13 @@
   <section id="module-pydsa.data_structures.linked_list">
 <span id="linked-list"></span><h1>Linked List<a class="headerlink" href="#module-pydsa.data_structures.linked_list" title="Permalink to this headline">¶</a></h1>
 <p>A linear data structure where each element is a separate object.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.ExceedMaxIter">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">ExceedMaxIter</span></span><a class="headerlink" href="#pydsa.data_structures.linked_list.ExceedMaxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
+<p>Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">DoublyLinkedList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.data_structures.linked_list.pydsa.data_structures.linked_list.DoublyLinkedList" title="Permalink to this definition">¶</a></dt>
@@ -431,13 +438,6 @@
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="pydsa.data_structures.linked_list.ExceededMaxIter">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pydsa.data_structures.linked_list.</span></span><span class="sig-name descname"><span class="pre">ExceededMaxIter</span></span><a class="headerlink" href="#pydsa.data_structures.linked_list.ExceededMaxIter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></p>
-<p>Raised when maximum iterations has been exceeded. This is usually caused by a cycle inside a linked list.</p>
 </dd></dl>
 
 </section>
