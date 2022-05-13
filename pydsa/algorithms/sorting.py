@@ -11,22 +11,22 @@ from warnings import warn
 from pydsa import check_arg, Function, IntList, NonNegativeInt, IntFloatList, validate_args
 
 __all__ = ["is_sorted", "bubble_sort", "cocktail_sort", "odd_even_sort", "comb_sort", "gnome_sort", "quicksort",
-           "slowsort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort", "selection_sort",
-           "insertion_sort", "merge_sort", "counting_sort", "pigeonhole_sort", "radix_sort", "bucket_sort",
-           "bead_sort", "proxmap_sort", "sleep_sort"]
+           "slowsort", "heap_sort", "stooge_sort", "worstsort", "bogosort", "bogobogosort", "bozosort",
+           "selection_sort", "insertion_sort", "merge_sort", "counting_sort", "pigeonhole_sort", "radix_sort",
+           "bucket_sort", "bead_sort", "proxmap_sort", "sleep_sort"]
 
 
 @validate_args
-def is_sorted(arr: list, key: Function = lambda x: x, reverse: bool = False) -> bool:
+def is_sorted(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> bool:
     """Check whether the list is sorted."""
 
     if reverse:
-        cmp_funct = ge
+        cmp = ge
     else:
-        cmp_funct = le
+        cmp = le
 
     for idx in range(len(arr) - 1):
-        if not cmp_funct(key(arr[idx]), key(arr[idx + 1])):
+        if not cmp(key(arr[idx]), key(arr[idx + 1])):
             return False
     return True
 
@@ -42,7 +42,7 @@ def _check_key_arr(arr, key, annot):
 
 
 @validate_args
-def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def bubble_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """An algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order."""
     # Time complexity:
     #   Worst (reverse sorted): O(n^2)
@@ -51,9 +51,9 @@ def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
     # Stable, In place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
     n = len(arr)
@@ -61,7 +61,7 @@ def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
         swapped = False
         # Keep swapping the items if they are larger/smaller than the next item.
         for cur in range(n - i - 1):
-            if cmp_funct(key(arr[cur + 1]), key(arr[cur])):
+            if cmp(key(arr[cur + 1]), key(arr[cur])):
                 arr[cur], arr[cur + 1] = arr[cur + 1], arr[cur]
                 swapped = True
         # After one inner loop, the largest/smallest item is at the end of the array. In the next loop, we can stop
@@ -74,7 +74,7 @@ def bubble_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
 
 
 @validate_args
-def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def cocktail_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A variation of Bubble Sort. It traverses through a given array in both directions alternatively."""
     # Time complexity:
     #   Worst: O(n^2)
@@ -83,9 +83,9 @@ def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
     # Stable, In place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
     n = len(arr)
@@ -94,13 +94,13 @@ def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
 
         # Forwards
         for cur in range(i, n - i - 1):
-            if cmp_funct(key(arr[cur + 1]), key(arr[cur])):
+            if cmp(key(arr[cur + 1]), key(arr[cur])):
                 arr[cur], arr[cur + 1] = arr[cur + 1], arr[cur]
                 swapped = True
 
         # Backwards
         for cur in range(n - i - 1, i, -1):
-            if not cmp_funct(key(arr[cur - 1]), key(arr[cur])):
+            if not cmp(key(arr[cur - 1]), key(arr[cur])):
                 arr[cur], arr[cur - 1] = arr[cur - 1], arr[cur]
                 swapped = True
 
@@ -111,7 +111,7 @@ def cocktail_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
 
 
 @validate_args
-def odd_even_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def odd_even_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two
     phases occurs -- Odd and Even Phases."""
     # Time complexity:
@@ -124,9 +124,9 @@ def odd_even_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
         return list(arr)
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
     n = len(arr)
@@ -136,13 +136,13 @@ def odd_even_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
 
         # Odds
         for cur in range(1, n - 1, 2):
-            if cmp_funct(key(arr[cur + 1]), key(arr[cur])):
+            if cmp(key(arr[cur + 1]), key(arr[cur])):
                 arr[cur], arr[cur + 1] = arr[cur + 1], arr[cur]
                 swapped = True
 
         # Evens
         for cur in range(0, n - 1, 2):
-            if cmp_funct(key(arr[cur + 1]), key(arr[cur])):
+            if cmp(key(arr[cur + 1]), key(arr[cur])):
                 arr[cur], arr[cur + 1] = arr[cur + 1], arr[cur]
                 swapped = True
 
@@ -150,7 +150,7 @@ def odd_even_sort(arr: list, key: Function = lambda x: x, reverse: bool = False)
 
 
 @validate_args
-def comb_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def comb_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """Improve on Bubble Sort by using gap of size more than 1."""
     # Time complexity:
     #   Worst: O(n^2)
@@ -159,14 +159,14 @@ def comb_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
     # Stable, In place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
 
     # The shrink factor has a great effect on the efficiency of comb sort. k = 1.3 has been suggested as an ideal shrink
-    # factor by the authors of the original article after empirical testing on over 200,000 random lists.
+    # factor by someone after empirical testing on over 200,000 random lists.
     shrink_factor = 1.3
     gap = int(len(arr) // shrink_factor)
 
@@ -174,15 +174,15 @@ def comb_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
         for idx in range(gap):
             idx1 = idx + gap
             if idx1 < len(arr):
-                if cmp_funct(key(arr[idx1]), key(arr[idx])):
+                if cmp(key(arr[idx1]), key(arr[idx])):
                     arr[idx], arr[idx1] = arr[idx1], arr[idx]
         gap = int(gap // shrink_factor)
 
-    return bubble_sort(arr, key, reverse)
+    return bubble_sort(arr, key=key, reverse=reverse)
 
 
 @validate_args
-def gnome_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def gnome_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """a sorting algorithm which is similar to insertion sort in that it works with one item at a time but gets the item
     to the proper place by a series of swaps, similar to a bubble sort."""
     # Time complexity:
@@ -196,9 +196,9 @@ def gnome_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     # value that is out of place, it behaves like insertion sort again.
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
     idx = 1
@@ -207,7 +207,7 @@ def gnome_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     traversing_back = False
     prev = None
     while idx <= len(arr) - 1:
-        if idx > 0 and cmp_funct(key(arr[idx]), key(arr[idx - 1])):
+        if idx > 0 and cmp(key(arr[idx]), key(arr[idx - 1])):
             arr[idx - 1], arr[idx] = arr[idx], arr[idx - 1]
             idx -= 1
             if not traversing_back:
@@ -223,7 +223,7 @@ def gnome_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
 
 
 @validate_args
-def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, pivot_funct: Function = None) -> list:
+def quicksort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False, pivot_funct: Function = None) -> list:
     """A divide-and-conquer algorithm that picks an element as pivot and partitions the given array around the picked
     pivot."""
     # Time complexity:
@@ -233,9 +233,9 @@ def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, piv
     # Not stable, In place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
 
@@ -290,7 +290,7 @@ def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, piv
         part[pivot_idx], part[-1] = part[-1], part[pivot_idx]
 
         for idx in range(0, len(part) - 1):
-            if cmp_funct(key(part[idx]), key(pivot)):
+            if cmp(key(part[idx]), key(pivot)):
                 part[ptr], part[idx] = part[idx], part[ptr]
                 ptr += 1
 
@@ -306,7 +306,7 @@ def quicksort(arr: list, key: Function = lambda x: x, reverse: bool = False, piv
 
 
 @validate_args
-def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def slowsort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """SlowSort is an example of MultiplyAndSurrender - a worst possible sort algorithm. The algorithm decompose the
     problem of sorting n numbers in ascending order into:
     1. finding the maximum of those numbers, and
@@ -318,9 +318,9 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
     """
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
 
@@ -335,7 +335,7 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
         _slowsort(center + 1, end)
 
         # Step (1.3), compare maxima and move the largest to the end.
-        if cmp_funct(key(arr[end]), key(arr[center])):
+        if cmp(key(arr[end]), key(arr[center])):
             arr[center], arr[end] = arr[end], arr[center]
 
         # Step (2)
@@ -346,11 +346,11 @@ def slowsort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
 
 
 @validate_args
-def heap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def heap_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
 
@@ -359,9 +359,9 @@ def heap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
         r = l + 1
 
         idx_max_or_min = idx
-        if l < heap_size and not cmp_funct(arr[l], arr[idx_max_or_min]):
+        if l < heap_size and not cmp(arr[l], arr[idx_max_or_min]):
             idx_max_or_min = l
-        if r < heap_size and not cmp_funct(arr[r], arr[idx_max_or_min]):
+        if r < heap_size and not cmp(arr[r], arr[idx_max_or_min]):
             idx_max_or_min = r
 
         if idx_max_or_min != idx:
@@ -382,7 +382,7 @@ def heap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
 
 
 @validate_args
-def stooge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def stooge_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """This algorithm divides the array into two overlapping parts (2/3 each). Then it performs sorting in first 2/3
     part and then it performs sorting in last 2/3 part. After that, sorting is done on first 2/3 part to ensure the
     array is sorted."""
@@ -393,16 +393,16 @@ def stooge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
     # Not stable, In place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
 
     def _stooge_sort(start, end):
         if end <= start:
             return
-        elif cmp_funct(key(arr[end]), key(arr[start])):
+        elif cmp(key(arr[end]), key(arr[start])):
             arr[start], arr[end] = arr[end], arr[start]
         if end - start + 1 > 2:
             # It is important to get the integer sort size used in the recursive calls by rounding the 2/3 upwards, e.g.
@@ -421,21 +421,27 @@ def stooge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -
 
 
 @validate_args
-def worstsort(arr: list, key: Function = lambda x: x, reverse: bool = False, recursive_depth: NonNegativeInt = 1,
-              sorting_algo: Function = bubble_sort) -> list:
+def worstsort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False, recursion_depth: NonNegativeInt = 1,
+              sorting_algorithm: Function = bubble_sort) -> list:
     """For k=0, worstsort use bubble sort to sort the array. For any k>0, the algorithm first generates a list of all
     permutations of the array. Then, it use bubble sort to sort the list of permutations and returns the first element
     to worstsort(arr, k-1)."""
 
-    if recursive_depth == 0:
-        return bubble_sort(arr, key, reverse)
+    if recursion_depth == 0:
+        return bubble_sort(arr, key=key, reverse=reverse)
     else:
-        return worstsort(list(sorting_algo(list(permutations(arr)), lambda x: [key(item) for item in x], reverse)[0]),
-                         key, reverse, recursive_depth - 1, sorting_algo)  # noqa
+        return worstsort(
+            list(sorting_algorithm(
+                    list(permutations(arr)),
+                    key=lambda x: [key(item) for item in x],
+                    reverse=reverse
+            )[0]),
+            key=key, reverse=reverse, recursion_depth=recursion_depth - 1,
+            sorting_algorithm=sorting_algorithm)  # noqa
 
 
 @validate_args
-def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+def bogosort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
     """An ineffective algorithm based on generate and test paradigm."""
     # Time complexity:
     #   Worst: O(infinity) for randomized version, O((n+1)!) for deterministic version
@@ -446,20 +452,20 @@ def bogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, rand
     if randomized:
         while True:
             # Check the order is correct
-            if is_sorted(arr, key, reverse):
+            if is_sorted(arr, key=key, reverse=reverse):
                 break
             shuffle(arr)
     else:
         for perm in permutations(arr):
             perm = list(perm)
-            if is_sorted(perm, key, reverse):
+            if is_sorted(perm, key=key, reverse=reverse):
                 arr = perm
                 break
     return arr
 
 
 @validate_args
-def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
+def bogobogosort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False, randomized: bool = False) -> list:
     """An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
     by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
     sorted."""
@@ -472,15 +478,15 @@ def bogobogosort(arr: list, key: Function = lambda x: x, reverse: bool = False, 
 
     def _bogobogosort(deck):
         if len(deck) > 1:
-            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key, reverse, randomized)
+            return bogosort(_bogobogosort(deck[:-1]) + [deck[-1]], key=key, reverse=reverse, randomized=randomized)
         else:
-            return bogosort(deck, key, reverse, randomized)
+            return bogosort(deck, key=key, reverse=reverse, randomized=randomized)
 
     return _bogobogosort(arr)
 
 
 @validate_args
-def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def bozosort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
     list is sorted."""
     # Time complexity:
@@ -491,7 +497,7 @@ def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
 
     arr = deepcopy(arr)
     end = len(arr) - 1
-    while not is_sorted(arr, key, reverse):
+    while not is_sorted(arr, key=key, reverse=reverse):
         pick1 = randint(0, end)
         pick2 = randint(0, end)
         arr[pick1], arr[pick2] = arr[pick2], arr[pick1]
@@ -502,7 +508,7 @@ def bozosort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> l
 
 
 @validate_args
-def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def selection_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """sorts an array by repeatedly finding the minimum/maximum element from unsorted part and putting it at the
     beginning/end."""
     # Time complexity:
@@ -511,13 +517,15 @@ def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
     #   Best (sorted): Omega(n^2)
     # Stable, In place
 
+    if reverse:
+        cmp = max
+    else:
+        cmp = min
+
     arr = deepcopy(arr)
     for ptr in range(len(arr) - 1):
         # Pick the smallest/largest item.
-        if reverse:
-            idx = max(enumerate(arr[ptr:], ptr), key=lambda x: key(x[1]))[0]
-        else:
-            idx = min(enumerate(arr[ptr:], ptr), key=lambda x: key(x[1]))[0]
+        idx = cmp(enumerate(arr[ptr:], ptr), key=lambda x: key(x[1]))[0]
 
         # Move it to the front.
         arr[ptr], arr[idx] = arr[idx], arr[ptr]
@@ -528,7 +536,7 @@ def selection_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
 
 
 @validate_args
-def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def insertion_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """An algorithm that works by splitting the array into a sorted and an unsorted part and values from the unsorted
     part are picked and placed at the correct position in the sorted part."""
     # Time complexity:
@@ -538,9 +546,9 @@ def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
     # Stable, In place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     arr = deepcopy(arr)
     # Items after idx are unsorted, items before idx are sorted.
@@ -549,7 +557,7 @@ def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
         # Keep moving the items forward (copy the current item to the next item) if it is larger/smaller than the new
         # item than we are inserting now.
         for s_idx, s_item in zip(range(idx - 1, -1, -1), arr[idx - 1::-1]):
-            if cmp_funct(key(item), key(s_item)):
+            if cmp(key(item), key(s_item)):
                 arr[s_idx + 1] = s_item
             else:
                 arr[s_idx + 1] = item
@@ -563,7 +571,7 @@ def insertion_sort(arr: list, key: Function = lambda x: x, reverse: bool = False
 
 
 @validate_args
-def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def merge_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """A divide-and-conquer algorithm that divides the input array into two halves, calls itself for the two halves,
     and then merges the two sorted halves."""
     # Time complexity:
@@ -573,9 +581,9 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
     # Stable, Not in place
 
     if reverse:
-        cmp_funct = gt
+        cmp = gt
     else:
-        cmp_funct = lt
+        cmp = lt
 
     def _merge_sort(_arr):
         # Break the array into 1 item per partition.
@@ -593,7 +601,7 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
 
         # Compare the items one by one from p1 and p2.
         while ptr1 <= len(p1) - 1 and ptr2 <= len(p2) - 1:
-            if cmp_funct(key(p1[ptr1]), key(p2[ptr2])):
+            if cmp(key(p1[ptr1]), key(p2[ptr2])):
                 final.append(p1[ptr1])
                 ptr1 += 1
             else:
@@ -615,7 +623,7 @@ def merge_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) ->
 
 # Caution: counting_sort do not support 'key'!
 @validate_args
-def counting_sort(arr: IntList, reverse: bool = False) -> IntList:
+def counting_sort(arr: IntList, /, *, reverse: bool = False) -> IntList:
     """Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
     objects having distinct key values."""
     # Time complexity:
@@ -648,7 +656,7 @@ def counting_sort(arr: IntList, reverse: bool = False) -> IntList:
 
 
 @validate_args
-def pigeonhole_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
+def pigeonhole_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False,
                     sorting_algo: Function = bubble_sort) -> list:
     """Modified counting sort that sort the range using an underlying algorithm e.g. quicksort. This modified algorithm
      works for any type of elements."""
@@ -683,7 +691,7 @@ def pigeonhole_sort(arr: list, key: Function = lambda x: x, reverse: bool = Fals
 
 
 @validate_args
-def radix_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
+def radix_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False, order: str = "MSD") -> list:
     """Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
     place value. Then, sort the elements according to their increasing/decreasing order."""
     # Time complexity:
@@ -738,7 +746,7 @@ def radix_sort(arr: list, key: Function = lambda x: x, reverse: bool = False, or
 
 
 @validate_args
-def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
+def bucket_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False,
                 sorting_algo: Function = insertion_sort) -> list:
     """Bucket sort is a sorting algorithm that works by distributing the elements of an array into a number of buckets.
     Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the
@@ -790,7 +798,7 @@ def bucket_sort(arr: list, key: Function = lambda x: x, reverse: bool = False,
 
 # Caution: bead_sort returns IntList NOT list!
 @validate_args
-def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> IntList:
+def bead_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> IntList:
     """Also known as Gravity sort, this algorithm was inspired from natural phenomena and was designed keeping in mind
      objects(or beads) falling under the influence of gravity."""
     # Time complexity:
@@ -843,7 +851,7 @@ def bead_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> 
 
 
 @validate_args
-def proxmap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) -> list:
+def proxmap_sort(arr: list, /, *, key: Function = lambda x: x, reverse: bool = False) -> list:
     """Proxmap sort is a sorting algorithm that works by partitioning an array of data items, or keys, into a number of
     "subarrays" (termed buckets, in similar sorts). The name is short for computing a "proximity map," which indicates
     for each key K the beginning of a subarray where K will reside in the final sorted order. Keys are placed into each
@@ -906,7 +914,7 @@ def proxmap_sort(arr: list, key: Function = lambda x: x, reverse: bool = False) 
 
 
 @validate_args
-def sleep_sort(arr: IntFloatList, key: Function = lambda x: x, reverse: bool = False,
+def sleep_sort(arr: IntFloatList, /, *, key: Function = lambda x: x, reverse: bool = False,
                amplify: [int, float] = 1.0) -> IntFloatList:
     """Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
      to the item's sort key, then emits the item."""
