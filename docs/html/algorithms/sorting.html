@@ -128,173 +128,178 @@
                             
   <section id="module-pydsa.algorithms.sorting">
 <span id="sorting"></span><h1>Sorting<a class="headerlink" href="#module-pydsa.algorithms.sorting" title="Permalink to this headline">¶</a></h1>
-<p>An algorithm that is used to rearrange a given array according to a comparison operator on the elements.</p>
+<p>Sorting algorithms are used to rearrange a given array according to a comparison operator on the elements.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.bead_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bead_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bead_sort" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bead_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bead_sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Also known as Gravity sort, this algorithm was inspired from natural phenomena and was designed keeping in mind
-objects(or beads) falling under the influence of gravity.</p>
+objects (or beads) falling under the influence of gravity.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.bogobogosort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bogobogosort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">randomized=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bogobogosort" title="Permalink to this definition">¶</a></dt>
-<dd><p>An algorithm that was designed not to succeed before the heat death of the universe on any sizable list. It works
-by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they are
-sorted.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bogobogosort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomized=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bogobogosort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by recursively calling itself with smaller and smaller copies of the beginning of the list to see if they
+are sorted. (An algorithm that was designed not to succeed before the heat death of the universe on any sizable
+list.)</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.bogosort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bogosort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">randomized=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bogosort" title="Permalink to this definition">¶</a></dt>
-<dd><p>An ineffective algorithm based on generate and test paradigm.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bogosort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randomized=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bogosort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by randomly swapping elements in the array, and hoping that it will eventually sort itself. Another way of
+implementation is to check all the permutations of the array until we find a sorted one.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.bozosort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bozosort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bozosort" title="Permalink to this definition">¶</a></dt>
-<dd><p>random sorting algorithms where the key idea is to swap any two elements of the list randomly and check if the
-list is sorted.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bozosort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bozosort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by randomly swapping any two elements of the list and checking if the list is sorted.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.bubble_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bubble_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bubble_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>An algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bubble_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bubble_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by repeatedly swapping the adjacent elements if they are in wrong order.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.bucket_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bucket_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">sorting_algo=&lt;function</span> <span class="pre">insertion_sort&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bucket_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bucket sort is a sorting algorithm that works by distributing the elements of an array into a number of buckets.
-Each bucket is then sorted individually, either using a different sorting algorithm, or by recursively applying the
-bucket sorting algorithm.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">bucket_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sorting_algorithm=&lt;function</span> <span class="pre">insertion_sort&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.bucket_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by distributing the elements of an array into several buckets. Each bucket is then sorted individually,
+either using a different sorting algorithm, or by recursively applying Bucket sort.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.cocktail_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">cocktail_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.cocktail_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>A variation of Bubble Sort. It traverses through a given array in both directions alternatively.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">cocktail_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.cocktail_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>A variation of Bubble Sort, sort by traversing through a given array in both directions alternatively.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.comb_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">comb_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.comb_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Improve on Bubble Sort by using gap of size more than 1.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">comb_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.comb_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Improve on Bubble sort by using gap of size more than 1.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.counting_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">counting_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.counting_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Counting sort is a sorting technique based on keys between a specific range. It works by counting the number of
-objects having distinct key values.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">counting_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.counting_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by counting the number of objects having distinct key values.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.gnome_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">gnome_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.gnome_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>a sorting algorithm which is similar to insertion sort in that it works with one item at a time but gets the item
-to the proper place by a series of swaps, similar to a bubble sort.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">gnome_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.gnome_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to Insertion sort in that it works with one item at a time but gets the item to the proper place by a
+series of swaps.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydsa.algorithms.sorting.heap_sort">
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">heap_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.heap_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Heap-based, sort by building a heap from the array, then repeatedly extracting the maximum element from the heap
+and inserting it into the sorted array.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.insertion_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">insertion_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.insertion_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>An algorithm that works by splitting the array into a sorted and an unsorted part and values from the unsorted
-part are picked and placed at the correct position in the sorted part.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">insertion_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.insertion_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by splitting the array into a sorted and an unsorted part, and values from the unsorted part are picked and
+placed at the correct position in the sorted part.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.is_sorted">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">is_sorted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.is_sorted" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">is_sorted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.is_sorted" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether the list is sorted.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.merge_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">merge_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.merge_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>A divide-and-conquer algorithm that divides the input array into two halves, calls itself for the two halves,
-and then merges the two sorted halves.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">merge_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.merge_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by dividing the array into two halves (divide-and-conquer), calling itself for the two halves, and then
+merging the two sorted halves.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.odd_even_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">odd_even_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.odd_even_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two 
-phases occurs – Odd and Even Phases.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">odd_even_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.odd_even_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>A variation of Bubble Sort. The algorithm runs until the array elements are sorted and in each iteration two
+phases occurs – odd and even phases.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.pigeonhole_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">pigeonhole_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">sorting_algo=&lt;function</span> <span class="pre">bubble_sort&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.pigeonhole_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Modified counting sort that sort the range using an underlying algorithm e.g. quicksort. This modified algorithm
-works for any type of elements.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">pigeonhole_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sorting_algorithm=&lt;function</span> <span class="pre">bubble_sort&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.pigeonhole_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modified counting sort that sorts the range using an underlying algorithm, e.g., quicksort. This modified
+algorithm works for any type of elements.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.proxmap_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">proxmap_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.proxmap_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Proxmap sort is a sorting algorithm that works by partitioning an array of data items, or keys, into a number of
-“subarrays” (termed buckets, in similar sorts). The name is short for computing a “proximity map,” which indicates
-for each key K the beginning of a subarray where K will reside in the final sorted order. Keys are placed into each
-subarray using insertion sort.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">proxmap_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.proxmap_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by partitioning an array of data items, or keys, into several buckets. The name is short for computing a
+‘proximity map’ which indicates for each key K the beginning of a subarray where K will reside in the final
+sorted order. Keys are placed into each subarray using Insertion sort.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.quicksort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">quicksort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">pivot_funct=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.quicksort" title="Permalink to this definition">¶</a></dt>
-<dd><p>A divide-and-conquer algorithm that picks an element as pivot and partitions the given array around the picked
-pivot.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">quicksort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pivot_choosing_algorithm=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.quicksort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by picking an element as pivot and partitions the given array around the picked pivot
+(divide-and-conquer).
+Pivot choosing algorithm is a function that takes an array and returns a pivot. If it is not provided,
+median-of-three algorithm is used.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.radix_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">radix_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">order='MSD'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.radix_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Radix sort is a sorting technique that sorts the elements by first grouping the individual digits of the same
-place value. Then, sort the elements according to their increasing/decreasing order.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">radix_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order='MSD'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.radix_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by grouping the individual digits of the same place value. Then, sort the elements according to their
+increasing/decreasing order.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.selection_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">selection_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.selection_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>sorts an array by repeatedly finding the minimum/maximum element from unsorted part and putting it at the
-beginning/end.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">selection_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.selection_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by repeatedly finding the minimum/maximum element from unsorted part and move it to the front.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.sleep_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">sleep_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">amplify=1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.sleep_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>Work by starting a separate task for each item to be sorted, where each task sleeps for an interval corresponding
-to the item’s sort key, then emits the item.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">sleep_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplify=1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.sleep_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by starting a separate task for each item to be sorted, where each task sleeps for an interval
+corresponding to the item’s sort key, then emits the item.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.slowsort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">slowsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.slowsort" title="Permalink to this definition">¶</a></dt>
-<dd><p>SlowSort is an example of MultiplyAndSurrender - a worst possible sort algorithm. The algorithm decompose the
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">slowsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.slowsort" title="Permalink to this definition">¶</a></dt>
+<dd><p>SlowSort is an example of MultiplyAndSurrender – the worst possible sort algorithm. The algorithm decompose the
 problem of sorting n numbers in ascending order into:
-1. finding the maximum of those numbers, and
-2. sorting the remaining ones.
-Sub-problem 1 can be further decomposed into
-1.1 find the maximum of the first n/2 elements,
+1. Finding the maximum of those numbers, and
+2. Sorting the remaining ones.</p>
+<p>Sub-problem 1 can be further decomposed into:
+1.1 find the maximum of the first n/2 elements, and
 1.2 find the maximum of the remaining n/2 elements, and
 1.3 find the largest of those two maxima.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.stooge_sort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">stooge_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.stooge_sort" title="Permalink to this definition">¶</a></dt>
-<dd><p>This algorithm divides the array into two overlapping parts (2/3 each). Then it performs sorting in first 2/3
-part and then it performs sorting in last 2/3 part. After that, sorting is done on first 2/3 part to ensure the
-array is sorted.</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">stooge_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.stooge_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort by dividing the array into two overlapping parts (2/3 each). Then it performs sorting in the first 2/3
+parts, and then it performs sorting in the last 2/3 part. After that, sorting is done again on the first 2/3 part
+to ensure the array is sorted.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pydsa.algorithms.sorting.worstsort">
-<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">worstsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">arr</span></em>, <em class="sig-param"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></em>, <em class="sig-param"><span class="pre">reverse=False</span></em>, <em class="sig-param"><span class="pre">recursive_depth=1</span></em>, <em class="sig-param"><span class="pre">sorting_algo=&lt;function</span> <span class="pre">bubble_sort&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.worstsort" title="Permalink to this definition">¶</a></dt>
-<dd><p>For k=0, worstsort use bubble sort to sort the array. For any k&gt;0, the algorithm first generates a list of all
-permutations of the array. Then, it use bubble sort to sort the list of permutations and returns the first element
-to worstsort(arr, k-1).</p>
+<span class="sig-prename descclassname"><span class="pre">pydsa.algorithms.sorting.</span></span><span class="sig-name descname"><span class="pre">worstsort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursion_depth=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sorting_algorithm=&lt;function</span> <span class="pre">bubble_sort&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pydsa.algorithms.sorting.worstsort" title="Permalink to this definition">¶</a></dt>
+<dd><p>For <cite>k</cite> equals to 0, Worstsort use Bubble sort to sort the array. Otherwise, the algorithm first generates a
+list of all permutations of the array. Then, it uses Bubble sort to sort the list of permutations and returns the
+first element to <cite>worstsort(arr, k-1)</cite>.</p>
 </dd></dl>
 
 </section>
@@ -330,7 +335,7 @@ to worstsort(arr, k-1).</p>
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2021, Jared Liw Zhi Long.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.
         </div>
     </div>  
 
